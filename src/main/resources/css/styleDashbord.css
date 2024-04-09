@@ -1,0 +1,19 @@
+.white-background {
+    -fx-background-color: #ffffff;
+}
+
+.transparent-background {
+    -fx-background-color: rgba(0, 0, 0, 0); /* Fully transparent */
+}
+
+.round-layout {
+    -fx-border-radius: 50; /* This will give a rounded look with a radius of 50 */
+    -fx-border-color: #287b8d; /* Assuming you want to continue with the color from earlier */
+    -fx-border-width: 2; /* Sets the border width */
+    -fx-background-radius: 50; /* This should match the border-radius if you want the background to also be rounded */
+}
+.label-like-button {
+    -fx-background-color: transparent; /* Makes the button transparent */
+    -fx-border: none; /* Removes the border */
+    /* Add other styles to make it look like a label */
+}

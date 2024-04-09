@@ -1,0 +1,51 @@
+.card-container {
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0.2, 0, 6);
+    -fx-padding: 15px;
+    -fx-alignment: center;
+    -fx-spacing: 10px; /* Espacement entre les éléments à l'intérieur de la carte */
+}
+
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.card-description {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666666;
+}
+
+.card-image {
+    -fx-fit-width: 100%;
+    -fx-fit-height: 150px; /* Ajustez la hauteur selon vos besoins */
+    -fx-preserve-ratio: true;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 4);
+}
+
+.card-button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand; /* Change le curseur en main au survol */
+}
+
+.card-button:hover {
+    -fx-background-color: #0056b3;
+}
+
+.card-button:pressed {
+    -fx-background-color: #003d80;
+}
+.label-like-button {
+    -fx-background-color: transparent; /* Makes the button transparent */
+    -fx-border: none; /* Removes the border */
+    /* Add other styles to make it look like a label */
+}

@@ -1,0 +1,99 @@
+/* Import des polices Google Fonts pour Poppins et Proxima Nova */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@400;700&display=swap');
+
+/* Styles généraux avec Poppins comme police par défaut et une image de fond pour toute la page */
+.root {
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-background-image: url('../images/'); /* Remplacez avec le chemin de votre image */
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: cover;
+}
+
+
+/* Style des titres avec Proxima Nova */
+.title {
+    -fx-font-family: 'Proxima Nova', sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-text-fill: #287b8d; /* Bleu de la palette */
+}
+
+/* Styles pour les containers de cartes */
+.card-container {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #a68d86; /* Marron clair de la palette */
+    -fx-border-width: 2px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 20, 0.2, 0, 5);
+    -fx-alignment: top-center;
+}
+
+/* Styles pour les textes dans la carte */
+.card-text {
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-text-fill: #16373; /* Marron foncé de la palette */
+}
+
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: semibold;
+}
+
+.card-description {
+    -fx-font-size: 14px;
+    -fx-font-weight: regular;
+}
+
+/* Styles pour les images dans la carte */
+.card-image {
+    -fx-fit-width: 100%;
+    -fx-fit-height: 150px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0.0, 0, 3);
+}
+
+/* Styles pour les boutons dans la carte */
+.card-button {
+    -fx-background-color: #dbb5a8; /* Beige de la palette */
+    -fx-text-fill: #16373; /* Marron foncé de la palette */
+    -fx-font-weight: medium;
+    -fx-padding: 8px 15px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.card-button:hover {
+    -fx-background-color: #a68d86; /* Marron clair de la palette */
+}
+
+.card-button:pressed {
+    -fx-background-color: #16373; /* Marron foncé de la palette */
+}
+
+/* Vous pouvez continuer à ajouter d'autres styles nécessaires pour vos boutons, labels, etc. */
+.sidebar-button {
+    -fx-background-color: #e0cfb4; /* Exemple de couleur de fond pour les boutons */
+    -fx-text-fill: #287b8d; /* Exemple de couleur de texte */
+    /* autres styles */
+}
+
+/* Ajoutez d'autres styles en fonction de vos besoins */
+.round-layout {
+    -fx-border-radius: 50; /* This will give a rounded look with a radius of 50 */
+    -fx-border-color: #287b8d; /* Assuming you want to continue with the color from earlier */
+    -fx-border-width: 2; /* Sets the border width */
+    -fx-background-radius: 50; /* This should match the border-radius if you want the background to also be rounded */
+}
+/* CSS file (style.css) */
+.image-view {
+    -fx-effect: dropshadow(gaussian, rgb(14, 80, 93), 15, 0.0, 0, 0);
+    -fx-transition: all 0.5s ease-in-out;
+}
+
+.image-view:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.5), 15, 0.0, 0, 0);
+    -fx-opacity: 1.5; /* Adjust the brightness as needed */
+}
