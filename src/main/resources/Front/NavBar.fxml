@@ -61,7 +61,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="101.0" text="Doctors" textFill="#107191">
+                  <Button mnemonicParsing="false" onAction="#showDisplayConsultations" prefHeight="38.0" prefWidth="101.0" text="Doctors" textFill="#107191">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>

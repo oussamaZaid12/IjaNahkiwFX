@@ -14,7 +14,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/NavBar.fxml"));
             mainLayout = loader.load();
             Scene scene = new Scene(mainLayout);
             stage.setScene(scene);

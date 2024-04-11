@@ -9,7 +9,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         // Create service instance
-        ServicePublication sp = new ServicePublication();
+     /*   ServicePublication sp = new ServicePublication();
 
         // Create some publication instances
         publication pub1 = new publication( 14,1, "Titre 111", "Description 1", "image1.png", new java.sql.Date(new Date().getTime()));
@@ -46,7 +46,7 @@ public class Main {
         } catch (SQLException e) {
             System.out.println("Error during deletion: " + e.getMessage());
         }
-
+*/
        /* // Display all publications
         try {
             List<publication> publications = sp.afficher();
