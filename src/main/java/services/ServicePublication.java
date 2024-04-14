@@ -22,7 +22,7 @@ public class ServicePublication implements IService<publication> {
         pre.setString(2, publication.getTitreP());
         pre.setString(3, publication.getDescriptionP());
         pre.setString(4, publication.getImageP());
-        pre.setDate(5, new java.sql.Date(publication.getDateP().getTime()));
+        pre.setDate(5, new Date(publication.getDateP().getTime()));
         pre.executeUpdate();
     }
 
@@ -34,7 +34,7 @@ public class ServicePublication implements IService<publication> {
         pre.setString(2, publication.getTitreP());
         pre.setString(3, publication.getDescriptionP());
         pre.setString(4, publication.getImageP());
-        pre.setDate(5, new java.sql.Date(publication.getDateP().getTime()));
+        pre.setDate(5, new Date(publication.getDateP().getTime()));
         pre.setInt(6, publication.getId());
         pre.executeUpdate();
     }
