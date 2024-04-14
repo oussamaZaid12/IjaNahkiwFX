@@ -1,11 +1,11 @@
 package services;
 
 import entities.Like;
+import utils.MyDB;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import utils.MyDB;
 
 public class ServiceLike implements IService<Like> {
     private Connection con;

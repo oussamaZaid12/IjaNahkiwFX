@@ -1,13 +1,13 @@
 package Controllers.Publication;
 
+import entities.publication;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import services.ServicePublication;
-import entities.publication;
-import javafx.scene.control.TextField;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,9 +1,9 @@
 package Controllers.Publication;
 
-       import javafx.event.ActionEvent;
+import entities.publication;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-       import javafx.fxml.FXMLLoader;
-       import javafx.scene.control.Alert;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import services.ServicePublication;
-import entities.publication;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,10 +20,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import javafx.scene.Parent;
-       import javafx.scene.Scene;
-       import javafx.stage.Stage;
-
 
 
 public class AjoutPub {

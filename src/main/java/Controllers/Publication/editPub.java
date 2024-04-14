@@ -12,11 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import services.ServicePublication;
 
-import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
