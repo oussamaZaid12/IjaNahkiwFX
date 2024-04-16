@@ -3,18 +3,24 @@ package Controllers.FicheMedicale;
 import entities.FicheMedicale;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import services.ServiceFicheMedicale;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class AjoutFiche {
 
+    @FXML
+    private AnchorPane FichePane;
     @FXML
     private Button TfValider;
 
@@ -71,5 +77,15 @@ public class AjoutFiche {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void ReturnShowFiches(ActionEvent actionEvent) {
+        try {
+            Node displayCons = FXMLLoader.load(getClass().getResource("/Front/FicheMedicale/AffichageFiche.fxml"));
+            FichePane.getChildren().setAll(displayCons);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
     }
 }

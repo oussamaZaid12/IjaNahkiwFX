@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FicheMedicale.Cardfiche">
+<AnchorPane fx:id="FichePane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FicheMedicale.Cardfiche">
     <children>
         <VBox layoutX="5" layoutY="5" prefHeight="478.0" prefWidth="655.0" spacing="5" styleClass="card-container">
             <children>
@@ -49,6 +49,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
+                  <Button mnemonicParsing="false" onAction="#generateqrcode" text="generere qr code" />
                     </children>
                 </HBox>
                 <!-- Add other details you want to display -->

@@ -4,10 +4,12 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FicheMedicale.AjoutFiche">
+<AnchorPane fx:id="FichePane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FicheMedicale.AjoutFiche">
     <children>
         <VBox layoutX="76.0" prefHeight="400.0" prefWidth="420.0" spacing="8.0" styleClass="image-view" stylesheets="@../../css/style.css">
             <children>
@@ -24,5 +26,14 @@
                 <Button fx:id="TfValider" onAction="#AjouterFiche" styleClass="card-button" text="Ajouter" />
             </children>
         </VBox>
+      <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#ReturnShowFiches" styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css">
+         <graphic>
+            <ImageView fx:id="retour" fitHeight="39.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/RETURN%20ICON.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
     </children>
 </AnchorPane>

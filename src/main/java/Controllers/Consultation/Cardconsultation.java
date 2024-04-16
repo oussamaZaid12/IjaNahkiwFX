@@ -16,6 +16,7 @@ import java.sql.SQLException;
 
 public class Cardconsultation {
 
+
     @FXML
     private Label PathologieCons;
 
@@ -36,6 +37,7 @@ public class Cardconsultation {
 
     @FXML
     private Button btnModifier;
+
     private Consultation currentConsultation;
     private AffichageConsultation affichagePubController;
 
@@ -87,7 +89,7 @@ public class Cardconsultation {
 
     @FXML
     private void handleCardClick(MouseEvent event) {
-        if (event.getClickCount() == 2) { // for example, for a double-click
+        if (event.getClickCount() == 2) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/DetailConsultation.fxml"));
                 Parent detailView = loader.load();
@@ -102,4 +104,6 @@ public class Cardconsultation {
             }
         }
     }
+
+
 }

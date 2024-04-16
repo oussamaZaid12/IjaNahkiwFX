@@ -2,17 +2,23 @@ package Controllers.Consultation;
 
 import entities.Consultation;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import services.ServiceConsultation;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AffichageConsultation {
+
+    @FXML
+    private AnchorPane ConsultationPane;
 
     @FXML
     private FlowPane consultationscontainer;
@@ -67,4 +73,23 @@ public class AffichageConsultation {
     }
 
 
+    public void ajoutcon(ActionEvent actionEvent) {
+        try {
+            Node displayAjout = FXMLLoader.load(getClass().getResource("/Front/Consultation/AjoutConsultation.fxml"));
+            ConsultationPane.getChildren().setAll(displayAjout);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    public void ShowCalendar(ActionEvent actionEvent) {
+        try {
+            Node displayCal = FXMLLoader.load(getClass().getResource("/Front/Consultation/Calendar.fxml"));
+            ConsultationPane.getChildren().setAll(displayCal);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
 }

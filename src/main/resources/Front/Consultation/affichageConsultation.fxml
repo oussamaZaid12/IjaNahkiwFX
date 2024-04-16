@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -10,15 +11,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Consultation.AffichageConsultation">
+<AnchorPane fx:id="ConsultationPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Consultation.AffichageConsultation">
     <children>
-        <ScrollPane layoutX="7.0" layoutY="3.0" prefHeight="718.0" prefWidth="1514.0">
+        <ScrollPane layoutX="3.0" layoutY="25.0" prefHeight="718.0" prefWidth="1514.0">
             <padding>
                 <Insets left="240.0" />
             </padding>
             <content>
                 <VBox prefHeight="715.0" prefWidth="707.0">
                     <children>
+                  <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajoutcon" text="Ajouter Consultation" />
+                  <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" text="Afficher Calendrier" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="728.0" text="Liste Des Consultations" textFill="#4c8ea6">
                             <font>
                                 <Font size="28.0" />

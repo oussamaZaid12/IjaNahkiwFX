@@ -73,4 +73,45 @@ public class ServiceConsultation implements IService<Consultation> {
         }
         return consultations;
     }
+    public List<Consultation> getConsultationsForMonth(int year, int month) throws SQLException {
+        List<Consultation> consultations = new ArrayList<>();
+
+        String query = "SELECT * FROM consultation WHERE YEAR(date_c) = ? AND MONTH(date_c) = ?";
+
+             PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, year);
+            statement.setInt(2, month);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Consultation consultation = new Consultation();
+                    consultation.setId(resultSet.getInt("id"));
+                    consultation.setIdp(resultSet.getInt("idp"));
+                    consultation.setIdt(resultSet.getInt("idt"));
+                    consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
+                    consultation.setPathologie(resultSet.getString("pathologie"));
+                    consultation.setRemarques(resultSet.getString("remarques"));
+                    consultation.setConfirmation(resultSet.getBoolean("confirmation"));
+                    consultation.setFiche(resultSet.getInt("fichemedicale_id"));
+
+                    consultations.add(consultation);
+                }
+            }
+
+        return consultations;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

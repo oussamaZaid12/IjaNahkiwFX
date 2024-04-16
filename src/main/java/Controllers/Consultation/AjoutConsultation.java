@@ -3,17 +3,24 @@ package Controllers.Consultation;
 import entities.Consultation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import services.ServiceConsultation;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class AjoutConsultation {
+
+    @FXML
+    private AnchorPane ConsultationPane;
 
     @FXML
     private Button TfValider;
@@ -73,5 +80,16 @@ public class AjoutConsultation {
         }
 
         // Optionally, you can perform further actions after adding the consultation, such as updating the UI or displaying a confirmation message.
+    }
+
+    @FXML
+    public void ReturnShowConsultations(ActionEvent actionEvent) {
+        try {
+            Node displayCons = FXMLLoader.load(getClass().getResource("/Front/Consultation/affichageConsultation.fxml"));
+            ConsultationPane.getChildren().setAll(displayCons);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
     }
 }

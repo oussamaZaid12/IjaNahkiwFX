@@ -2,17 +2,23 @@ package Controllers.FicheMedicale;
 
 import entities.FicheMedicale;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import services.ServiceFicheMedicale;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AffichageFiche {
+
+    @FXML
+    private AnchorPane FichePane;
 
     @FXML
     private FlowPane fichescontainer;
@@ -21,20 +27,18 @@ public class AffichageFiche {
     private TextField searchField;
     private final ServiceFicheMedicale serviceFicheMedicale = new ServiceFicheMedicale();
 
-
     @FXML
     private void initialize() {
-        loadFiches(null); // Load all fiches initially
+        loadFiches(null);
         // Add a listener to the search field
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            loadFiches(newValue); // Load fiches with the search term
+            loadFiches(newValue);
         });
     }
 
     @FXML
     private void handleSearch() {
         String searchTerm = searchField.getText();
-        // Perform search and update the view...
     }
 
     private void loadFiches(String searchTerm) {
@@ -63,5 +67,15 @@ public class AffichageFiche {
         Platform.runLater(() -> {
             loadFiches(null); // Reload all fiches
         });
+    }
+
+    public void ajoutf(ActionEvent actionEvent) {
+        try {
+            Node displayAjout = FXMLLoader.load(getClass().getResource("/Front/FicheMedicale/AjoutFiche.fxml"));
+            FichePane.getChildren().setAll(displayAjout);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
     }
 }

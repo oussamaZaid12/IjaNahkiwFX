@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import services.ServiceFicheMedicale;
 import test.MainFX;
 
@@ -14,25 +15,20 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class Cardfiche {
-
+    @FXML
+    private AnchorPane FichePane;
     @FXML
     private Button btnDelete;
-
     @FXML
     private Button btnModifier;
-
     @FXML
     private Label tfdatecreation;
-
     @FXML
     private Label tfdatemiseajour;
-
     @FXML
     private Label tfid;
-
     @FXML
     private Label tfidp;
-
     @FXML
     private Label tfidt;
     private FicheMedicale currentFiche;
@@ -79,6 +75,20 @@ public class Cardfiche {
                 System.out.println("affichageFicheController is null");
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    @FXML
+    public void generateqrcode(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/FicheMedicale/qrcode.fxml"));
+            Parent root = loader.load();
+            Qrcode controller = loader.getController();
+            controller.setFiche(this.currentFiche); // Pass the current fiche to the Qrcode controller
+            MainFX.setCenterView(root);
+        } catch (IOException e) {
             e.printStackTrace();
             // Handle the exception, for example, by showing an error message
         }
