@@ -1,5 +1,6 @@
 package Controllers.Publication;
 
+import entities.Commentaire;
 import entities.publication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,12 +12,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import services.ServiceCommentaire;
 import services.ServicePublication;
 import test.MainFX;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 public class CardPub {
     @FXML
@@ -33,15 +37,24 @@ public class CardPub {
     private Label datePub;
     @FXML
     private Label idUserPub;
-
+    @FXML
+    private ImageView warningIcon;
     private publication currentPublication;
     private AffichagePub affichagePubController;
+    private ServiceCommentaire serviceCommentaire = new ServiceCommentaire();
+
 
     public void setAffichagePubController(AffichagePub controller) {
         this.affichagePubController = controller;
     }
+    @FXML
+    public void initialize() {
+        warningIcon.setVisible(true); // Temporarily force visibility
+    }
+
 
     public void setPublication(publication publication) {
+
         this.currentPublication = publication;
         titrePub.setText(publication.getTitreP());
         descriptionPub.setText(publication.getDescriptionP());
@@ -60,6 +73,9 @@ public class CardPub {
         } else {
             // Set a default image or leave it blank
         }
+        updateWarningIconVisibility();
+
+
     }
     @FXML
     private void handleEditAction(ActionEvent event) {
@@ -99,20 +115,61 @@ public class CardPub {
 
     @FXML
     private void handleCardClick(MouseEvent event) {
-        if (event.getClickCount() == 2) { // pour un double-clic, par exemple
+        if (event.getClickCount() == 2) { // For a double-click, for example
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Publication/DetailPublication.fxml"));
+                FXMLLoader loader;
+                if (currentPublication.getIdUserId() == 1) {
+                    // Load the backend detail view if the user ID is not 1
+                    loader = new FXMLLoader(getClass().getResource("/Back/Publication/DetailPublication.fxml"));
+                } else {
+                    // Load the front end detail view otherwise
+                    loader = new FXMLLoader(getClass().getResource("/Front/Publication/DetailPublication.fxml"));
+                }
                 Parent detailView = loader.load();
 
                 DetailPublication controller = loader.getController();
                 controller.setPublication(this.currentPublication);
 
-                // Supposons que vous avez une méthode statique dans MainFX pour changer la vue au centre
+                // Assuming you have a static method in MainFX to change the center view
                 MainFX.setCenterView(detailView);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    private void updateWarningIconVisibility() {
+        try {
+        boolean hasProfanity = checkForProfanity(currentPublication);
+        System.out.println("Updating warning icon visibility. Profanity found: " + hasProfanity);
+        warningIcon.setVisible(hasProfanity);}
+        catch (SQLException e) {
+            e.printStackTrace();
+            warningIcon.setVisible(false);
+        }
+
+    }
+
+
+    private boolean checkForProfanity(publication pub) throws SQLException {
+        List<Commentaire> comments = serviceCommentaire.getCommentairesByPublication(pub.getId());
+        for (Commentaire comment : comments) {
+            System.out.println("Comment Content: " + comment.getContenu_c());  // Debugging line to print comment content
+            if (containsProfanity(comment.getContenu_c())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private boolean containsProfanity(String content) {
+        return content.contains("*");
+    }
+
+
+
+
+
 
 }

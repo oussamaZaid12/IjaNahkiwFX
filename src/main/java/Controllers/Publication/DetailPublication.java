@@ -10,16 +10,21 @@ import entities.Commentaire;
 import entities.publication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import services.ServiceCommentaire;
 import services.ServiceLike;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
@@ -42,7 +47,8 @@ public class DetailPublication {
     private Label titrePubDetails;
     @FXML
     private VBox commentsContainer;
-
+    @FXML
+    private AnchorPane detailsPubPane;
     private publication currentPublication;
 
     private ServiceCommentaire serviceCommentaire = new ServiceCommentaire();
@@ -98,22 +104,55 @@ public class DetailPublication {
             e.printStackTrace();
         }
     }
+    private boolean containsAsterisks(String content) {
+        return content.contains("*");
+    }
 
     private void displayComments() {
         try {
             List<Commentaire> commentaires = serviceCommentaire.getCommentairesByPublication(currentPublication.getId());
             commentsContainer.getChildren().clear();
             for (Commentaire commentaire : commentaires) {
+                HBox commentBox = new HBox();
+                commentBox.setSpacing(10); // Space between elements in the hbox
+
+                // Check if the user is an admin or a regular user and add respective icons
+                Image userIcon = new Image(getClass().getResourceAsStream(commentaire.getId_user() == 1 ? "/images/doctoricon.png" : "/images/patienticon.png"));
+                ImageView userIconView = new ImageView(userIcon);
+                userIconView.setFitHeight(20);
+                userIconView.setFitWidth(20);
+                commentBox.getChildren().add(userIconView);
+
+                // Add comment label
                 Label commentLabel = new Label("Utilisateur " + commentaire.getId_user() + " : " + commentaire.getContenu_c());
-                Button deleteButton = new Button("Supprimer");
+                commentBox.getChildren().add(commentLabel);
+
+                // Check for asterisks and add a warning icon if found
+                if (containsAsterisks(commentaire.getContenu_c())) {
+                    ImageView warningIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/notificon.png")));
+                    warningIcon.setFitHeight(20);
+                    warningIcon.setFitWidth(20);
+                    commentBox.getChildren().add(warningIcon);
+                }
+
+                // Add delete button with icon
+                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/166475.png")));
+                deleteIcon.setFitHeight(20);
+                deleteIcon.setFitWidth(20);
+                Button deleteButton = new Button();
+                deleteButton.setGraphic(deleteIcon);
                 deleteButton.setOnAction(event -> handleDeleteComment(commentaire));
-                commentsContainer.getChildren().addAll(commentLabel, deleteButton);
+                deleteButton.setStyle("-fx-background-color: transparent; -fx-border: none;");
+                commentBox.getChildren().add(deleteButton);
+
+                commentsContainer.getChildren().add(commentBox);
             }
         } catch (SQLException e) {
             showAlert("Erreur", "Une erreur est survenue lors de l'affichage des commentaires.");
             e.printStackTrace();
         }
     }
+
 
 
 
@@ -226,6 +265,16 @@ public class DetailPublication {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    @FXML
+    public void ReturnShowPublications() {
+        try {
+            Node displayPubs = FXMLLoader.load(getClass().getResource("/Front/Publication/affichagePub.fxml"));
+            detailsPubPane.getChildren().setAll(displayPubs);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
     }
 
 

@@ -16,6 +16,11 @@
     <children>
         <VBox layoutX="5" layoutY="5" prefHeight="478.0" prefWidth="655.0" spacing="5" styleClass="card-container">
             <children>
+            <ImageView fx:id="warningIcon" fitHeight="36.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/notifIcon.png" />
+               </image>
+            </ImageView>
                 <ImageView fx:id="imagePub" fitHeight="309.0" fitWidth="560.0" preserveRatio="true" />
             <HBox prefHeight="0.0" prefWidth="290.0">
                <children>

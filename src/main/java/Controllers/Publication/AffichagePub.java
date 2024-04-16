@@ -28,6 +28,7 @@ public class AffichagePub {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             loadPublications(newValue); // Load publications with the search term
         });
+
     }
 
     @FXML

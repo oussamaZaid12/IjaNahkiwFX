@@ -1,12 +1,16 @@
 package entities;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Commentaire {
     private int id;
     private int publication_id;
     private String contenu_c;
     private int id_user;
+    private transient boolean hasProfanity;
 
     public Commentaire(int id, int publication_id, String contenu_c, int id_user) {
         this.id = id;
@@ -20,6 +24,7 @@ public class Commentaire {
         this.publication_id = publication_id;
         this.contenu_c = contenu_c;
         this.id_user = id_user;
+        this.hasProfanity = checkForProfanity(contenu_c);
 
     }
 
@@ -60,7 +65,9 @@ public class Commentaire {
         this.id_user = id_user;
     }
 
-
+    public void setHasProfanity(boolean hasProfanity) {
+        this.hasProfanity = hasProfanity;
+    }
 
     // equals and hashCode methods
     @Override
@@ -85,5 +92,19 @@ public class Commentaire {
                 ", contenu_c='" + contenu_c + '\'' +
                 ", id_user=" + id_user +
                 '}';
+    }
+
+    private boolean checkForProfanity(String content) {
+        Set<String> profanities = new HashSet<>(Arrays.asList("fuck", "bitch"));
+        String[] words = content.toLowerCase().split("\\s+"); // Split content into words
+        for (String word : words) {
+            if (profanities.contains(word)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isHasProfanity() {
+        return hasProfanity;
     }
 }
