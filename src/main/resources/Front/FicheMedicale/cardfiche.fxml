@@ -50,6 +50,7 @@
                             </graphic>
                         </Button>
                   <Button mnemonicParsing="false" onAction="#generateqrcode" text="generere qr code" />
+                  <Button mnemonicParsing="false" onAction="#handleDownloadPDF" text="generer pdf" />
                     </children>
                 </HBox>
                 <!-- Add other details you want to display -->
