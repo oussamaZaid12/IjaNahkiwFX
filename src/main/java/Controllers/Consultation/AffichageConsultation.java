@@ -92,4 +92,14 @@ public class AffichageConsultation {
             // Handle the exception, for example, by showing an error message
         }
     }
+
+    public void showDisplayFiches(ActionEvent actionEvent) {
+        try {
+            Node displayAjout = FXMLLoader.load(getClass().getResource("/Front/FicheMedicale/AffichageFiche.fxml"));
+            ConsultationPane.getChildren().setAll(displayAjout);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
 }

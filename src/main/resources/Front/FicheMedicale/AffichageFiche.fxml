@@ -20,6 +20,9 @@
             <content>
                 <VBox prefHeight="715.0" prefWidth="707.0">
                     <children>
+                  <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajoutf" text="Ajouter Fiche" />
+                  <Button mnemonicParsing="false" onAction="#showDisplayConsultations" text="Consultations" />
+                  <Button mnemonicParsing="false" onAction="#refreshFichesView" text="Fiches" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="728.0" text="Liste Des Fiches" textFill="#4c8ea6">
                             <font>
                                 <Font size="28.0" />
@@ -46,6 +49,5 @@
                 </HBox>
             </children>
         </VBox>
-      <Button fx:id="ajout" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#ajoutf" text="Ajouter Fiche" />
     </children>
 </AnchorPane>

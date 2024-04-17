@@ -36,6 +36,16 @@ public class NavBar {
     }
 
     @FXML
+    public void showDisplayConsultationspatient() {
+        try {
+            Node displayCons = FXMLLoader.load(getClass().getResource("/Front/Consultation/affichageConsultationpatient.fxml"));
+            mainContainer.setCenter(displayCons);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+    @FXML
     public void showDisplayFiches() {
         try {
             Node displayFiches = FXMLLoader.load(getClass().getResource("/Front/FicheMedicale/AffichageFiche.fxml"));

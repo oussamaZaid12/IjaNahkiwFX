@@ -78,4 +78,15 @@ public class AffichageFiche {
             // Handle the exception, for example, by showing an error message
         }
     }
+
+    @FXML
+    public void showDisplayConsultations() {
+        try {
+            Node displayAjout = FXMLLoader.load(getClass().getResource("/Front/Consultation/affichageConsultation.fxml"));
+            FichePane.getChildren().setAll(displayAjout);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
 }
