@@ -102,16 +102,30 @@ public class ServiceConsultation implements IService<Consultation> {
     }
 
 
+    public int getConfirmedConsultationCount() throws SQLException {
+        String query = "SELECT COUNT(*) FROM consultation WHERE confirmation = ?";
+        try (PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setBoolean(1, true);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                }
+            }
+        }
+        return 0; // Return 0 if no confirmed consultations found
+    }
 
-
-
-
-
-
-
-
-
-
-
+    public int getNonConfirmedConsultationCount() throws SQLException {
+        String query = "SELECT COUNT(*) FROM consultation WHERE confirmation = ?";
+        try (PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setBoolean(1, false);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                }
+            }
+        }
+        return 0; // Return 0 if no non-confirmed consultations found
+    }
 
 }

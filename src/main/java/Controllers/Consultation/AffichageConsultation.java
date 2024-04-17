@@ -102,4 +102,14 @@ public class AffichageConsultation {
             // Handle the exception, for example, by showing an error message
         }
     }
+
+    public void showstat(ActionEvent actionEvent) {
+        try {
+            Node displaystat = FXMLLoader.load(getClass().getResource("/Front/Consultation/stat.fxml"));
+            ConsultationPane.getChildren().setAll(displaystat);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
 }
