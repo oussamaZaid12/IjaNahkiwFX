@@ -128,4 +128,52 @@ public class ServiceConsultation implements IService<Consultation> {
         return 0; // Return 0 if no non-confirmed consultations found
     }
 
-}
+    public List<Consultation> getConsultationsByTherapistId(int therapistId) throws SQLException {
+        List<Consultation> consultations = new ArrayList<>();
+        String query = "SELECT * FROM consultation WHERE idt = ?";
+
+        PreparedStatement statement = con.prepareStatement(query);
+        statement.setInt(1, therapistId);
+
+        try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Consultation consultation = new Consultation();
+                consultation.setId(resultSet.getInt("id"));
+                consultation.setIdp(resultSet.getInt("idp"));
+                consultation.setIdt(resultSet.getInt("idt"));
+                consultation.setFiche(resultSet.getInt("fichemedicale_id"));
+                consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
+                consultation.setPathologie(resultSet.getString("pathologie"));
+                consultation.setRemarques(resultSet.getString("remarques"));
+                consultation.setConfirmation(resultSet.getBoolean("confirmation"));
+                consultations.add(consultation);
+            }
+        }
+        return consultations;
+    }
+
+    public List<Consultation> getConsultationsByPatientId(int patientid) throws SQLException {
+            List<Consultation> consultations = new ArrayList<>();
+            String query = "SELECT * FROM consultation WHERE idt = ?";
+
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, patientid);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Consultation consultation = new Consultation();
+                    consultation.setId(resultSet.getInt("id"));
+                    consultation.setIdp(resultSet.getInt("idp"));
+                    consultation.setIdt(resultSet.getInt("idt"));
+                    consultation.setFiche(resultSet.getInt("fichemedicale_id"));
+                    consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
+                    consultation.setPathologie(resultSet.getString("pathologie"));
+                    consultation.setRemarques(resultSet.getString("remarques"));
+                    consultation.setConfirmation(resultSet.getBoolean("confirmation"));
+                    consultations.add(consultation);
+                }
+            }
+            return consultations;
+        }
+    }
+

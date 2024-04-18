@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AffichageConsultation {
+public class AffichageConsultationpatient {
 
     @FXML
     private AnchorPane ConsultationPane;
@@ -44,7 +44,7 @@ public class AffichageConsultation {
     }
     private void loadConsultations(String searchTerm) {
         try {
-            List<Consultation> consultations = serviceConsultation.getConsultationsByTherapistId(2);
+            List<Consultation> consultations = serviceConsultation.getConsultationsByPatientId(2);
             if (searchTerm != null && !searchTerm.isEmpty()) {
                 consultations = consultations.stream()
                         .filter(pub -> pub.getPathologie().toLowerCase().contains(searchTerm.toLowerCase()))

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ConsultationPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Consultation.AffichageConsultation">
+<AnchorPane fx:id="ConsultationPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Consultation.AffichageConsultationpatient">
     <children>
         <ScrollPane layoutX="3.0" layoutY="25.0" prefHeight="718.0" prefWidth="1514.0">
             <padding>

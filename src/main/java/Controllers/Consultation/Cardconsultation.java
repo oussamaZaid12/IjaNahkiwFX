@@ -48,9 +48,13 @@ public class Cardconsultation {
 
     private Consultation currentConsultation;
     private AffichageConsultation affichagePubController;
+    private AffichageConsultationpatient affichagePubControllerpatient;
 
     public void setAffichageConsController(AffichageConsultation controller) {
         this.affichagePubController = controller;
+    }
+    public void setAffichageConsController(AffichageConsultationpatient controller) {
+        this.affichagePubControllerpatient = controller;
     }
 
     public void setConsultation(Consultation consultation) {
