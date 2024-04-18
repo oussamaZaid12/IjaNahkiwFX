@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="222.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Consultation.Cardconsultation">
     <children>
-        <VBox layoutX="-3.0" prefHeight="216.0" prefWidth="600.0" spacing="5" styleClass="card-container">
+        <VBox layoutX="5.0" prefHeight="219.0" prefWidth="592.0" spacing="5" styleClass="card-container">
             <children>
                 <Label fx:id="PathologieCons" prefHeight="20.0" prefWidth="72.0" styleClass="card-description" text="Pathologie" />
                 <Label fx:id="dateCons" styleClass="card-description" text="Date" />
