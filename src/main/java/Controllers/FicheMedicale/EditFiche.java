@@ -46,31 +46,55 @@ public class EditFiche {
     @FXML
     public void ModifierFiche(ActionEvent actionEvent) {
         try {
+            // Parse IDs from text fields
             int id = Integer.parseInt(tfid.getText());
             int idp = Integer.parseInt(tfidp.getText());
             int idt = Integer.parseInt(tfidt.getText());
-            LocalDate dateCreation = tfdatedecreation.getValue();
-            LocalDate dateMiseAjout = tfdatemiseajour.getValue();
 
+            // Retrieve and validate dates
+            LocalDate dateCreation = tfdatedecreation.getValue();
+            if (dateCreation == null) {
+                showAlert("Input Error", "Please enter a valid creation date.");
+                return;
+            }
+
+            LocalDate dateMiseAjout = tfdatemiseajour.getValue();
+            if (dateMiseAjout == null) {
+                showAlert("Input Error", "Please enter a valid update date.");
+                return;
+            }
+
+            // Check date consistency
+            if (dateMiseAjout.isBefore(dateCreation)) {
+                showAlert("Input Error", "The last update date cannot be before the creation date.");
+                return;
+            }
+
+            // Set updated values to currentFiche
             currentFiche.setId(id);
             currentFiche.setIdp(idp);
             currentFiche.setIdt(idt);
             currentFiche.setDateCreation(Date.valueOf(dateCreation));
             currentFiche.setDerniereMaj(Date.valueOf(dateMiseAjout));
 
+            // Update fiche in database
             serviceFicheMedicale.modifier(currentFiche);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText(null);
-            alert.setContentText("Fiche medicale has been updated successfully.");
-            alert.showAndWait();
-        } catch (NumberFormatException | SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("An error occurred: " + e.getMessage());
-            alert.showAndWait();
+            // Show success message
+            showAlert("Success", "Fiche medicale has been updated successfully.");
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Please enter valid numeric values for IDs.");
+        } catch (SQLException e) {
+            showAlert("Error", "An error occurred while updating fiche medicale: " + e.getMessage());
         }
     }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }

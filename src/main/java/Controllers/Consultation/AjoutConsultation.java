@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -48,38 +49,55 @@ public class AjoutConsultation {
 
     @FXML
     void AjouterConsultation(ActionEvent event) {
-        // Retrieve data from input fields
-        String pathologie = tfpathologie.getText();
-        String remarques = tfremarques.getText();
-        LocalDate date = TfdatePicker.getValue();
-        int hour = Integer.parseInt(tfheure.getText());
-        int minute = Integer.parseInt(tfminute.getText());
-        int idPatient = Integer.parseInt(Tfidpatient.getText());
-        int idTherapeute = Integer.parseInt(Tftherapeute.getText());
-
-        // Set seconds to 0
-        int second = 0;
-
-        // Create a LocalTime object with the retrieved hour, minute, and second values
-        LocalTime time = LocalTime.of(hour, minute, second);
-
-        // Create a LocalDateTime object by combining date and time
-        LocalDateTime dateTime = LocalDateTime.of(date, time);
-
-        // Create a new Consultation object with the retrieved data
-        Consultation consultation = new Consultation(idPatient, idTherapeute, dateTime, pathologie, remarques, false, 0);
-
-        // Call a service method to add the consultation to the database
         try {
+            // Retrieve and validate data from input fields
+            LocalDate date = TfdatePicker.getValue();
+            if (date == null) {
+                showAlert("Input Error", "Please enter a valid date.");
+                return;
+            }
+            if (date.isBefore(LocalDate.now())) {
+                showAlert("Input Error", "The date of the consultation cannot be in the past.");
+                return;
+            }
+            int hour, minute, idPatient, idTherapeute;
+            try {
+                hour = Integer.parseInt(tfheure.getText());
+                minute = Integer.parseInt(tfminute.getText());
+                idPatient = Integer.parseInt(Tfidpatient.getText());
+                idTherapeute = Integer.parseInt(Tftherapeute.getText());
+            } catch (NumberFormatException e) {
+                showAlert("Input Error", "Please ensure that hour, minute, patient ID, and therapist ID are numeric.");
+                return;
+            }
+
+            if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+                showAlert("Input Error", "Please enter a valid hour (0-23) and minute (0-59).");
+                return;
+            }
+
+            String pathologie = tfpathologie.getText();
+            if (pathologie.trim().length() < 3 || pathologie.isEmpty()) {
+                showAlert("Input Error", "Pathology must have at least 3 characters.");
+                return;
+            }
+
+            String remarques = tfremarques.getText();
+
+            // Set seconds to 0
+            int second = 0;
+            LocalTime time = LocalTime.of(hour, minute, second);
+            LocalDateTime dateTime = LocalDateTime.of(date, time);
+
+            Consultation consultation = new Consultation(idPatient, idTherapeute, dateTime, pathologie, remarques, false, 0);
+
             ServiceConsultation serviceConsultation = new ServiceConsultation();
             serviceConsultation.ajouter(consultation);
-            System.out.println("Consultation added successfully!");
+            showAlert("Success", "Consultation added successfully!");
         } catch (SQLException e) {
             System.out.println("Error adding consultation: " + e.getMessage());
-            // Handle any potential exceptions
+            showAlert("Database Error", "Error adding consultation: " + e.getMessage());
         }
-
-        // Optionally, you can perform further actions after adding the consultation, such as updating the UI or displaying a confirmation message.
     }
 
     @FXML
@@ -91,5 +109,12 @@ public class AjoutConsultation {
             e.printStackTrace();
             // Handle the exception, for example, by showing an error message
         }
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

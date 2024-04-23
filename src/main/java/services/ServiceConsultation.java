@@ -1,6 +1,7 @@
 package services;
 
 import entities.Consultation;
+import entities.FicheMedicale;
 import utils.MyDB;
 
 import java.sql.*;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceConsultation implements IService<Consultation> {
-    private Connection con;
+    private static Connection con;
 
     public ServiceConsultation() {
         con = MyDB.getInstance().getConnection();
@@ -175,5 +176,28 @@ public class ServiceConsultation implements IService<Consultation> {
             }
             return consultations;
         }
+    public static List<Consultation> getConsultationsByFiche(FicheMedicale currentFiche) throws SQLException {
+        List<Consultation> consultations = new ArrayList<>();
+        String query = "SELECT * FROM consultation WHERE fichemedicale_id = ?";
+        try (PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setInt(1, currentFiche.getId());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Consultation consultation = new Consultation();
+                    consultation.setId(resultSet.getInt("id"));
+                    consultation.setIdp(resultSet.getInt("idp"));
+                    consultation.setIdt(resultSet.getInt("idt"));
+                    consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
+                    consultation.setPathologie(resultSet.getString("pathologie"));
+                    consultation.setRemarques(resultSet.getString("remarques"));
+                    consultation.setConfirmation(resultSet.getBoolean("confirmation"));
+                    consultation.setFiche(resultSet.getInt("fichemedicale_id"));
+
+                    consultations.add(consultation);
+                }
+            }
+        }
+        return consultations;
     }
+}
 

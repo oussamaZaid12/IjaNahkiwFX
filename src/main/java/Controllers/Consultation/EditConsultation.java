@@ -74,39 +74,62 @@ public class EditConsultation {
     @FXML
     void ModifierConsultation(ActionEvent event) {
         try {
-            String pathologie = tfpathologie.getText();
-            String remarques = tfremarques.getText();
-            int idPatient = Integer.parseInt(Tfidpatient.getText());
-            int idTherapeute = Integer.parseInt(Tftherapeute.getText());
-            int heure = Integer.parseInt(tfheure.getText());
-            int minute = Integer.parseInt(tfminute.getText());
+            // Validate the date
             LocalDate dateLocal = TfdatePicker.getValue();
-            int fiche = Integer.parseInt(tffiche.getText());
-            LocalDateTime dateTime = LocalDateTime.of(dateLocal, LocalTime.of(heure, minute));
+            if (dateLocal == null) {
+                showAlert("Input Error", "Please enter a valid date.");
+                return;
+            }
+            if (dateLocal.isBefore(LocalDate.now())) {
+                showAlert("Input Error", "The date of the consultation cannot be in the past.");
+                return;
+            }
 
+            int heure, minute, idPatient, idTherapeute, fiche;
+            try {
+                heure = Integer.parseInt(tfheure.getText());
+                minute = Integer.parseInt(tfminute.getText());
+                idPatient = Integer.parseInt(Tfidpatient.getText());
+                idTherapeute = Integer.parseInt(Tftherapeute.getText());
+                fiche = Integer.parseInt(tffiche.getText());
+            } catch (NumberFormatException e) {
+                showAlert("Input Error", "Please ensure that all inputs are numeric.");
+                return;
+            }
+
+            if (heure < 0 || heure > 23 || minute < 0 || minute > 59) {
+                showAlert("Input Error", "Please enter a valid hour (0-23) and minute (0-59).");
+                return;
+            }
+
+            String pathologie = tfpathologie.getText();
+            if (pathologie.trim().length() < 3) {
+                showAlert("Input Error", "Pathology must have at least 3 characters.");
+                return;
+            }
+
+            String remarques = tfremarques.getText();
+
+            LocalDateTime dateTime = LocalDateTime.of(dateLocal, LocalTime.of(heure, minute));
             currentConsultation.setPathologie(pathologie);
             currentConsultation.setRemarques(remarques);
             currentConsultation.setIdp(idPatient);
             currentConsultation.setIdt(idTherapeute);
-            currentConsultation.setDateC(Timestamp.valueOf(dateTime).toLocalDateTime());
+            currentConsultation.setDateC(dateTime);
             currentConsultation.setFiche(fiche);
+
             serviceConsultation.modifier(currentConsultation);
+            showAlert("Success", "Consultation has been updated successfully.");
 
-            // Show success message
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText(null);
-            alert.setContentText("Consultation has been updated successfully.");
-            alert.showAndWait();
-
-        } catch (NumberFormatException | SQLException e) {
-            // Show error message
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("An error occurred: " + e.getMessage());
-            alert.showAndWait();
+        } catch (SQLException e) {
+            showAlert("Database Error", "An error occurred while updating the consultation: " + e.getMessage());
         }
-
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
