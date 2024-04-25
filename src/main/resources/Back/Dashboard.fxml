@@ -228,7 +228,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button mnemonicParsing="false" text="Quizs et quetionnaire" textFill="#107191">
+                        <Button mnemonicParsing="false" onAction="#displayQuiz" text="Quizs et quetionnaire" textFill="#107191">
                            <font>
                               <Font name="Candara" size="18.0" />
                            </font>

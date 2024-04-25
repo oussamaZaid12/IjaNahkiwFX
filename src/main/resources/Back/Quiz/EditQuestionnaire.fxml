@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane prefHeight="758.0" prefWidth="1203.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Quiz.EditQuestionnaire">
+    <ImageView fitHeight="755.0" fitWidth="1293.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../../images/add.jpeg" />
+        </image>
+    </ImageView>
+
+        <VBox layoutX="215.0" layoutY="124.0" prefHeight="278.0" prefWidth="420.0" spacing="8.0" styleClass="image-view" stylesheets="@../../css/style.css">
+            <children>
+                <Label text="Titre du Questionnaire" />
+                <TextField fx:id="LabelTitreQuestionnaire" />
+                <Label text="Description du Questionnaire" />
+                <TextField fx:id="LabelDescrpQuestionnaire" />
+                <Label text="Date du Questionnaire" />
+                <DatePicker fx:id="LabelDateQuestionnaire" />
+                <Label text="ID utilisateur" />
+                <TextField fx:id="LabelUserQuestionnaire" />
+                <Button onAction="#EditQuestionnaire" styleClass="card-button" text="modifier" />
+            </children>
+        </VBox>
+
+</AnchorPane>

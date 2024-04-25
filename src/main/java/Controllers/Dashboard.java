@@ -43,6 +43,17 @@ public class Dashboard {
             // Handle the exception, for example, by showing an error message
         }
     }
+    @FXML
+    public void DisplayQuiz() {
+        try {
+            Node quiz = FXMLLoader.load(getClass().getResource("/Back/Quiz/affichageQuestionnaire.fxml"));
+            mainContainer.setCenter(quiz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
 
     @FXML
     private void initialize() {

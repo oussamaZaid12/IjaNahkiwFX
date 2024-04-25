@@ -92,7 +92,6 @@ public class CardPub {
     }
 
 
-
     @FXML
     private void handleDeleteAction(ActionEvent event) {
         try {
