@@ -136,7 +136,7 @@
                         <Image url="@../images/Quizicon.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" text="Quizs" textFill="#107191">
+                  <Button mnemonicParsing="false" onAction="#DisplayQuiz" text="Quizs" textFill="#107191">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>

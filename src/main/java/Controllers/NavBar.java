@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.Node;
@@ -61,4 +62,16 @@ public class NavBar {
     private void initialize() {
         showHome();
     }
+
+    public void DisplayQuiz() {
+        try {
+            Node quiz = FXMLLoader.load(getClass().getResource("/Back/Question/CardQuestion.fxml"));
+            mainContainer.setCenter(quiz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
 }
+

@@ -2,20 +2,22 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Question.CardQ">
-    <VBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-      <Text fill="#1fa1c9" strokeType="OUTSIDE" strokeWidth="0.0" text="Take the Quiz" textAlignment="CENTER" wrappingWidth="581.5469055175781">
+    <VBox styleClass="image-view" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <Text strokeType="OUTSIDE" text="Take the Quiz" textAlignment="CENTER" wrappingWidth="581.546875">
          <font>
             <Font size="27.0" />
          </font>
       </Text>
+      <Separator prefHeight="26.0" prefWidth="585.0" />
         <Pagination fx:id="pagination" />
-        <Button onAction="#submitAnswers" text="Submit" VBox.vgrow="NEVER" />
+        <Button onAction="#submitAnswers" prefHeight="42.0" prefWidth="98.0" styleClass="card-button" text="Envoyer" textFill="WHITE" VBox.vgrow="NEVER" />
     </VBox>
 
 </AnchorPane>

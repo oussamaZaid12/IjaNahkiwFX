@@ -44,47 +44,6 @@ public class CardQ {
         }
     }
 
-    private AnchorPane TEST(Question question) {
-        AnchorPane card = new AnchorPane();
-        card.getStyleClass().add("question-card"); // Add a style class for CSS styling
-
-        Label questionLabel = new Label(question.getTitleQuestion());
-        questionLabel.getStyleClass().add("question-label");
-        AnchorPane.setTopAnchor(questionLabel, 10.0);
-        AnchorPane.setLeftAnchor(questionLabel, 10.0);
-        AnchorPane.setRightAnchor(questionLabel, 10.0);
-        card.getChildren().add(questionLabel);
-
-        double yPos = 40.0;
-        for (Answer answer : question.getProposedAnswers()) {
-            Label answerLabel = new Label(answer.getPropositionChoisieId());
-            answerLabel.getStyleClass().add("answer-label");
-            AnchorPane.setTopAnchor(answerLabel, yPos);
-            AnchorPane.setLeftAnchor(answerLabel, 10.0);
-            AnchorPane.setRightAnchor(answerLabel, 10.0);
-            card.getChildren().add(answerLabel);
-            yPos += 30.0;
-        }
-
-        return card;
-    }
-    private VBox TEST2(Question question) {
-        VBox card = new VBox(5);
-        card.getStyleClass().add("question-card");
-
-        Label questionLabel = new Label(question.getTitleQuestion());
-        questionLabel.getStyleClass().add("question-label");
-        card.getChildren().add(questionLabel);
-
-        for (Answer answer : question.getProposedAnswers()) {
-            Label answerLabel = new Label(answer.getPropositionChoisieId()); // Use the correct method to get answer text
-            answerLabel.getStyleClass().add("answer-label");
-            card.getChildren().add(answerLabel);
-        }
-
-        return card; // Return type should be VBox since this is the unique createCard method
-    }
-
     private void setupPagination() {
         int numPages = (int) Math.ceil((double) allQuestions.size() / QUESTIONS_PER_PAGE);
         pagination.setPageCount(numPages);
