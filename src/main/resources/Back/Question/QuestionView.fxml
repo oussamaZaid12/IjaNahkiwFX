@@ -40,7 +40,6 @@
         </TableView>
         <HBox spacing="10">
             <Button onAction="#loadQuestions" style="-fx-font-size: 14px;" text="Refresh" />
-            <Button onAction="#handleEdit" text="Edit Selected" />
             <Button onAction="#handleDelete" text="Delete Selected" />
         </HBox>
     </VBox>

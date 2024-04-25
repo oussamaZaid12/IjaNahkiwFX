@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.Node;
@@ -43,10 +44,11 @@ public class Dashboard {
             // Handle the exception, for example, by showing an error message
         }
     }
+
     @FXML
-    public void DisplayQuiz() {
+    public void displayQuiz() {
         try {
-            Node quiz = FXMLLoader.load(getClass().getResource("/Back/Quiz/affichageQuestionnaire.fxml"));
+            Node quiz = FXMLLoader.load(getClass().getResource("/Back/Quiz/ajoutQuestionnaire.fxml"));
             mainContainer.setCenter(quiz);
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,5 +60,15 @@ public class Dashboard {
     @FXML
     private void initialize() {
         showHome();
+    }
+
+    public void addQuiz() {
+        try {
+            Node quiz = FXMLLoader.load(getClass().getResource("/Back/Quiz/affichageQuestionnaire.fxml"));
+            mainContainer.setCenter(quiz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
     }
 }
