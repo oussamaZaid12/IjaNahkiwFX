@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
 import services.ServiceConsultation;
+import services.ServiceNotification;
 import Controllers.Consultation.UpcomingConsultationChecker;
 import java.io.IOException;
 
@@ -14,11 +15,13 @@ public class NavBar {
     @FXML
     private BorderPane mainContainer;
     private ServiceConsultation serviceConsultation;
+    private ServiceNotification serviceNotification;
     private UpcomingConsultationChecker upcomingConsultationChecker;
 
 
-    public void setServiceConsultation(ServiceConsultation serviceConsultation) {
+    public void setServiceConsultation(ServiceConsultation serviceConsultation, ServiceNotification serviceNotification) {
         this.serviceConsultation = serviceConsultation;
+        this.serviceNotification = serviceNotification;
         initializeUpcomingConsultationChecker();
     }
 
@@ -81,14 +84,16 @@ public class NavBar {
     private void initialize() {
         showHome();
         serviceConsultation = new ServiceConsultation();
+        serviceNotification = new ServiceNotification();
         initializeUpcomingConsultationChecker();
     }
+
     private void initializeUpcomingConsultationChecker() {
-        if (serviceConsultation != null) {
-            upcomingConsultationChecker = new UpcomingConsultationChecker(serviceConsultation);
+        if (serviceConsultation != null && serviceNotification != null) {
+            upcomingConsultationChecker = new UpcomingConsultationChecker(serviceConsultation, serviceNotification);
             upcomingConsultationChecker.checkUpcomingConsultations();
         } else {
-            System.out.println("ServiceConsultation is not set. Please set the ServiceConsultation instance.");
+            System.out.println("ServiceConsultation or ServiceNotification is not set. Please set the instances.");
         }
     }
 }

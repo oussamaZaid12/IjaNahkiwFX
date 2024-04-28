@@ -1,15 +1,21 @@
 package Controllers.Consultation;
 
+import Controllers.Notification.NotificationWindowController;
 import entities.Consultation;
+import entities.Notification;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 import services.ServiceConsultation;
+import services.ServiceNotification;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,6 +33,34 @@ public class AffichageConsultation {
     private TextField searchField;
     private final ServiceConsultation serviceConsultation = new ServiceConsultation();
 
+    @FXML
+    private Button notificationsButton;
+
+    private ServiceNotification serviceNotification = new ServiceNotification();
+
+    public void setServiceNotification(ServiceNotification serviceNotification) {
+        this.serviceNotification = serviceNotification;
+    }
+
+    @FXML
+    private void showNotificationWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/NotificationWindow.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Notifications");
+
+            NotificationWindowController notificationWindowController = loader.getController();
+            notificationWindowController.setServiceNotification(serviceNotification);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
 
     @FXML
     private void initialize() {
@@ -42,6 +76,7 @@ public class AffichageConsultation {
         String searchTerm = searchField.getText();
         // Perform search and update the view...
     }
+
     private void loadConsultations(String searchTerm) {
         try {
             List<Consultation> consultations = serviceConsultation.getConsultationsByTherapistId(2);
@@ -52,7 +87,7 @@ public class AffichageConsultation {
             }
 
             consultationscontainer.getChildren().clear();
-            for (Consultation con :consultations) {
+            for (Consultation con : consultations) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/cardconsultation.fxml"));
                 Node card = loader.load(); // This line can throw IOException
                 Cardconsultation controller = loader.getController();
@@ -65,14 +100,11 @@ public class AffichageConsultation {
         }
     }
 
-
-
     public void refreshConsultationsView() {
         Platform.runLater(() -> {
             loadConsultations(null); // Reload all publications
         });
     }
-
 
     public void ajoutcon(ActionEvent actionEvent) {
         try {
