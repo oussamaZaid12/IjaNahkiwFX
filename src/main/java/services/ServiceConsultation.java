@@ -199,5 +199,32 @@ public class ServiceConsultation implements IService<Consultation> {
         }
         return consultations;
     }
+    public List<Consultation> getUpcomingConsultations() throws SQLException {
+        List<Consultation> upcomingConsultations = new ArrayList<>();
+        String query = "SELECT * FROM consultation WHERE date_c >= ? AND date_c < ?";
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tomorrow = now.plusDays(1);
+
+        try (PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setObject(1, now);
+            statement.setObject(2, tomorrow);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Consultation consultation = new Consultation();
+                    consultation.setId(resultSet.getInt("id"));
+                    consultation.setIdp(resultSet.getInt("idp"));
+                    consultation.setIdt(resultSet.getInt("idt"));
+                    consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
+                    consultation.setPathologie(resultSet.getString("pathologie"));
+                    consultation.setRemarques(resultSet.getString("remarques"));
+                    consultation.setConfirmation(resultSet.getBoolean("confirmation"));
+                    consultation.setFiche(resultSet.getInt("fichemedicale_id"));
+
+                    upcomingConsultations.add(consultation);
+                }
+            }
+        }
+        return upcomingConsultations;
+    }
 }
 
