@@ -69,9 +69,9 @@ public class Cardconsultation {
     @FXML
     private void handleEditAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/EditConsultation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/EditConsultationDoctor.fxml"));
             Parent root = loader.load();
-            EditConsultation controller = loader.getController();
+            EditConsultationDoctor controller = loader.getController();
             controller.setConsultation(this.currentConsultation);
             MainFX.setCenterView(root);
         } catch (IOException e) {

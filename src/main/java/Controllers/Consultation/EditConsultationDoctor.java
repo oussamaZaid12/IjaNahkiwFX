@@ -3,16 +3,19 @@ package Controllers.Consultation;
 import entities.Consultation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import services.ServiceConsultation;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class EditConsultation {
+public class EditConsultationDoctor {
 
     @FXML
     private Button TfValider;
@@ -40,19 +43,34 @@ public class EditConsultation {
 
     @FXML
     private TextField tffiche;
+
     @FXML
     private CheckBox confirmationCheckBox;
+
     private Consultation currentConsultation;
     private ServiceConsultation serviceConsultation = new ServiceConsultation();
+
+
 
     public void setConsultation(Consultation consultation) {
         this.currentConsultation = consultation;
 
         tfpathologie.setText(consultation.getPathologie());
+        tfpathologie.setEditable(false);
+
         tfremarques.setText(consultation.getRemarques());
+        tfremarques.setEditable(false);
+
         Tfidpatient.setText(String.valueOf(consultation.getIdp()));
+        Tfidpatient.setEditable(false);
+
         Tftherapeute.setText(String.valueOf(consultation.getIdt()));
+        Tftherapeute.setEditable(false);
+
         tffiche.setText(String.valueOf(consultation.getFiche()));
+        tffiche.setEditable(false);
+
+        confirmationCheckBox.setSelected(consultation.isConfirmation());
 
         // Extract hour and minute from LocalDateTime
         LocalDateTime dateTime = consultation.getDateC();
@@ -61,14 +79,15 @@ public class EditConsultation {
 
         // Set the hour and minute text fields
         tfheure.setText(String.valueOf(hour));
+        tfheure.setEditable(false);
+
         tfminute.setText(String.valueOf(minute));
+        tfminute.setEditable(false);
 
         // Convert java.sql.Timestamp to java.time.LocalDate
         LocalDate dateLocal = dateTime.toLocalDate();
         TfdatePicker.setValue(dateLocal);
     }
-
-
 
     @FXML
     void ModifierConsultation(ActionEvent event) {
@@ -116,6 +135,7 @@ public class EditConsultation {
             currentConsultation.setIdt(idTherapeute);
             currentConsultation.setDateC(dateTime);
             currentConsultation.setFiche(fiche);
+            currentConsultation.setConfirmation(confirmationCheckBox.isSelected()); // Set the confirmation status
 
             serviceConsultation.modifier(currentConsultation);
             showAlert("Success", "Consultation has been updated successfully.");
@@ -124,6 +144,7 @@ public class EditConsultation {
             showAlert("Database Error", "An error occurred while updating the consultation: " + e.getMessage());
         }
     }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
