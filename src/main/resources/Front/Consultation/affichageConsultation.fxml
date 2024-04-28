@@ -21,6 +21,7 @@
                 <VBox prefHeight="715.0" prefWidth="707.0">
                     <children>
                   <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajoutcon" text="Ajouter Consultation" />
+                  <Button mnemonicParsing="false" text="Button" />
                   <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" text="Afficher Calendrier" />
                   <Button mnemonicParsing="false" onAction="#refreshConsultationsView" text="Consultations" />
                   <Button mnemonicParsing="false" onAction="#showDisplayFiches" text="Fiches" />
@@ -30,7 +31,9 @@
                             </font>
                         </Label>
                         <FlowPane fx:id="consultationscontainer" prefHeight="277.0" prefWidth="719.0" />
-                  <Button fx:id="notificationsButton" mnemonicParsing="false" onAction="#showNotificationWindow" text="Button" />
+                  <Button fx:id="tfclient" mnemonicParsing="false" onAction="#showchatclient" text="Client" />
+                  <Button fx:id="tfserver" mnemonicParsing="false" onAction="#showchatserver" text="Server" />
+                  <Button fx:id="notificationsButton" mnemonicParsing="false" onAction="#showNotificationWindow" text="Notificiations" />
                   <Button fx:id="stat" mnemonicParsing="false" onAction="#showstat" text="Statistiques" />
 
                     </children>

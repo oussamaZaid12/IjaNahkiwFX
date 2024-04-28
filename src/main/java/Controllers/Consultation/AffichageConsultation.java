@@ -79,7 +79,7 @@ public class AffichageConsultation {
 
     private void loadConsultations(String searchTerm) {
         try {
-            List<Consultation> consultations = serviceConsultation.getConsultationsByTherapistId(2);
+            List<Consultation> consultations = serviceConsultation.afficher();
             if (searchTerm != null && !searchTerm.isEmpty()) {
                 consultations = consultations.stream()
                         .filter(pub -> pub.getPathologie().toLowerCase().contains(searchTerm.toLowerCase()))
@@ -139,6 +139,26 @@ public class AffichageConsultation {
     public void showstat(ActionEvent actionEvent) {
         try {
             Node displaystat = FXMLLoader.load(getClass().getResource("/Front/Consultation/stat.fxml"));
+            ConsultationPane.getChildren().setAll(displaystat);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    public void showchatclient(ActionEvent actionEvent) {
+        try {
+            Node displaystat = FXMLLoader.load(getClass().getResource("/Front/client/client-view.fxml"));
+            ConsultationPane.getChildren().setAll(displaystat);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    public void showchatserver(ActionEvent actionEvent) {
+        try {
+            Node displaystat = FXMLLoader.load(getClass().getResource("/Front/server/server-view.fxml"));
             ConsultationPane.getChildren().setAll(displaystat);
         } catch (IOException e) {
             e.printStackTrace();
