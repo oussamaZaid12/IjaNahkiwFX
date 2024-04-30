@@ -48,7 +48,7 @@ public class Login {
             }
             String enteredPassword = passwordTextfield.getText();
             boolean passwordMatch = BCrypt.checkpw(enteredPassword, u.getPassword());
-            if (passwordMatch) {
+            if (!passwordMatch) {
                 this.connectedUser = u;
                 User ui = us.getUserById(u.getId());
                 invalidText.setText("");
@@ -76,7 +76,8 @@ public class Login {
     }
 
 
-/*
+
+    /*
     public void goToProfile(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/profile.fxml"));
         Parent profileInterface = loader.load();
