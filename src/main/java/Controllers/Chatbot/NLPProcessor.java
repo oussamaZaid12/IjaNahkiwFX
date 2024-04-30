@@ -9,8 +9,11 @@ import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.postag.POSModel;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-        public class NLPProcessor {
+public class NLPProcessor {
             private SentenceDetectorME sentenceDetector;
             private Tokenizer tokenizer;
             private POSTaggerME posTagger;
@@ -45,20 +48,77 @@ import java.io.InputStream;
                 }
             }
 
-    public String getResponse(String input) {
-        String[] sentences = detectSentences(input);
-        StringBuilder response = new StringBuilder();
+     String processTokens(String[] tokens, String[] tags) {
+        Random rand = new Random();
+        List<List<String>> responses = new ArrayList<>();
 
-        for (String sentence : sentences) {
-            String[] tokens = tokenize(sentence);
-            String[] tags = tagPOS(tokens);
-            response.append(processTokens(tokens, tags));
+        for (String token : tokens) {
+            token = token.toLowerCase();
+            List<String> emotionResponses = new ArrayList<>();
+            switch (token) {
+                case "happy":
+                case "joy":
+                    emotionResponses.add("That's wonderful to hear! What's making you feel happy?");
+                    emotionResponses.add("It's great to focus on the positive things in our lives.");
+                    emotionResponses.add("Sharing happy moments can make them even more special.");
+                    break;
+                case "sad":
+                case "depressed":
+                    emotionResponses.add("I'm sorry to hear that you're feeling sad. Can you tell me more about what's bothering you?");
+                    emotionResponses.add("Sure, tell me how can I assist you?");
+                    emotionResponses.add("Please seek help by contacting our green phone 9152987821.");
+                    break;
+                case "angry":
+                case "frustrated":
+                    emotionResponses.add("It sounds like you're feeling angry or frustrated. Let's talk about what's going on.");
+                    break;
+                case "anxious":
+                case "worried":
+                    emotionResponses.add("Feeling anxious or worried is tough. Can you share what's on your mind?");
+                    break;
+                case "lonely":
+                    emotionResponses.add("Feeling lonely can be difficult. I'm here to chat with you if you need someone to talk to.");
+                    break;
+                case "suicide":
+                case "kill":
+                    emotionResponses.add("I'm very sorry to hear that, but you have so much to look forward to. Please contact our green phone 9152987821 immediately.");
+                    break;
+                case "help":
+                    emotionResponses.add("Sure, tell me how can I assist you?");
+                    emotionResponses.add("Please seek help by contacting our green phone 9152987821.");
+                    break;
+                case "hello":
+                case "salut":
+                case "hey":
+                    emotionResponses.add("Hi there. What brings you here today?");
+                    emotionResponses.add("Hello there. How are you feeling today?");
+                    break;
+                case "thank":
+                    emotionResponses.add("today?");
+                    emotionResponses.add("y?");
+                    break;
+                case "rendez-vous":
+                case "appointment":
+                    emotionResponses.add("Check out our website");
+                    break;
+            }
+            if (!emotionResponses.isEmpty()) {
+                responses.add(emotionResponses);
+            }
         }
 
-        return response.toString();
+        // Randomly select a response from the collected responses
+        if (!responses.isEmpty()) {
+            List<String> selectedResponses = responses.get(rand.nextInt(responses.size()));
+            return selectedResponses.get(rand.nextInt(selectedResponses.size()));
+        }
+
+        return "Tell me more...";
     }
 
-    private String processTokens(String[] tokens, String[] tags) {
+
+
+    private String processTokensTEST(String[] tokens, String[] tags) {
         // Example: respond differently if a noun is mentioned
 
         for (int i = 0; i < tokens.length; i++) {
@@ -79,7 +139,7 @@ import java.io.InputStream;
                 case "lonely":
                     return "Feeling lonely can be difficult. I'm here to chat with you if you need someone to talk to.";
                 case "suicide":
-                    return "";
+                    return "Please contact our green phone 9152987821 immediately.";
                 case "help":
                     return "Please seek help by contacting our green phone 9152987821.";
                 case "hello":
@@ -88,6 +148,7 @@ import java.io.InputStream;
                 // Add more emotional keywords and responses as needed
             }
         }
+
 
         // If no emotional keywords are detected, return a default response
         return "Tell me more...";
