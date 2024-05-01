@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.Date;
+import java.util.List;
 
 public class Questionnaire {
     int id;
@@ -8,7 +9,7 @@ public class Questionnaire {
     String titleQuestionnaire; // Changed from TitreQuiz to titleQuestionnaire
     Date date;
     String description; // Lowercased first letter to follow Java naming conventions
-
+    List<Question> questions;
     public Questionnaire() {
     }
 
@@ -60,6 +61,13 @@ public class Questionnaire {
         this.idUserId = idUserId;
     }
 
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
     @Override
     public String toString() {
         return "Questionnaire{" +

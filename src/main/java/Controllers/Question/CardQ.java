@@ -1,8 +1,12 @@
 package Controllers.Question;
 
+import Controllers.Quiz.ResultController;
 import entities.Proposition;
 import entities.Question;
 import entities.Answer;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,12 +17,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import services.ServiceAnswer;
 import services.ServiceQuestion;
+import test.PredictionService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CardQ {
     private static final int QUESTIONS_PER_PAGE = 3; // Define the number of questions per page
@@ -34,6 +41,9 @@ public class CardQ {
 
     private ServiceQuestion serviceQuestion = new ServiceQuestion();
     private ServiceAnswer serviceAnswer = new ServiceAnswer(); // Service for answer-related operations
+    private Map<Question, Answer> selectedAnswers = new HashMap<>();
+    private PredictionService predictionService = new PredictionService("http://localhost:8000/fastapi/");
+
 
     @FXML
     public void initialize() {
@@ -108,39 +118,119 @@ public class CardQ {
         return card;
     }
 
-    private void switchToResultsPage() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Dashboard.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) submitButton.getScene().getWindow();  // Assuming submitButton is part of the current stage
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private Map<Question, Answer> selectedAnswers = new HashMap<>();
 
+    public void submitAnswersFirst() {
+        List<Integer> answerScores = new ArrayList<>(); // List to store scores for API
 
-    // A method that can be called to submit the answers or move to the next page
-
-    public void submitAnswers() {
         for (Map.Entry<Question, Answer> entry : selectedAnswers.entrySet()) {
             Question question = entry.getKey();
             Answer answer = entry.getValue();
+
+            Proposition proposition = question.getPropositions().stream()
+                    .filter(p -> p.getId() == answer.getPropositionChoisieId())
+                    .findFirst()
+                    .orElse(null);
+
+            if (proposition != null) {
+                answerScores.add(proposition.getScore()); // Get score from the proposition
+            }
+
             try {
-                serviceAnswer.saveAnswer(answer);
-                System.out.println("Saved Answer for Question ID: " + question.getId());
+                serviceAnswer.saveAnswer(answer); // Save answer to database if needed
             } catch (SQLException e) {
                 System.err.println("Failed to save answer for question ID " + question.getId());
                 e.printStackTrace();
             }
         }
-        switchToResultsPage();
     }
 
 
-}
+    public void submitAnswers() {
+        List<Integer> scores = selectedAnswers.values().stream()
+                .map(answer -> {
+                    Proposition prop = findPropositionById(answer.getPropositionChoisieId());
+                    return prop != null ? prop.getScore() : 0;
+                })
+                .collect(Collectors.toList());
 
+        System.out.println("Scores to be submitted: " + scores); // Debug line
+
+        new Thread(() -> {
+            try {
+                for (Answer answer : selectedAnswers.values()) {
+                    serviceAnswer.saveAnswer(answer);
+                    System.out.println("Successfully saved answer for question ID " + answer.getQuestionId());
+                }
+                Map<String, Object> results = predictionService.predict(scores);
+                Platform.runLater(() -> updateUIAfterPrediction(results));
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    showErrorOnUI("Error during API request:  " + e.getMessage());
+                });
+            }
+        }).start();
+    }
+
+
+    private void updateUIAfterPrediction(Map<String, Object> results) {
+        if ((boolean) results.getOrDefault("success", false)) {
+            Object predictionObj = results.get("prediction");
+            int prediction;
+            if (predictionObj instanceof Integer) {
+                prediction = (Integer) predictionObj;
+            } else if (predictionObj instanceof Double) {
+                prediction = ((Double) predictionObj).intValue();
+            } else {
+                showErrorOnUI("Invalid data type for prediction result.");
+                return;
+            }
+
+            String message = (prediction == 1) ? "Consult a doctor." : "Your health status is good.";
+            displayResults(message);
+        } else {
+            String error = (String) results.getOrDefault("error", "Failed to obtain a valid prediction result.");
+            showErrorOnUI(error);
+        }
+    }
+
+    private void displayResults(String results) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Quiz/Results.fxml"));
+            Parent root = loader.load();
+            ResultController controller = loader.getController();
+            controller.setResults(results);
+
+            Stage stage = new Stage();
+            stage.setTitle("Prediction Results");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showErrorOnUI(String error) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("A Problem Occurred");
+        alert.setContentText("Error details: " + error);
+        alert.showAndWait();
+    }
+
+
+    private Proposition findPropositionById(int id) {
+        if (allQuestions == null) {
+            return null;
+        }
+        for (Question question : allQuestions) {
+            for (Proposition proposition : question.getPropositions()) {
+                if (proposition.getId() == id) {
+                    return proposition;
+                }
+            }
+        }
+        return null; // Return null if the proposition is not found
+    }
+
+}
 

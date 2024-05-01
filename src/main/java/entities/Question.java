@@ -9,6 +9,8 @@ public class Question {
     private String titleQuestion;
     private List<Proposition> propositions;
     private int idUserId; // Changed from id_user_id to idUserId for better naming convention
+    private Answer answer;
+
 
     // Default constructor initializes the list of proposed answers
     public Question() {
@@ -61,7 +63,13 @@ public class Question {
     }
 
     // Adds a single proposition to the list of proposed answers
+    public Answer getAnswer() {
+        return answer;
+    }
 
+    public void setAnswer(Answer answer) {
+        this.answer = answer;
+    }
 
     public int getIdUserId() {
         return idUserId;

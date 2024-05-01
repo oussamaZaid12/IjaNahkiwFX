@@ -1,5 +1,8 @@
 package services;
 
+import entities.Answer;
+import entities.Proposition;
+import entities.Question;
 import entities.Questionnaire;
 import utils.MyDB;
 
@@ -43,7 +46,7 @@ public class ServiceQuestionnaire implements IService<Questionnaire> {
         pre.executeUpdate();
     }
 
-    @Override
+
     public List<Questionnaire> afficher() throws SQLException {
         List<Questionnaire> list = new ArrayList<>();
         String req = "SELECT * FROM questionnaire";
@@ -61,4 +64,6 @@ public class ServiceQuestionnaire implements IService<Questionnaire> {
         return list;
     }
 
+
 }
+
