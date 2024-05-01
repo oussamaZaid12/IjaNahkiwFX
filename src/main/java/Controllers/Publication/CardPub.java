@@ -19,7 +19,6 @@ import test.MainFX;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 public class CardPub {
