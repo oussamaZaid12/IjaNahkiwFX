@@ -37,6 +37,7 @@ public class Login {
         } else {
             UserService us = new UserService();
             User u = us.getUserByEmail(emailTextfield.getText());
+            System.out.println(u);
             if(u == null){
                 invalidText.setText("Utilisateur introuvable");
                 return;
@@ -46,9 +47,17 @@ public class Login {
                 invalidText.setText("Compte inactif veuillez contacter l'administrateur");
                 return;
             }
+            /*
             String enteredPassword = passwordTextfield.getText();
-            boolean passwordMatch = BCrypt.checkpw(enteredPassword, u.getPassword());
-            if (!passwordMatch) {
+            */
+            String enteredPassword2 = BCrypt.hashpw(passwordTextfield.getText(), BCrypt.gensalt(12));
+            String enteredPassword = BCrypt.hashpw(passwordTextfield.getText(), BCrypt.gensalt(12));
+            boolean passwordMatch = BCrypt.checkpw(passwordTextfield.getText(), u.getPassword());
+            System.out.println(enteredPassword2);
+            System.out.println(enteredPassword);
+            System.out.println(passwordMatch);
+            System.out.println(BCrypt.checkpw(passwordTextfield.getText(), enteredPassword));
+            if (passwordMatch) {
                 this.connectedUser = u;
                 User ui = us.getUserById(u.getId());
                 invalidText.setText("");

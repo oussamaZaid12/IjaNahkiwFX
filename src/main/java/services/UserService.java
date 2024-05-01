@@ -66,11 +66,11 @@ public String getVerificationCodeByEmail(String email) {
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 6;
         Random random = new Random();
-
         String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
+        System.out.println(user);
         String query = "INSERT INTO user(`email`, `password`, `profile_picture`, `roles` ,`nom`,`prenom`,`age`) VALUES (?, ?, ?, ?, ?,?,?)";
         if(UserExistsByEmail(user.getEmail())){
             System.out.println("User already exists!");
@@ -79,14 +79,13 @@ public String getVerificationCodeByEmail(String email) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getEmail());
-            String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-
+            String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+            System.out.print(user.getPassword());
+            System.out.print(hashedPassword);
             preparedStatement.setString(2, hashedPassword);
             preparedStatement.setString(3, user.getImage());
             String s = "[\"" + user.getRole().toString().toUpperCase() + "\"]";
             preparedStatement.setString(4, s);
-
-
             preparedStatement.setString(5, user.getNom());
             preparedStatement.setString(6, user.getPassword());
             preparedStatement.setInt(7, user.getAge());
