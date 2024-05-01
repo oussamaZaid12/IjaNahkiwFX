@@ -1,16 +1,16 @@
 package Controllers.Question;
 
+import entities.Proposition;
 import entities.Question;
-import entities.Answer;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import services.ServiceQuestion;
-import javax.xml.validation.Validator;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ControllerQuestion {
 
@@ -19,87 +19,90 @@ public class ControllerQuestion {
     @FXML
     private TextField labelUserId;
     @FXML
+    private TextField labelQuestionnaireId;
+    @FXML
     private TextField labelAnswer1;
+
     @FXML
     private TextField labelAnswer2;
+
     @FXML
     private TextField labelAnswer3;
-    @FXML private Label errorQuestionLabel;
-    @FXML private Label errorUserIdLabel;
-    @FXML private Label errorAnswersLabel;
     @FXML
-    void ajouterQuestion(ActionEvent event) {
+    private ChoiceBox<Integer> labelScore1;
+    @FXML
+    private ChoiceBox<Integer> labelScore2;
+    @FXML
+    private ChoiceBox<Integer> labelScore3;
+    @FXML
+    private Label errorQuestionLabel;
+    @FXML
+    private Label errorUserIdLabel;
+    @FXML
+    private Label errorAnswersLabel;
+
+    private ServiceQuestion serviceQuestion;
+
+    public void initialize() {
+        labelScore1.setItems(FXCollections.observableArrayList(-1, 0, 1));
+        labelScore2.setItems(FXCollections.observableArrayList(-1, 0, 1));
+        labelScore3.setItems(FXCollections.observableArrayList(-1, 0, 1));
+    }
+    public ControllerQuestion() {
+        serviceQuestion = new ServiceQuestion();  // Create an instance of ServiceQuestion
+    }
+
+    @FXML
+    void addQuestion(ActionEvent event) {
+        try {
+            int userId = Integer.parseInt(labelUserId.getText());
+            int questionnaireId = Integer.parseInt(labelQuestionnaireId.getText());
+            Question question = new Question();
+            question.setTitleQuestion(labelTitleQuestion.getText());
+            question.setIdUserId(userId);
+            question.setQuestionnaireId(questionnaireId);
+
+            addPropositionIfNotEmpty(question, labelAnswer1.getText(), labelScore1.getValue());
+            addPropositionIfNotEmpty(question, labelAnswer2.getText(), labelScore2.getValue());
+            addPropositionIfNotEmpty(question, labelAnswer3.getText(), labelScore3.getValue());
+
+            serviceQuestion.addQuestionWithPropositions(question);
+            System.out.println("Question and propositions added successfully!");
+        } catch (NumberFormatException e) {
+            errorUserIdLabel.setText("User ID and Questionnaire ID must be numbers.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error adding question and propositions.");
+        }
+    }
+
+    private void addPropositionIfNotEmpty(Question question, String title, Integer score) {
+        if (title != null && !title.isEmpty() && score != null) {
+            Proposition proposition = new Proposition();
+            proposition.setTitleProposition(title);
+            proposition.setScore(score);
+            question.addProposition(proposition);
+        }
+    }
+
+    private boolean validateInputs() {
         boolean valid = true;
-        errorQuestionLabel.setText("");
-        errorUserIdLabel.setText("");
-        errorAnswersLabel.setText("");
-
-        // Retrieve data from input fields
-        String title = labelTitleQuestion.getText();
-
-        if (!Validator.validateQuestion(title)) {
+        if (labelTitleQuestion.getText().isEmpty() || !labelTitleQuestion.getText().endsWith("?")) {
             errorQuestionLabel.setText("Question must end with a '?'");
             valid = false;
         }
 
-        // Validate answers
-        if (!validateAllAnswers()) {
-            errorAnswersLabel.setText("Answers must not contain special symbols");
+        if (labelUserId.getText().isEmpty()) {
+            errorUserIdLabel.setText("User ID is required.");
             valid = false;
         }
 
-        if (!valid) return;  // Stop further processing if validation fails
-        try {
-            int userId = Integer.parseInt(labelUserId.getText());
-            // Further processing to save the question and answers
-            // Create a new Question object
-            Question question = new Question();
-            question.setTitleQuestion(title);
-            question.setIdUserId(userId);
-
-            // Create answer objects and add them to the question
-            List<Answer> answers = new ArrayList<>();
-            addAnswerIfNotEmpty(answers, labelAnswer1.getText(), question.getId());
-            addAnswerIfNotEmpty(answers, labelAnswer2.getText(), question.getId());
-            addAnswerIfNotEmpty(answers, labelAnswer3.getText(), question.getId());
-
-            question.setProposedAnswers(answers);  // Make sure the Question class supports this method
-
-            // Assume serviceQuestion.ajouter(question) is defined to save the question
-            System.out.println("Question added successfully with answers!");
-        } catch (NumberFormatException e) {
-            errorUserIdLabel.setText("User ID must be a number.");
+        // Example of additional validation for answer texts and scores
+        if (labelAnswer1.getText().isEmpty() ) {
+            errorAnswersLabel.setText("All answers must be provided.");
+            valid = false;
         }
 
-
-        // Using the service to add the question and its answers to the database
-
-    }
-
-    private void addAnswerIfNotEmpty(List<Answer> answers, String proposition, int questionId) {
-        if (!proposition.isEmpty()) {
-            Answer answer = new Answer();
-            answer.setPropositionChoisieId(proposition);
-            answer.setQuestionId(questionId);
-            // Assuming you handle user ID and answer ID generation in the Answer constructor or elsewhere
-            answers.add(answer);
-        }
-    }
-    public class Validator {
-
-        // Validate that the input string ends with a question mark
-        public static boolean validateQuestion(String question) {
-            return question != null && question.endsWith("?");
-        }
-
-        // Validate that the input string does not contain any symbols (only letters and numbers and basic punctuation)
-        public static boolean validateAnswer(String answer) {
-            return answer != null && answer.matches("[A-Za-z0-9 ,.]*");
-        }
-    }
-    private boolean validateAllAnswers() {
-        return Validator.validateAnswer(labelAnswer1.getText()) &&
-                Validator.validateAnswer(labelAnswer2.getText()) &&
-                Validator.validateAnswer(labelAnswer3.getText());
+        return valid;
     }
 }

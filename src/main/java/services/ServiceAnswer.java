@@ -13,30 +13,6 @@ public class ServiceAnswer {
         con = MyDB.getInstance().getConnection();
     }
 
-    public void ajouter(Answer answer) throws SQLException {
-        String req = "INSERT INTO answer (question_id, proposition_choisie_id, id_user_id) VALUES (?, ?, ?)";
-        PreparedStatement pre = con.prepareStatement(req);
-        pre.setInt(1, answer.getQuestionId());
-        pre.setString(2, answer.getPropositionChoisieId());
-        pre.setInt(3, answer.getIdUserId());
-        pre.executeUpdate();
-    }
-
-    public void modifier(Answer answer) throws SQLException {
-        String req = "UPDATE answer SET proposition_choisie_id=?, question_id=?, id_user_id=? WHERE id=?";
-        PreparedStatement pre = con.prepareStatement(req);
-        pre.setString(1, answer.getPropositionChoisieId());
-        pre.setInt(2, answer.getQuestionId());
-        pre.setInt(3, answer.getIdUserId());
-        pre.setInt(4, answer.getId());
-        pre.executeUpdate();
-    }
-
-    public void supprimer(Answer answer) throws SQLException {
-        PreparedStatement pre = con.prepareStatement("DELETE FROM answer WHERE id=?");
-        pre.setInt(1, answer.getId());
-        pre.executeUpdate();
-    }
 
     public List<Answer> afficher() throws SQLException {
         List<Answer> list = new ArrayList<>();
@@ -47,10 +23,23 @@ public class ServiceAnswer {
             Answer a = new Answer();
             a.setId(res.getInt("id"));
             a.setQuestionId(res.getInt("question_id"));
-            a.setPropositionChoisieId(res.getString("proposition_choisie_id"));
+            a.setPropositionChoisieId(res.getInt("proposition_choisie_id"));
             a.setIdUserId(res.getInt("id_user_id"));
             list.add(a);
         }
         return list;
     }
+    public void saveAnswer(Answer answer) throws SQLException {
+        String sql = "INSERT INTO answer (question_id, proposition_choisie_id, id_user_id) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, answer.getQuestionId());
+            pstmt.setInt(2, answer.getPropositionChoisieId());
+            pstmt.setInt(3, answer.getIdUserId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            throw e;  // Rethrow the exception to handle it further up if necessary
+        }
+    }
 }
+

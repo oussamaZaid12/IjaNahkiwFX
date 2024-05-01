@@ -3,13 +3,13 @@ package entities;
 public class Answer {
     int id;
     int questionId;
-    String propositionChoisieId;
+    int propositionChoisieId;
     int idUserId;
 
     public Answer() {
     }
 
-    public Answer(int id, int questionId, String propositionChoisieId, int idUserId) {
+    public Answer(int id, int questionId, int propositionChoisieId, int idUserId) {
         this.id = id;
         this.questionId = questionId;
         this.propositionChoisieId = propositionChoisieId;
@@ -32,11 +32,11 @@ public class Answer {
         this.questionId = questionId;
     }
 
-    public String getPropositionChoisieId() {
+    public int getPropositionChoisieId() {
         return propositionChoisieId;
     }
 
-    public void setPropositionChoisieId(String propositionChoisieId) {
+    public void setPropositionChoisieId(int propositionChoisieId) {
         this.propositionChoisieId = propositionChoisieId;
     }
 

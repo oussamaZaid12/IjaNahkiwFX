@@ -1,7 +1,7 @@
 package services;
 
-import entities.Answer;
 import entities.Question;
+import entities.Proposition;
 import utils.MyDB;
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,11 +16,12 @@ public class ServiceQuestion {
         con = MyDB.getInstance().getConnection();
     }
 
-    public void ajouter(Question question) throws SQLException {
-        String req = "INSERT INTO question (id_user_id, title_question) VALUES (?, ?)";
+    public void SS(Question question) throws SQLException {
+        String req = "INSERT INTO question (id_user_id, title_question, questionnaire_id) VALUES (?, ?, ?)";
         PreparedStatement pre = con.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
         pre.setInt(1, question.getIdUserId());
         pre.setString(2, question.getTitleQuestion());
+        pre.setInt(3, question.getQuestionnaireId());
         pre.executeUpdate();
 
         // Getting the generated question ID and setting it to the question object
@@ -29,13 +30,36 @@ public class ServiceQuestion {
             question.setId(rs.getInt(1));
         }
     }
+    public void addQuestionWithPropositions(Question question) throws SQLException {
+        String questionSQL = "INSERT INTO question (title_question, user_id) VALUES (?, ?)";
+        PreparedStatement questionStmt = con.prepareStatement(questionSQL, Statement.RETURN_GENERATED_KEYS);
+        questionStmt.setString(1, question.getTitleQuestion());
+        questionStmt.setInt(2, question.getIdUserId());
+        questionStmt.executeUpdate();
+
+        ResultSet rs = questionStmt.getGeneratedKeys();
+        if (rs.next()) {
+            question.setId(rs.getInt(1));
+        }
+
+        for (Proposition proposition : question.getPropositions()) {
+            String propSQL = "INSERT INTO proposition (question_id, title, score) VALUES (?, ?, ?)";
+            PreparedStatement propStmt = con.prepareStatement(propSQL);
+            propStmt.setInt(1, question.getId());
+            propStmt.setString(2, proposition.getTitleProposition());
+            propStmt.setInt(3, proposition.getScore());
+            propStmt.executeUpdate();
+        }
+    }
+
 
     public void modifier(Question question) throws SQLException {
-        String req = "UPDATE question SET title_question=?, id_user_id=? WHERE id=?";
+        String req = "UPDATE question SET title_question=?, id_user_id=?, questionnaire_id=? WHERE id=?";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setString(1, question.getTitleQuestion());
         pre.setInt(2, question.getIdUserId());
-        pre.setInt(3, question.getId());
+        pre.setInt(3, question.getQuestionnaireId());
+        pre.setInt(4, question.getId());
         pre.executeUpdate();
     }
 
@@ -55,48 +79,34 @@ public class ServiceQuestion {
             q.setId(res.getInt("id"));
             q.setTitleQuestion(res.getString("title_question"));
             q.setIdUserId(res.getInt("id_user_id"));
+            q.setQuestionnaireId(res.getInt("questionnaire_id"));
             list.add(q);
         }
         return list;
     }
-    public List<Question> ss() throws SQLException {
+
+    public List<Question> getAllQuestions() throws SQLException {
+        String sql = "SELECT q.id, q.title_question, q.id_user_id, q.questionnaire_id, p.id AS prop_id, p.title_proposition, p.score FROM question q LEFT JOIN proposition p ON q.id = p.question_id ORDER BY q.id, p.id";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
         List<Question> questions = new ArrayList<>();
-        String sql = "SELECT q.id, q.title_question, q.id_user_id, a.id AS answer_id, a.title_proposition AS answer_text FROM question q LEFT JOIN proposition a ON q.id = a.question_id";
-        try (Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                int questionId = rs.getInt("id");
-                String title = rs.getString("title_question");
-                int userId = rs.getInt("id_user_id");
-                Question question = new Question(questionId, userId, title);
-                if (rs.getInt("answer_id") != 0) {  // Checks if there is an answer due to LEFT JOIN
-                    int answerId = rs.getInt("answer_id");
-                    String answerText = rs.getString("answer_text");
-                    question.addProposedAnswer(new Answer(answerId, questionId, answerText,userId));
-                }
-                questions.add(question);
+        Question lastQuestion = null;
+
+        while (rs.next()) {
+            int questionId = rs.getInt("id");
+            if (lastQuestion == null || lastQuestion.getId() != questionId) {
+                lastQuestion = new Question(questionId, rs.getInt("id_user_id"), rs.getString("title_question"), rs.getInt("questionnaire_id"));
+                questions.add(lastQuestion);
+            }
+            int propId = rs.getInt("prop_id");
+            if (propId != 0) {  // Check if there is a proposition because of LEFT JOIN
+                Proposition prop = new Proposition(propId, questionId, rs.getString("title_proposition"), rs.getInt("score"), rs.getInt("id_user_id"));
+                lastQuestion.addProposition(prop);
             }
         }
         return questions;
     }
-    public List<Question> getAllQuestions() throws SQLException {
-        Map<Integer, Question> questionMap = new HashMap<>();
-        String sql = "SELECT q.id, q.title_question, q.id_user_id, p.id AS answer_id, p.title_proposition AS answer_text FROM question q LEFT JOIN proposition p ON q.id = p.question_id";
-        try (Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                int questionId = rs.getInt("id");
-                Question question = questionMap.getOrDefault(questionId, new Question(questionId, rs.getInt("id_user_id"), rs.getString("title_question")));
-                questionMap.putIfAbsent(questionId, question);
-
-                if (rs.getInt("answer_id") != 0) {
-                    question.addProposedAnswer(new Answer(rs.getInt("answer_id"), questionId, rs.getString("answer_text"),rs.getInt("id_user_id")));
-                }
-            }
-        }
-        return new ArrayList<>(questionMap.values());
-    }
-
 
 }
 

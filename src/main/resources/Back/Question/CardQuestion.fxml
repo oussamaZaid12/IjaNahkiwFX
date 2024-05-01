@@ -17,7 +17,7 @@
       </Text>
       <Separator prefHeight="26.0" prefWidth="585.0" />
         <Pagination fx:id="pagination" />
-        <Button onAction="#submitAnswers" prefHeight="42.0" prefWidth="98.0" styleClass="card-button" text="Envoyer" textFill="WHITE" VBox.vgrow="NEVER" />
+        <Button fx:id="submitButton" onAction="#submitAnswers" prefHeight="42.0" prefWidth="98.0" styleClass="card-button" text="Envoyer" textFill="WHITE" VBox.vgrow="NEVER" />
     </VBox>
 
 </AnchorPane>
