@@ -1,11 +1,9 @@
 package services;
 
 import entities.FicheMedicale;
-import entities.Consultation;
 import utils.MyDB;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

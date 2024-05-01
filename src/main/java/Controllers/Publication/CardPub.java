@@ -19,7 +19,6 @@ import test.MainFX;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 public class CardPub {
@@ -115,7 +114,7 @@ public class CardPub {
 
     @FXML
     private void handleCardClick(MouseEvent event) {
-        if (event.getClickCount() == 2) { // For a double-click, for example
+        if (event.getClickCount() == 2) {
             try {
                 FXMLLoader loader;
                 if (currentPublication.getIdUserId() == 1) {

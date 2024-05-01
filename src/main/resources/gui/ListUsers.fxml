@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #59CE8F;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.User.ListUsers">
+    <children>
+        <SplitPane dividerPositions="0.29797979797979796" prefHeight="400.0" prefWidth="639.0">
+            <items>
+                <!-- Left Pane with Image -->
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="147.0" style="-fx-background-color: #f2d5c5;">
+                    <children>
+                        <ImageView fitHeight="132.0" fitWidth="146.0" layoutX="21.0" layoutY="133.0">
+                            <image>
+                                <Image url="@../images/userssssss.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+
+                <!-- Right Pane with ListView -->
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #E8F9FD;">
+                    <children>
+                        <ListView fx:id="listUsers" layoutX="-5.0" layoutY="-1.0" prefHeight="400.0" prefWidth="455.0" style="-fx-background-color: #F7F1EC;" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>

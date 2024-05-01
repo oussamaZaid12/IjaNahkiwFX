@@ -44,7 +44,7 @@ public class AffichageConsultationpatient {
     }
     private void loadConsultations(String searchTerm) {
         try {
-            List<Consultation> consultations = serviceConsultation.getConsultationsByPatientId(2);
+            List<Consultation> consultations = serviceConsultation.afficher();
             if (searchTerm != null && !searchTerm.isEmpty()) {
                 consultations = consultations.stream()
                         .filter(pub -> pub.getPathologie().toLowerCase().contains(searchTerm.toLowerCase()))

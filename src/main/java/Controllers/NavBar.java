@@ -1,15 +1,30 @@
 package Controllers;
 
+import Controllers.Consultation.UpcomingConsultationChecker;
 import javafx.fxml.FXML;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
+import services.ServiceConsultation;
+import services.ServiceNotification;
+
 import java.io.IOException;
 
 public class NavBar {
 
     @FXML
     private BorderPane mainContainer;
+    private ServiceConsultation serviceConsultation;
+    private ServiceNotification serviceNotification;
+    private UpcomingConsultationChecker upcomingConsultationChecker;
+
+
+    public void setServiceConsultation(ServiceConsultation serviceConsultation, ServiceNotification serviceNotification) {
+        this.serviceConsultation = serviceConsultation;
+        this.serviceNotification = serviceNotification;
+        initializeUpcomingConsultationChecker();
+    }
+
 
 
     @FXML
@@ -19,10 +34,8 @@ public class NavBar {
             mainContainer.setCenter(displayPubs);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
-
 
     @FXML
     public void showDisplayConsultations() {
@@ -45,6 +58,7 @@ public class NavBar {
             // Handle the exception, for example, by showing an error message
         }
     }
+
     @FXML
     public void showDisplayFiches() {
         try {
@@ -63,12 +77,23 @@ public class NavBar {
             mainContainer.setCenter(home);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
     @FXML
     private void initialize() {
         showHome();
+        serviceConsultation = new ServiceConsultation();
+        serviceNotification = new ServiceNotification();
+        initializeUpcomingConsultationChecker();
+    }
+
+    private void initializeUpcomingConsultationChecker() {
+        if (serviceConsultation != null && serviceNotification != null) {
+            upcomingConsultationChecker = new UpcomingConsultationChecker(serviceConsultation, serviceNotification);
+            upcomingConsultationChecker.checkUpcomingConsultations();
+        } else {
+            System.out.println("ServiceConsultation or ServiceNotification is not set. Please set the instances.");
+        }
     }
 }

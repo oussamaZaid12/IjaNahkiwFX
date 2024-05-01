@@ -1,9 +1,10 @@
 package Controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
+
 import java.io.IOException;
 
 public class Dashboard {
@@ -38,6 +39,29 @@ public class Dashboard {
         try {
             Node home = FXMLLoader.load(getClass().getResource("/Back/HomeView.fxml"));
             mainContainer.setCenter(home);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    @FXML
+    public void displaylistAct() {
+        try {
+            Node act = FXMLLoader.load(getClass().getResource("/Back/Activite/AllbackListes.fxml"));
+            mainContainer.setCenter(act);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+
+    @FXML
+    public void diplayaddAct() {
+        try {
+            Node acti = FXMLLoader.load(getClass().getResource("/Back/Activite/ajoutActivite.fxml"));
+            mainContainer.setCenter(acti);
         } catch (IOException e) {
             e.printStackTrace();
             // Handle the exception, for example, by showing an error message

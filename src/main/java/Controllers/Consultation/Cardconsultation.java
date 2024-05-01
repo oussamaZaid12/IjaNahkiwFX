@@ -59,19 +59,19 @@ public class Cardconsultation {
 
     public void setConsultation(Consultation consultation) {
         this.currentConsultation = consultation;
-        PathologieCons.setText(consultation.getPathologie());
-        dateCons.setText(consultation.getDateC().toString());
-        idPatient.setText(String.valueOf(consultation.getIdp()));
-        idTherapeute.setText(String.valueOf(consultation.getIdt()));
-        remarques.setText(consultation.getRemarques());
+        PathologieCons.setText("Pathologie:" + consultation.getPathologie());
+        dateCons.setText("Date de consultation:" +consultation.getDateC().toString());
+        idPatient.setText("ID Patient:" +String.valueOf(consultation.getIdp()));
+        idTherapeute.setText("ID Therapeute:" +String.valueOf(consultation.getIdt()));
+        remarques.setText("Remarques:" +consultation.getRemarques());
     }
 
     @FXML
     private void handleEditAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/EditConsultation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/EditConsultationDoctor.fxml"));
             Parent root = loader.load();
-            EditConsultation controller = loader.getController();
+            EditConsultationDoctor controller = loader.getController();
             controller.setConsultation(this.currentConsultation);
             MainFX.setCenterView(root);
         } catch (IOException e) {
