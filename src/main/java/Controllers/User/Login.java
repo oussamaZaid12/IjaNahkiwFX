@@ -42,7 +42,7 @@ public class Login {
                 return;
             }
             //System.out.println(u);
-            if(!u.getBanned()){
+            if(u.getBanned()){
                 invalidText.setText("Compte inactif veuillez contacter l'administrateur");
                 return;
             }
@@ -55,23 +55,28 @@ public class Login {
 
                 if (ui.getRole() == Role.ADMIN) {
                     goToUserList();
-                }
-
-                else {
+                } else {
                     if (ui.getRole() == Role.ROLE_THERAPEUTE) {
                         System.out.println("go to THERAPEUTE");
-
-                    }else{
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/NavBar.fxml"));
+                        Parent navBar = loader.load();
+                        Scene navBarScene = new Scene(navBar);
+                        Stage navBarStage = new Stage();
+                        navBarStage.setScene(navBarScene);
+                        navBarStage.show();
+                    } else {
                         System.out.println("go to PATIENT");
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/NavBar.fxml"));
+                        Parent navBar = loader.load();
+                        Scene navBarScene = new Scene(navBar);
+                        Stage navBarStage = new Stage();
+                        navBarStage.setScene(navBarScene);
+                        navBarStage.show();
                     }
                 }
-
-
-            }else{
+            } else {
                 invalidText.setText("Mot de passe incorrect");
             }
-
-
         }
     }
 
