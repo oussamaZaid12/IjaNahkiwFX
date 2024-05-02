@@ -31,8 +31,6 @@
             <ImageView fx:id="imagePreview" fitHeight="50.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" />
             <Label text="Date de publication" />
             <DatePicker fx:id="TfDateEdit" />
-            <Label text="ID utilisateur" />
-            <TextField fx:id="TfIdUserEdit" />
             <Button fx:id="TfEdit" onAction="#ModifierPublication" styleClass="card-button" text="Modifier" />
          </children>
       </VBox>

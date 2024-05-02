@@ -1,5 +1,6 @@
 package Controllers.Publication;
 
+import Controllers.User.Session;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -68,10 +69,15 @@ public class DetailPublication {
 
     @FXML
     void handleAddComment(ActionEvent event) {
+        if (Session.getUser() == null) {
+            showAlert("Erreur", "Aucun utilisateur connecté.");
+            return;
+        }
+
         try {
             String contenu = tfAddComment.getText();
             String filteredComment = filterProfanity(contenu); // Filter the comment for profanity
-            int idUser = Integer.parseInt(TfIdUserC.getText());
+            int idUser = Session.getUser().getId(); // Utilisez l'ID de l'utilisateur connecté
             int publicationId = currentPublication.getId();
 
             // Ensure that the filtered comment is used when creating the new Commentaire object
@@ -86,6 +92,7 @@ public class DetailPublication {
             e.printStackTrace();
         }
     }
+
     // Implement a simple profanity filter
     private String filterProfanity(String text) {
         String[] profanities = {"fuck", "bitch"}; // Define your list of bad words

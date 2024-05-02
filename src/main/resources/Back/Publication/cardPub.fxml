@@ -57,12 +57,7 @@
             </HBox>
             <Label fx:id="descriptionPub" prefHeight="20.0" prefWidth="222.0" styleClass="card-description" text="Description brève de la publication" />
             <Label fx:id="datePub" styleClass="card-description" text="Date" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="likeCountLabel" text="like" />
-                  <Label fx:id="dislikeCountLabel" text="dislike" />
-               </children>
-            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" />
                 <!-- Ajoutez d'autres détails que vous souhaitez montrer -->
             </children>
         </VBox>

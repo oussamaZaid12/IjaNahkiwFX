@@ -37,11 +37,11 @@ public class Signup {
     private ComboBox<String> genderComboBox;
     @FXML
     private ComboBox<String> roleComboBox;
-   public void signupButtonOnAction(ActionEvent event) throws IOException {
+    public void signupButtonOnAction(ActionEvent event) throws IOException {
 
-      // String gender = genderComboBox.getValue();
+        // String gender = genderComboBox.getValue();
 
-       //System.out.println(gender);
+        //System.out.println(gender);
         if (emailTextfield.getText().isEmpty() || emailTextfield1.getText().isEmpty() || passwordTextfield.getText().isEmpty() || ConfirmpasswordTextfield.getText().isEmpty()|| roleComboBox.getValue() == null) {
             invalidText.setText("Please fill in all fields");
             invalidText.setVisible(true);
@@ -57,38 +57,38 @@ public class Signup {
             invalidText.setVisible(true);
             return;
         }
-       if (!emailTextfield.getText().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
-           invalidText.setText("Invalid email format");
-           invalidText.setVisible(true);
-           return;
-       }
-       if (passwordTextfield.getText().length() < 8) {
-           invalidText.setText("Password must be at least 8 characters long");
-           invalidText.setVisible(true);
-           return;
-       }
-       if (!ageTextField.getText().matches("\\d+")) {
-           invalidText.setText("Age must be a numeric value");
-           invalidText.setVisible(true);
-           return;
-       }
-       UserService us = new UserService();
-       if(us.getUserByEmail(emailTextfield.getText()) == null){
-           int leftLimit = 97; // letter 'a'
-           int rightLimit = 122; // letter 'z'
-           int targetStringLength = 6;
-           Random random = new Random();
-           String generatedString = random.ints(leftLimit, rightLimit + 1)
-                   .limit(targetStringLength)
-                   .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                   .toString();
-           User u = new User(emailTextfield.getText(), generatedString, "avatar.png", Role.valueOf(roleComboBox.getValue()), true, nomTextField.getText(), prenomTextField.getText(), Integer.parseInt(ageTextField.getText()));
+        if (!emailTextfield.getText().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+            invalidText.setText("Invalid email format");
+            invalidText.setVisible(true);
+            return;
+        }
+        if (passwordTextfield.getText().length() < 8) {
+            invalidText.setText("Password must be at least 8 characters long");
+            invalidText.setVisible(true);
+            return;
+        }
+        if (!ageTextField.getText().matches("\\d+")) {
+            invalidText.setText("Age must be a numeric value");
+            invalidText.setVisible(true);
+            return;
+        }
+        UserService us = new UserService();
+        if(us.getUserByEmail(emailTextfield.getText()) == null){
+            int leftLimit = 97; // letter 'a'
+            int rightLimit = 122; // letter 'z'
+            int targetStringLength = 6;
+            Random random = new Random();
+            String generatedString = random.ints(leftLimit, rightLimit + 1)
+                    .limit(targetStringLength)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+            User u = new User(emailTextfield.getText(), passwordTextfield.getText(), "avatar.png", Role.valueOf(roleComboBox.getValue()), true, nomTextField.getText(), prenomTextField.getText(), Integer.parseInt(ageTextField.getText()));
             us.ajouterUser(u);
-       }else{
-           invalidText.setText("User already exists");
-           invalidText.setVisible(true);
-           return;
-       }
+        }else{
+            invalidText.setText("User already exists");
+            invalidText.setVisible(true);
+            return;
+        }
     }
     public void goBack() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/login.fxml"));

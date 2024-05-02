@@ -1,11 +1,15 @@
 package Controllers.Publication;
 
+import Controllers.User.Session;
 import entities.Commentaire;
+import entities.Role;
+import entities.User;
 import entities.publication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -53,16 +57,19 @@ public class CardPub {
 
 
     public void setPublication(publication publication) {
-
         this.currentPublication = publication;
         titrePub.setText(publication.getTitreP());
         descriptionPub.setText(publication.getDescriptionP());
-        idUserPub.setText(String.valueOf(publication.getIdUserId()));
         datePub.setText(publication.getDateP().toString());
 
-        // Ajuster la visibilité des boutons en fonction de l'ID de l'utilisateur
-        boolean isUserOne = publication.getIdUserId() != 1;
-        btnDelete.setVisible(isUserOne);
+        User currentUser = Session.getUser();
+        if (currentUser != null) {
+            // Affiche l'ID de l'utilisateur connecté
+            idUserPub.setText(String.valueOf(currentUser.getId()));
+        } else {
+            // Gestion si aucun utilisateur n'est connecté
+            idUserPub.setText("Non connecté");
+        }
 
         String imagePath = "/images/" + publication.getImageP();
         InputStream imageStream = getClass().getResourceAsStream(imagePath);
@@ -70,12 +77,22 @@ public class CardPub {
             Image image = new Image(imageStream);
             imagePub.setImage(image);
         } else {
-            // Set a default image or leave it blank
+            // Optionnel : définir une image par défaut ou gérer l'erreur
+            imagePub.setImage(new Image(getClass().getResourceAsStream("/images/default.png")));
         }
+
+        updateButtonVisibility();
         updateWarningIconVisibility();
-
-
     }
+    private void updateButtonVisibility() {
+        User currentUser = Session.getUser();
+        // Show delete button only if the current user is the poster or an admin
+        boolean canEditDelete = currentUser != null &&
+                (currentUser.getId() == currentPublication.getIdUserId() ||
+                        currentUser.getRole() == Role.ADMIN);
+        btnDelete.setVisible(canEditDelete);
+    }
+
     @FXML
     private void handleEditAction(ActionEvent event) {
         try {
@@ -115,27 +132,26 @@ public class CardPub {
     @FXML
     private void handleCardClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
+            FXMLLoader loader = new FXMLLoader();
             try {
-                FXMLLoader loader;
-                if (currentPublication.getIdUserId() == 1) {
-                    // Load the backend detail view if the user ID is not 1
-                    loader = new FXMLLoader(getClass().getResource("/Back/Publication/DetailPublication.fxml"));
-                } else {
-                    // Load the front end detail view otherwise
-                    loader = new FXMLLoader(getClass().getResource("/Front/Publication/DetailPublication.fxml"));
-                }
+                User currentUser = Session.getUser();
+                String resourcePath = currentUser != null && currentUser.getRole() == Role.ADMIN ? "/Back/Publication/DetailPublication.fxml" : "/Front/Publication/DetailPublication.fxml";
+                loader.setLocation(getClass().getResource(resourcePath));
                 Parent detailView = loader.load();
-
                 DetailPublication controller = loader.getController();
                 controller.setPublication(this.currentPublication);
-
-                // Assuming you have a static method in MainFX to change the center view
                 MainFX.setCenterView(detailView);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Failed to load detail view: " + e.getMessage());
+                showAlert("Error", "Cannot load the detail view: " + e.getMessage());
             }
         }
     }
+
+
+
+
+
 
     private void updateWarningIconVisibility() {
         try {
@@ -167,7 +183,13 @@ public class CardPub {
     }
 
 
-
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION); // Utilisez AlertType.ERROR pour les erreurs
+        alert.setTitle(title);
+        alert.setHeaderText(null); // Pas de texte d'en-tête
+        alert.setContentText(content);
+        alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
+    }
 
 
 
