@@ -2,11 +2,13 @@ package Controllers.User;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -18,124 +20,197 @@ import services.UserService;
 import java.io.IOException;
 import java.util.Optional;
 
-public class ListUsers  {
+public class ListUsers {
     @FXML
-    private ListView<User> listUsers;
+    private TableColumn<Integer, Integer> age;
 
-    private ObservableList<User> codeList;
+    @FXML
+    private TableColumn<String, String> email;
+
+    @FXML
+    private TableColumn<Boolean, Integer> isbanned;
+
+    @FXML
+    private TableColumn<String, String> nom;
+
+    @FXML
+    private TableColumn<String, String> prenom;
+
+    @FXML
+    private TableView<User> tableView;
+
+    private ObservableList<User> userList;
+    @FXML
+    private Button suppbutton;
+    @FXML
+    private Button modifierbutton;
+    private User selectedUser;
+    private UserService userService;
+    @FXML
+    void refreshbuttonaction(ActionEvent event) {
+        refreshTableView();
+    }
 
     public void initData(Role rolee) {
-
-        initializeListView();
-        populateListView();
+        populateTableView();
     }
 
-  /*  @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeListView();
-        populateListView();
-    }
-*/
-    private void initializeListView() {
-        codeList = FXCollections.observableArrayList();
-        listUsers.setItems(codeList);
+    @FXML
+    public void initialize() {
+        // Initialisation du TableView avec les données de la base de données
+        tableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Vérifiez si c'est un double clic
+                selectedUser = tableView.getSelectionModel().getSelectedItem();
+                if (selectedUser != null) {
+                    openModificationForm();
+                }
+            }
+        });
 
-        // Set custom cell factory to display attributes and actions
-        listUsers.setCellFactory(new Callback<ListView<User>, ListCell<User>>() {
-            @Override
-            public ListCell<User> call(ListView<User> listView) {
-                return new ListCell<User>() {
-                    @Override
-                    protected void updateItem(User userr, boolean empty) {
-                        super.updateItem(userr, empty);
-
-                        if (empty || userr == null) {
-                            setGraphic(null);
-                        } else {
-                            UserService us = new UserService();
-                            int id = userr.getId();
-                            userr = us.getUserById(userr.getId());
-                            GridPane gridPane = new GridPane();
-                            gridPane.setHgap(10);
-                            gridPane.setVgap(5);
-
-                            // Add labels for attribute names as titles at the top of each column
-                            gridPane.add(new Label("ID"), 0, 0);
-                            gridPane.add(new Label("email"), 1, 0);
-                            gridPane.add(new Label("role"), 2, 0);
-                            gridPane.add(new Label("nom"), 3, 0);
-                            gridPane.add(new Label("prenom"), 4, 0);
-                            gridPane.add(new Label("age"), 5, 0);
-
-                            // Add values for each attribute below the titles
-                            gridPane.add(new Label(String.valueOf(userr.getId())), 0, 1);
-                            gridPane.add(new Label(String.valueOf(userr.getEmail())), 1, 1);
-                            gridPane.add(new Label(String.valueOf(userr.getRole())), 2, 1);
-                            gridPane.add(new Label(String.valueOf(userr.getNom())), 3, 1);
-                            gridPane.add(new Label(String.valueOf(userr.getPrenom())), 4, 1);
-                            gridPane.add(new Label(String.valueOf(userr.getAge())), 5, 1);
-
-
-                            // Create edit and delete buttons
-                            Button editButton = new Button("Edit");
-                            Button deleteButton = new Button("Delete");
-
-                            // Set actions for edit and delete buttons
-                            editButton.setOnAction(event -> {
-                                // Handle edit action here
-
-                                try {
-                                    editCodePromo(id);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            });
-
-                            deleteButton.setOnAction(event -> {
-                                // Handle delete action here
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle("Delete Confirmation");
-                                alert.setHeaderText("Confirm Delete");
-                                alert.setContentText("Are you sure you want to delete this item?");
-
-                                Optional<ButtonType> result = alert.showAndWait();
-                                if (result.isPresent() && result.get() == ButtonType.OK) {
-                                    // Call delete method if "OK" is clicked
-
-                                        deleteCodePromo(id);
-
-                                }
-                            });
-
-                            // Create an HBox to hold the action buttons
-                            HBox actionButtons = new HBox(6, editButton, deleteButton);
-
-                            // Add action buttons to the "Actions" column
-                            gridPane.add(actionButtons, 6, 1);
-
-                            setGraphic(gridPane);
-                        }
-                    }
-                };
+        // Ajout d'un gestionnaire d'événements au bouton "Supprimer"
+        suppbutton.setOnAction(event -> {
+            deleteUser();
+        });
+        modifierbutton.setOnAction(event -> {
+            if (selectedUser != null) {
+                openModificationForm();
+            } else {
+                // Si aucun utilisateur n'est sélectionné, affichez un message d'avertissement
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Aucun utilisateur sélectionné");
+                alert.setHeaderText(null);
+                alert.setContentText("Veuillez sélectionner un utilisateur à modifier.");
+                alert.showAndWait();
             }
         });
     }
 
-    private void populateListView( ) {
-        UserService gestionCodePromo = new UserService();
-        codeList.addAll(gestionCodePromo.getAll());
+    private void openModificationForm() {
+        try {
+            // Charger le formulaire de modification depuis le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/modification.fxml"));
+            Parent modificationInterface = loader.load();
+
+            // Passer l'utilisateur sélectionné au contrôleur du formulaire de modification
+            ModificationController modificationController = loader.getController();
+            modificationController.initData(selectedUser);
+
+            // Créer une nouvelle fenêtre pour la modification et afficher le formulaire pré-rempli
+            Stage modificationStage = new Stage();
+            modificationStage.setScene(new Scene(modificationInterface));
+            modificationStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private void deleteCodePromo(int id) {
-        UserService gs = new UserService();
-       gs.deleteUser(gs.getUserById(id));
-        initializeListView();
-        populateListView( );
+
+    private void loadUsers() {
+        // Utiliser le service UserService pour récupérer la liste des utilisateurs depuis la base de données
+        UserService userService = new UserService();
+        ObservableList<User> users = FXCollections.observableArrayList(userService.getAll());
+
+        // Mettre à jour la liste des utilisateurs de la TableView
+        userList.clear(); // Nettoyer la liste existante
+        userList.addAll(users); // Ajouter les nouveaux utilisateurs
     }
+
+    // Méthode pour rafraîchir la TableView
+    public void refreshTableView() {
+        loadUsers();
+        // Actualiser la TableView pour refléter les changements
+        tableView.refresh();
+    }
+
+
+    /*
+    private void editUser() throws IOException {
+        // Récupérer l'utilisateur sélectionné dans la TableView
+        User selectedUser = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedUser != null) {
+            // Charger le formulaire de modification depuis le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chemin/vers/votre/fichier/fxml/modification.fxml"));
+            Parent modificationInterface = loader.load();
+
+            // Passer l'utilisateur sélectionné au contrôleur du formulaire de modification
+            ModificationController modificationController = loader.getController();
+            modificationController.initData(selectedUser);
+
+            // Créer une nouvelle fenêtre pour la modification et afficher le formulaire pré-rempli
+            Stage modificationStage = new Stage();
+            modificationStage.setScene(new Scene(modificationInterface));
+            modificationStage.show();
+        } else {
+            // Si aucun utilisateur n'est sélectionné, affichez un message d'avertissement
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aucun utilisateur sélectionné");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner un utilisateur à modifier.");
+            alert.showAndWait();
+        }
+    }
+
+ */
+    // Méthode pour initialiser le TableView avec les données de la base de données
+    private void populateTableView() {
+        UserService userService = new UserService();
+        userList = FXCollections.observableArrayList(userService.getAll());
+        tableView.setItems(userList);
+        // Associer les propriétés des utilisateurs aux colonnes de TableView
+        nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
+        email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        isbanned.setCellValueFactory(new PropertyValueFactory<>("banned"));
+        age.setCellValueFactory(new PropertyValueFactory<>("age"));
+    }
+
+    // Méthode pour supprimer un utilisateur sélectionné
+    private void deleteUser() {
+        // Récupérer l'élément sélectionné dans le TableView
+        User selectedUser = tableView.getSelectionModel().getSelectedItem();
+
+        // Vérifier si un élément est sélectionné
+        if (selectedUser != null) {
+            // Afficher une boîte de dialogue de confirmation
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation de suppression");
+            alert.setHeaderText("Confirmer la suppression");
+            alert.setContentText("Êtes-vous sûr de vouloir supprimer cet utilisateur ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Supprimer l'utilisateur de la liste des données
+                userList.remove(selectedUser);
+
+                // Supprimer l'utilisateur de la base de données en appelant votre méthode deleteCodePromo(selectedUser.getId())
+
+                // Rafraîchir le TableView
+                tableView.refresh();
+            }
+        } else {
+            // Si aucun élément n'est sélectionné, affichez un message d'avertissement
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aucun élément sélectionné");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner un utilisateur à supprimer.");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void deleteCodePromo(int id) {
+        UserService userService = new UserService();
+        userService.deleteUser(userService.getUserById(id));
+        populateTableView();
+    }
+
+    @FXML
     private void editCodePromo(int id) throws IOException {
-       UserService gs = new UserService();
-        User user = new User();
-        user = gs.getUserById(id);
+        UserService userService = new UserService();
+        User user = userService.getUserById(id);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/editUser.fxml"));
         Parent profileInterface = loader.load();
         EditUser profileController = loader.getController();
@@ -144,20 +219,16 @@ public class ListUsers  {
         Stage profileStage = new Stage();
         profileStage.setScene(profileScene);
         profileStage.show();
-        Stage currentStage = (Stage) listUsers.getScene().getWindow();
+        Stage currentStage = (Stage) tableView.getScene().getWindow();
         //currentStage.close();
-
-
     }
+
     public void editUser(int id) throws IOException {
-        UserService us = new UserService();
-        User u = new User();
-        u = us.getUserById(id);
-        goToProfile(u);
+        UserService userService = new UserService();
+        User user = userService.getUserById(id);
+        goToProfile(user);
     }
-    public void navigateToProfile() {
 
-    }
     public void goToProfile(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/forgetPassword.fxml"));
         Parent profileInterface = loader.load();
@@ -167,9 +238,7 @@ public class ListUsers  {
         Stage profileStage = new Stage();
         profileStage.setScene(profileScene);
         profileStage.show();
-        Stage currentStage = (Stage) listUsers.getScene().getWindow();
+        Stage currentStage = (Stage) tableView.getScene().getWindow();
         currentStage.close();
     }
-
-
 }

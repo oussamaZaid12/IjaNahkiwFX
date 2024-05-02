@@ -31,6 +31,21 @@ public class UserService  implements IUser<User>{
         }
         return false;
     }
+    public void updateUser(User user) {
+        String query = "UPDATE user SET nom = ?, prenom = ?, email = ?, is_banned = ?, age = ? WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, user.getNom());
+            preparedStatement.setString(2, user.getPrenom());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setBoolean(4, user.getBanned());
+            preparedStatement.setInt(5, user.getAge());
+            preparedStatement.setInt(6, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public boolean UserExistsByEmail(String email) {
         String query = "SELECT COUNT(*) FROM user WHERE Email = ?";
         try {
