@@ -164,6 +164,22 @@
                   </ImageView>
                </children>
             </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="143.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#displayLogin" prefHeight="38.0" prefWidth="89.0" text="login" textFill="#107191">
+                     <font>
+                        <Font name="Candara" size="20.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="label-like-button" />
+                        <String fx:value="image-view" />
+                     </styleClass>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />

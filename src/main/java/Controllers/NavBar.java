@@ -81,6 +81,16 @@ public class NavBar {
     }
 
     @FXML
+    public void displayLogin() {
+        try {
+            Node login = FXMLLoader.load(getClass().getResource("/gui/login.fxml"));
+            mainContainer.setCenter(login);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void initialize() {
         showHome();
         serviceConsultation = new ServiceConsultation();

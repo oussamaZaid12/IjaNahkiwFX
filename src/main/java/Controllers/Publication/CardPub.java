@@ -95,14 +95,19 @@ public class CardPub {
 
     @FXML
     private void handleEditAction(ActionEvent event) {
+
+
         try {
+
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Publication/editPub.fxml"));
+            System.out.println("try to edit");
             Parent root = loader.load();
             editPub controller = loader.getController();
             controller.setPublication(this.currentPublication);
             MainFX.setCenterView(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.printf(e.getMessage());;
         }
 
     }
