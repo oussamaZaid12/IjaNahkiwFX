@@ -1,6 +1,10 @@
 package Controllers.Question;
 
 import Controllers.Quiz.ResultController;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 import entities.Proposition;
 import entities.Question;
 import entities.Answer;
@@ -19,6 +23,7 @@ import services.ServiceAnswer;
 import services.ServiceQuestion;
 import test.PredictionService;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,12 +34,14 @@ import java.util.stream.Collectors;
 
 public class CardQ {
     private static final int QUESTIONS_PER_PAGE = 3; // Define the number of questions per page
-
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private VBox cardsContainer;
     @FXML
     private Pagination pagination;
-
+    @FXML
+    private VBox vbox;
     @FXML
     private Button submitButton;
     private List<Question> allQuestions;
@@ -50,18 +57,24 @@ public class CardQ {
         try {
             allQuestions = serviceQuestion.getAllQuestions();
             setupPagination();
+
+            // Bind the VBox's anchors to dynamically center it in the AnchorPane
+            vbox.prefWidthProperty().addListener((obs, oldVal, newVal) -> updateVBoxAnchors());
+            anchorPane.widthProperty().addListener((obs, oldVal, newVal) -> updateVBoxAnchors());
+
         } catch (SQLException e) {
             e.printStackTrace(); // Proper exception handling
         }
+    }
 
+    private void updateVBoxAnchors() {
+        double paneWidth = anchorPane.getWidth();
+        double vboxWidth = vbox.getPrefWidth();
+        double anchorValue = Math.max((paneWidth - vboxWidth) / 2, 0);
+        AnchorPane.setLeftAnchor(vbox, anchorValue);
+        AnchorPane.setRightAnchor(vbox, anchorValue);
     }
-    private void loadQuestions() throws SQLException {
-        List<Question> questions = serviceQuestion.getAllQuestions();
-        for (Question question : questions) {
-            VBox card = createCard(question);
-            cardsContainer.getChildren().add(card);
-        }
-    }
+
 
     private void setupPagination() {
         int numPages = (int) Math.ceil((double) allQuestions.size() / QUESTIONS_PER_PAGE);
@@ -119,32 +132,6 @@ public class CardQ {
     }
 
 
-    public void submitAnswersFirst() {
-        List<Integer> answerScores = new ArrayList<>(); // List to store scores for API
-
-        for (Map.Entry<Question, Answer> entry : selectedAnswers.entrySet()) {
-            Question question = entry.getKey();
-            Answer answer = entry.getValue();
-
-            Proposition proposition = question.getPropositions().stream()
-                    .filter(p -> p.getId() == answer.getPropositionChoisieId())
-                    .findFirst()
-                    .orElse(null);
-
-            if (proposition != null) {
-                answerScores.add(proposition.getScore()); // Get score from the proposition
-            }
-
-            try {
-                serviceAnswer.saveAnswer(answer); // Save answer to database if needed
-            } catch (SQLException e) {
-                System.err.println("Failed to save answer for question ID " + question.getId());
-                e.printStackTrace();
-            }
-        }
-    }
-
-
     public void submitAnswers() {
         List<Integer> scores = selectedAnswers.values().stream()
                 .map(answer -> {
@@ -193,6 +180,19 @@ public class CardQ {
         }
     }
 
+
+
+    private void goToDoctorConsultationPage() {
+        // Logic to navigate to the doctor consultation page
+        System.out.println("Navigating to Doctor Consultation Page...");
+    }
+
+    private void goToActivitiesPage() {
+        // Logic to navigate to the activities page
+        System.out.println("Navigating to Activities Page...");
+    }
+
+
     private void displayResults(String results) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Quiz/Results.fxml"));
@@ -232,5 +232,7 @@ public class CardQ {
         return null; // Return null if the proposition is not found
     }
 
-}
+
+    }
+
 

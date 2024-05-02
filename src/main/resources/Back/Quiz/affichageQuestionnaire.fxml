@@ -29,7 +29,7 @@
             </Label>
                 <TextField fx:id="searchField" prefHeight="30.0" prefWidth="154.0" promptText="Search by title.." styleClass="round-layout" stylesheets="@../../css/style.css" />
             </HBox>
-          <TableView fx:id="questionnairesTable" prefHeight="430.0" prefWidth="625.0">
+          <TableView fx:id="questionnairesTable" prefHeight="430.0" prefWidth="625.0" stylesheets="@../../css/style.css">
               <columns>
                   <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID">
                       <cellValueFactory>

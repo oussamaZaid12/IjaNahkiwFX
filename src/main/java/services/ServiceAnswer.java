@@ -41,5 +41,22 @@ public class ServiceAnswer {
             throw e;  // Rethrow the exception to handle it further up if necessary
         }
     }
+    public List<Answer> fetchAnswersByUserId(int userId) throws SQLException {
+        List<Answer> list = new ArrayList<>();
+        String req = "SELECT * FROM answer WHERE id_user_id = ?";
+        PreparedStatement pstmt = con.prepareStatement(req);
+        pstmt.setInt(1, userId);
+        ResultSet res = pstmt.executeQuery();
+        while (res.next()) {
+            Answer a = new Answer(
+                    res.getInt("id"),
+                    res.getInt("question_id"),
+                    res.getInt("proposition_choisie_id"),
+                    res.getInt("id_user_id")
+            );
+            list.add(a);
+        }
+        return list;
+    }
 }
 

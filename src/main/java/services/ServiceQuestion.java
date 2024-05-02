@@ -107,6 +107,44 @@ public class ServiceQuestion {
         }
         return questions;
     }
+    public List<Question> getAllQuestionsWithPropositions() throws SQLException {
+        List<Question> questions = new ArrayList<>();
+        String sql = "SELECT q.id, q.title_question, q.id_user_id, q.questionnaire_id, " +
+                "p.id AS prop_id, p.title_proposition, p.score " +
+                "FROM question q " +
+                "LEFT JOIN proposition p ON q.id = p.question_id " +
+                "ORDER BY q.id, p.id";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        Question lastQuestion = null;
+
+        while (rs.next()) {
+            int questionId = rs.getInt("id");
+            if (lastQuestion == null || lastQuestion.getId() != questionId) {
+                lastQuestion = new Question(
+                        questionId,
+                        rs.getInt("questionnaire_id"),
+                        rs.getString("title_question"),
+                        rs.getInt("id_user_id")
+                );
+                questions.add(lastQuestion);
+            }
+
+            int propId = rs.getInt("prop_id");
+            if (propId != 0) {  // Ensure there is a proposition
+                Proposition prop = new Proposition(
+                        propId,
+                        questionId,
+                        rs.getString("title_proposition"),
+                        rs.getInt("score"),
+                        rs.getInt("id_user_id")
+                );
+                lastQuestion.addProposition(prop);
+            }
+        }
+        return questions;
+    }
 
 }
 

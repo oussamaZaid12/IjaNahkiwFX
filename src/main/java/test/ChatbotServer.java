@@ -140,9 +140,12 @@ public class ChatbotServer {
         );
         knowledgeBase.put("sad", sadPatterns);
 
-
-
-
+        Map<List<String>, List<String>> AppointmentPatterns = new HashMap<>();
+        sadPatterns.put(
+                Arrays.asList("i want to make an appointment", "je veux un rendez vous"),
+                Arrays.asList("check our website")
+        );
+        knowledgeBase.put("appointment", AppointmentPatterns);
 
         return knowledgeBase;
     }

@@ -58,10 +58,6 @@ public class NavBar {
         }
     }
 
-    @FXML
-    private void initialize() {
-        showHome();
-    }
 
     public void DisplayQuiz() {
         try {
@@ -71,6 +67,10 @@ public class NavBar {
             e.printStackTrace();
             // Handle the exception, for example, by showing an error message
         }
+    }
+    @FXML
+    private void initialize() {
+        showHome();
     }
 
 }

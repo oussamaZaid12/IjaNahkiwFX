@@ -64,6 +64,5 @@ public class ServiceQuestionnaire implements IService<Questionnaire> {
         return list;
     }
 
-
 }
 

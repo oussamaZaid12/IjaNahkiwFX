@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.layout.HBox?>
-<AnchorPane prefHeight="360.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css" fx:controller="Controllers.Chatbot.ChatbotController">
+<AnchorPane prefHeight="360.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../css/style.css" fx:controller="Controllers.Chatbot.Chatbit">
     <VBox spacing="5" alignment="TOP_LEFT">
         <ScrollPane fx:id="scrollPane"  prefHeight="300.0" prefWidth="479.0" fitToWidth="true">
             <VBox fx:id="messageContainer" spacing="5">

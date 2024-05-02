@@ -24,5 +24,15 @@ public class HomeView {
         }
     }
 
+    @FXML
+    public void DisplayQuiz() {
+        try {
+            Node displayPubs = FXMLLoader.load(getClass().getResource("/Back/Question/CardQuestion.fxml"));
+            mainHome.getChildren().setAll(displayPubs);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
 
 }
