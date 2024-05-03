@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import services.UserService;
+import test.MainFX;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -34,47 +35,52 @@ public class Login {
         if (emailTextfield.getText().isEmpty() || passwordTextfield.getText().isEmpty()) {
             invalidText.setText("Veuillez remplir tous les champs");
             return;
-        } else {
-            UserService us = new UserService();
-            User u = us.getUserByEmail(emailTextfield.getText());
-            if(u == null){
-                invalidText.setText("Utilisateur introuvable");
-                return;
-            }
-            if(u.getBanned()){
-                invalidText.setText("Compte inactif veuillez contacter l'administrateur");
-                return;
-            }
-            String enteredPassword = passwordTextfield.getText();
-            boolean passwordMatch = BCrypt.checkpw(enteredPassword, u.getPassword());
-            if (passwordMatch) {
-                this.connectedUser = u;
-                User ui = us.getUserById(u.getId());
-                invalidText.setText("");
+        }
 
-                // Display an alert for successful login
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Connexion réussie");
-                alert.setHeaderText(null);
-                alert.setContentText("Connecté avec succès : " + ui.getNom());
-                alert.showAndWait();
+        UserService us = new UserService();
+        User u = us.getUserByEmail(emailTextfield.getText());
+        if (u == null) {
+            invalidText.setText("Utilisateur introuvable");
+            return;
+        }
+        if (u.getBanned()) {
+            invalidText.setText("Compte inactif veuillez contacter l'administrateur");
+            return;
+        }
 
-                // Assuming you might want to navigate to different views based on the user role
-                if (ui.getRole() == Role.ADMIN) {
-                    goToUserList();
-                } else if (ui.getRole() == Role.ROLE_THERAPEUTE) {
-                    // Navigate to therapist view
-                    // Assuming you have a method or view for therapists
-                } else {
-                    // Navigate to patient view
-                    // Assuming you have a method or view for patients
-                }
+        String enteredPassword = passwordTextfield.getText();
+        boolean passwordMatch = BCrypt.checkpw(enteredPassword, u.getPassword());
+        if (passwordMatch) {
+            this.connectedUser = u;
+            Session.setUser(u);  // Set user in session
+
+            if (u.getRole() == Role.ROLE_ADMIN) {
+                navigateTo("/Back/Dashboard.fxml");
+            } else if (u.getRole() == Role.ROLE_THERAPEUTE) {
+                navigateTo("/Front/NavBar.fxml");
             } else {
-                invalidText.setText("Mot de passe incorrect");
+                navigateTo("/Front/NavBar.fxml");
             }
+        } else {
+            invalidText.setText("Mot de passe incorrect");
         }
     }
 
+    private void navigateTo(String fxmlPath) throws IOException {
+        System.out.println("Navigating to " + fxmlPath.substring(fxmlPath.lastIndexOf("/") + 1).replace(".fxml", "").toUpperCase());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent navBar = loader.load();
+        Scene navBarScene = new Scene(navBar);
+        Stage navBarStage = new Stage();
+        navBarStage.setScene(navBarScene);
+
+        // Close the current window
+        Stage currentStage = (Stage) loginButton.getScene().getWindow();
+        currentStage.close();
+
+        // Show the new window
+        navBarStage.show();
+    }
 
 
 
@@ -131,25 +137,5 @@ public class Login {
         currentStage.close();
         signupStage.show();
     }
-    public void goToUserList() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/DashboardAdmin.fxml"));
-        Parent profileInterface = loader.load();
 
-        // Get the controller instance
-        DashboardAdmin profileController = loader.getController();
-
-        // Initialize data using the controller's method
-
-
-        Scene profileScene = new Scene(profileInterface);
-        Stage profileStage = new Stage();
-        profileStage.setScene(profileScene);
-
-        // Close the current stage (assuming loginButton is accessible from here)
-        Stage currentStage = (Stage) loginButton.getScene().getWindow();
-        currentStage.close();
-
-        // Show the profile stage
-        profileStage.show();
-    }
 }

@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import services.ServiceCommentaire;
 import services.ServicePublication;
 import test.MainFX;
@@ -105,7 +107,10 @@ public class CardPub {
             Parent root = loader.load();
             editPub controller = loader.getController();
             controller.setPublication(this.currentPublication);
-            MainFX.setCenterView(root);
+            Stage stage=new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            //MainFX.setCenterView(root);
         } catch (IOException e) {
             System.out.printf(e.getMessage());;
         }
@@ -145,7 +150,10 @@ public class CardPub {
                 Parent detailView = loader.load();
                 DetailPublication controller = loader.getController();
                 controller.setPublication(this.currentPublication);
-                MainFX.setCenterView(detailView);
+                Stage stage=new Stage();
+                stage.setScene(new Scene(detailView));
+                stage.show();
+                //MainFX.setCenterView(detailView);
             } catch (IOException e) {
                 System.err.println("Failed to load detail view: " + e.getMessage());
                 showAlert("Error", "Cannot load the detail view: " + e.getMessage());
