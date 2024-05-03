@@ -9,21 +9,21 @@ public class Commentaire {
     private int id;
     private int publication_id;
     private String contenu_c;
-    private int id_user;
+    private int id_user_id;
     private transient boolean hasProfanity;
 
     public Commentaire(int id, int publication_id, String contenu_c, int id_user) {
         this.id = id;
         this.publication_id = publication_id;
         this.contenu_c = contenu_c;
-        this.id_user = id_user;
+        this.id_user_id = id_user;
 
     }
 
     public Commentaire(int publication_id, String contenu_c, int id_user) {
         this.publication_id = publication_id;
         this.contenu_c = contenu_c;
-        this.id_user = id_user;
+        this.id_user_id = id_user;
         this.hasProfanity = checkForProfanity(contenu_c);
 
     }
@@ -58,11 +58,11 @@ public class Commentaire {
     }
 
     public int getId_user() {
-        return id_user;
+        return id_user_id;
     }
 
     public void setId_user(int id_user) {
-        this.id_user = id_user;
+        this.id_user_id = id_user;
     }
 
     public void setHasProfanity(boolean hasProfanity) {
@@ -90,7 +90,7 @@ public class Commentaire {
                 "id=" + id +
                 ", publication_id=" + publication_id +
                 ", contenu_c='" + contenu_c + '\'' +
-                ", id_user=" + id_user +
+                ", id_user=" + id_user_id +
                 '}';
     }
 

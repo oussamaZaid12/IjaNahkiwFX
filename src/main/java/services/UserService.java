@@ -1,9 +1,9 @@
 package services;
 
 
-import org.mindrot.jbcrypt.BCrypt;
 import entities.Role;
 import entities.User;
+import org.mindrot.jbcrypt.BCrypt;
 import utils.MyDB;
 
 import java.sql.*;
@@ -420,30 +420,6 @@ public boolean verifyCode(String code) {
         }
 
     }
-/*
-    //stat/////////
-    public Map<Date, Integer> getUserDataByDate() {
-        Map<Date, Integer> userDataByDate = new HashMap<>();
-        String query = "SELECT date, COUNT(*) AS user_count FROM user GROUP BY date";
-
-        try (
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                Date dateRegistered = resultSet.getDate("date");
-                int userCount = resultSet.getInt("user_count");
-                userDataByDate.put(dateRegistered, userCount);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle SQLException appropriately
-        }
-
-        return userDataByDate;
-    }
-*/
-
 
     public Map<String, Integer> getUserDataByStatus() {
         Map<String, Integer> userDataByStatus = new HashMap<>();
@@ -465,5 +441,34 @@ public boolean verifyCode(String code) {
         }
 
         return userDataByStatus;
+    }
+
+    public List<User> getTherapistUsers() {
+        List<User> list = new ArrayList<>();
+        try {
+            String req = "SELECT * FROM `user` WHERE roles = '[\"ROLE_THERAPEUTE\"]'";
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(req);
+
+            while (rs.next()) {
+                User u = new User(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("profile_picture"),
+                        Role.ROLE_THERAPEUTE, // Set the role directly since it's filtered in the query
+                        rs.getBoolean("is_banned"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getInt("age")
+                );
+                list.add(u);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
     }
 }

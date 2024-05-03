@@ -1,6 +1,8 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
 import entities.Consultation;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,58 +48,69 @@ public class AjoutConsultation {
 
     @FXML
     private TextField tfremarques;
-
+    private int idtherapist;
     @FXML
     void AjouterConsultation(ActionEvent event) {
+
         try {
-            // Retrieve and validate data from input fields
+                User currentUser = Session.getUser();
+                if (currentUser == null) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                    return;
+                }
+            int idUser = currentUser.getId();
             LocalDate date = TfdatePicker.getValue();
             if (date == null) {
-                showAlert("Input Error", "Please enter a valid date.");
+                showAlert(Alert.AlertType.INFORMATION, "Input Error", "Please enter a valid date.");
                 return;
             }
             if (date.isBefore(LocalDate.now())) {
-                showAlert("Input Error", "The date of the consultation cannot be in the past.");
+                showAlert(Alert.AlertType.INFORMATION, "Input Error", "The date of the consultation cannot be in the past.");
                 return;
             }
+
             int hour, minute, idPatient, idTherapeute;
             try {
                 hour = Integer.parseInt(tfheure.getText());
                 minute = Integer.parseInt(tfminute.getText());
-                idPatient = Integer.parseInt(Tfidpatient.getText());
-                idTherapeute = Integer.parseInt(Tftherapeute.getText());
+                //idPatient = Integer.parseInt(Tfidpatient.getText());
+               // idTherapeute = Integer.parseInt(Tftherapeute.getText());
             } catch (NumberFormatException e) {
-                showAlert("Input Error", "Please ensure that hour, minute, patient ID, and therapist ID are numeric.");
+                showAlert(Alert.AlertType.INFORMATION, "Input Error", "Please ensure that hour, minute, patient ID, and therapist ID are numeric.");
                 return;
             }
 
             if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
-                showAlert("Input Error", "Please enter a valid hour (0-23) and minute (0-59).");
+                showAlert(Alert.AlertType.INFORMATION, "Input Error", "Please enter a valid hour (0-23) and minute (0-59).");
                 return;
             }
 
             String pathologie = tfpathologie.getText();
-            if (pathologie.trim().length() < 3 || pathologie.isEmpty()) {
-                showAlert("Input Error", "Pathology must have at least 3 characters.");
+            if (pathologie.trim().isEmpty() || pathologie.length() < 3) {
+                showAlert(Alert.AlertType.INFORMATION, "Input Error", "Pathology must have at least 3 characters.");
                 return;
             }
 
             String remarques = tfremarques.getText();
-
-            // Set seconds to 0
-            int second = 0;
-            LocalTime time = LocalTime.of(hour, minute, second);
+            LocalTime time = LocalTime.of(hour, minute);
             LocalDateTime dateTime = LocalDateTime.of(date, time);
 
-            Consultation consultation = new Consultation(idPatient, idTherapeute, dateTime, pathologie, remarques, false, 0);
-
+            Consultation consultation = new Consultation(idUser, idtherapist, dateTime, pathologie, remarques, false, 0);
             ServiceConsultation serviceConsultation = new ServiceConsultation();
             serviceConsultation.ajouter(consultation);
-            showAlert("Success", "Consultation added successfully!");
+
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Consultation added successfully!");
         } catch (SQLException e) {
-            System.out.println("Error adding consultation: " + e.getMessage());
-            showAlert("Database Error", "Error adding consultation: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Database Error", "Error adding consultation: " + e.getMessage());
         }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
@@ -107,14 +120,10 @@ public class AjoutConsultation {
             ConsultationPane.getChildren().setAll(displayCons);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+
+    public void setidtherapist(int id) {
+        this.idtherapist=id;
     }
 }

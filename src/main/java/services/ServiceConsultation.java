@@ -18,7 +18,7 @@ public class ServiceConsultation implements IService<Consultation> {
 
     @Override
     public void ajouter(Consultation consultation) throws SQLException {
-        String req = "INSERT INTO consultation (idp, idt, date_c, pathologie, remarques, confirmation, fichemedicale_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String req = "INSERT INTO consultation (idp_id, idt_id, date_c, pathologie, remarques, confirmation, fichemedicale_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setInt(1, consultation.getIdp());
         pre.setInt(2, consultation.getIdt());
@@ -33,7 +33,7 @@ public class ServiceConsultation implements IService<Consultation> {
 
     @Override
     public void modifier(Consultation consultation) throws SQLException {
-        String req = "UPDATE consultation SET idp=?, idt=?, fichemedicale_id=?, date_c=?, pathologie=?, remarques=?, confirmation=? WHERE id=?";
+        String req = "UPDATE consultation SET idp_id=?, idt_id=?, fichemedicale_id=?, date_c=?, pathologie=?, remarques=?, confirmation=? WHERE id=?";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setInt(1, consultation.getIdp());
         pre.setInt(2, consultation.getIdt());
@@ -63,8 +63,8 @@ public class ServiceConsultation implements IService<Consultation> {
         while (res.next()) {
             Consultation consultation = new Consultation();
             consultation.setId(res.getInt("id"));
-            consultation.setIdp(res.getInt("idp"));
-            consultation.setIdt(res.getInt("idt"));
+            consultation.setIdp(res.getInt("idp_id"));
+            consultation.setIdt(res.getInt("idt_id"));
             consultation.setFiche(res.getInt("fichemedicale_id"));
             consultation.setDateC(res.getObject("date_c", LocalDateTime.class));
             consultation.setPathologie(res.getString("pathologie"));
@@ -87,8 +87,8 @@ public class ServiceConsultation implements IService<Consultation> {
                 while (resultSet.next()) {
                     Consultation consultation = new Consultation();
                     consultation.setId(resultSet.getInt("id"));
-                    consultation.setIdp(resultSet.getInt("idp"));
-                    consultation.setIdt(resultSet.getInt("idt"));
+                    consultation.setIdp(resultSet.getInt("idp_id"));
+                    consultation.setIdt(resultSet.getInt("idt_id"));
                     consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
                     consultation.setPathologie(resultSet.getString("pathologie"));
                     consultation.setRemarques(resultSet.getString("remarques"));
@@ -140,8 +140,8 @@ public class ServiceConsultation implements IService<Consultation> {
             while (resultSet.next()) {
                 Consultation consultation = new Consultation();
                 consultation.setId(resultSet.getInt("id"));
-                consultation.setIdp(resultSet.getInt("idp"));
-                consultation.setIdt(resultSet.getInt("idt"));
+                consultation.setIdp(resultSet.getInt("idp_id"));
+                consultation.setIdt(resultSet.getInt("idt_id"));
                 consultation.setFiche(resultSet.getInt("fichemedicale_id"));
                 consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
                 consultation.setPathologie(resultSet.getString("pathologie"));
@@ -164,8 +164,8 @@ public class ServiceConsultation implements IService<Consultation> {
                 while (resultSet.next()) {
                     Consultation consultation = new Consultation();
                     consultation.setId(resultSet.getInt("id"));
-                    consultation.setIdp(resultSet.getInt("idp"));
-                    consultation.setIdt(resultSet.getInt("idt"));
+                    consultation.setIdp(resultSet.getInt("idp_id"));
+                    consultation.setIdt(resultSet.getInt("idt_id"));
                     consultation.setFiche(resultSet.getInt("fichemedicale_id"));
                     consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
                     consultation.setPathologie(resultSet.getString("pathologie"));
@@ -185,8 +185,8 @@ public class ServiceConsultation implements IService<Consultation> {
                 while (resultSet.next()) {
                     Consultation consultation = new Consultation();
                     consultation.setId(resultSet.getInt("id"));
-                    consultation.setIdp(resultSet.getInt("idp"));
-                    consultation.setIdt(resultSet.getInt("idt"));
+                    consultation.setIdp(resultSet.getInt("idp_id"));
+                    consultation.setIdt(resultSet.getInt("idt_id"));
                     consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
                     consultation.setPathologie(resultSet.getString("pathologie"));
                     consultation.setRemarques(resultSet.getString("remarques"));
@@ -212,8 +212,8 @@ public class ServiceConsultation implements IService<Consultation> {
                 while (resultSet.next()) {
                     Consultation consultation = new Consultation();
                     consultation.setId(resultSet.getInt("id"));
-                    consultation.setIdp(resultSet.getInt("idp"));
-                    consultation.setIdt(resultSet.getInt("idt"));
+                    consultation.setIdp(resultSet.getInt("idp_id"));
+                    consultation.setIdt(resultSet.getInt("idt_id"));
                     consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
                     consultation.setPathologie(resultSet.getString("pathologie"));
                     consultation.setRemarques(resultSet.getString("remarques"));

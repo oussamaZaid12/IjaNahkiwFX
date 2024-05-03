@@ -1,5 +1,7 @@
 package Controllers.User;
 
+import entities.Role;
+import entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,8 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import entities.Role;
-import entities.User;
 import services.UserService;
 
 import java.io.IOException;

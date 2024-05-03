@@ -1,13 +1,14 @@
 package Controllers;
 
-import entities.Consultation;
+import Controllers.Consultation.UpcomingConsultationChecker;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import services.ServiceConsultation;
 import services.ServiceNotification;
-import Controllers.Consultation.UpcomingConsultationChecker;
+
 import java.io.IOException;
 
 public class NavBar {
@@ -94,6 +95,17 @@ public class NavBar {
             upcomingConsultationChecker.checkUpcomingConsultations();
         } else {
             System.out.println("ServiceConsultation or ServiceNotification is not set. Please set the instances.");
+        }
+    }
+
+    public void showDisplayTherapists(ActionEvent actionEvent) {
+        try {
+            Node displayFiches = FXMLLoader.load(getClass().getResource("/Front/Consultation/listtherapists.fxml"));
+            mainContainer.setCenter(displayFiches);
+            System.out.println("test");
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
         }
     }
 }

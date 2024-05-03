@@ -1,5 +1,7 @@
 package Controllers.Publication;
 
+import Controllers.User.Session;
+import entities.User;
 import entities.publication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,48 +50,57 @@ public class AjoutPub {
             }*/
 
 
-            @FXML
-            private void AjouterPublication(ActionEvent event) {
-                try {
-                    String titre = TfTitre.getText();
-                    String description = TfDescription.getText();
-                    int idUser = Integer.parseInt(TfIdUser.getText());
-                    LocalDate dateLocal = TfDate.getValue();
-                    java.sql.Date date = java.sql.Date.valueOf(dateLocal);
+    @FXML
+    private void AjouterPublication(ActionEvent event) {
+        // Vérifiez que tous les champs nécessaires sont remplis
+        if (TfTitre.getText().isEmpty() || TfDescription.getText().isEmpty() || TfDate.getValue() == null || imageFile == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs et l'image doivent être remplis.");
+            return;
+        }
 
-                    if (titre.isEmpty() || description.isEmpty() || dateLocal == null || imageFile == null) {
-                        showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs et l'image doivent être remplis.");
-                        return;
-                    }
-
-                    // Create the directory if it doesn't exist
-                    Files.createDirectories(Paths.get(IMAGES_DIR));
-
-                    // Copy the image to the images directory and get the filename
-                    Path sourcePath = imageFile.toPath();
-                    Path destinationPath = Paths.get(IMAGES_DIR + imageFile.getName());
-                    Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
-                    String imageName = destinationPath.getFileName().toString();
-
-                    publication pub = new publication(idUser, titre, description, imageName, date);
-                    ServicePublication servicePublication = new ServicePublication();
-                    servicePublication.ajouter(pub);
-
-                    showAlert(Alert.AlertType.INFORMATION, "Succès", "La publication a été ajoutée avec succès.");
-                } catch (IOException e) {
-                    e.printStackTrace(); // Print the stack trace to the console
-                    showAlert(Alert.AlertType.ERROR, "Erreur de fichier", "Un problème est survenu lors de la copie de l'image : " + e.getMessage());
-                } catch (NumberFormatException e) {
-                    showAlert(Alert.AlertType.ERROR, "Erreur de saisie", "Veuillez saisir un ID utilisateur valide (nombre entier).");
-                } catch (SQLException e) {
-                    showAlert(Alert.AlertType.ERROR, "Erreur SQL", "Un problème est survenu lors de l'ajout de la publication : " + e.getMessage());
-                } catch (NullPointerException e) {
-                    showAlert(Alert.AlertType.ERROR, "Erreur de saisie", "Champ manquant : veuillez remplir tous les champs.");
-                }
-               // switchToDisplayPublicationsScene();
+        try {
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
             }
 
-            @FXML
+            // Récupération des informations à partir des champs de texte
+            String titre = TfTitre.getText();
+            String description = TfDescription.getText();
+            int idUser = currentUser.getId();  // Utilisez l'ID de l'utilisateur connecté
+            LocalDate dateLocal = TfDate.getValue();
+            java.sql.Date date = java.sql.Date.valueOf(dateLocal);
+
+            // Création du répertoire d'images s'il n'existe pas
+            Files.createDirectories(Paths.get(IMAGES_DIR));
+
+            // Copie de l'image dans le répertoire d'images et récupération du nom de fichier
+            Path sourcePath = imageFile.toPath();
+            Path destinationPath = Paths.get(IMAGES_DIR + imageFile.getName());
+            Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            String imageName = destinationPath.getFileName().toString();
+
+            // Création de l'objet publication et ajout à la base de données
+            publication pub = new publication(idUser, titre, description, imageName, date);
+            ServicePublication servicePublication = new ServicePublication();
+            servicePublication.ajouter(pub);
+
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "La publication a été ajoutée avec succès.");
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur de fichier", "Un problème est survenu lors de la copie de l'image.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur SQL", "Un problème est survenu lors de l'ajout de la publication.");
+            e.printStackTrace();
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur inattendue est survenue.");
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
             private void choisirImage(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Choisir une image pour la publication");

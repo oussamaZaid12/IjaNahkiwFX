@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
-public class Cardconsultation {
+public class CardconsultationPatient {
 
 
     @FXML
@@ -71,9 +71,9 @@ public class Cardconsultation {
     @FXML
     private void handleEditAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/EditConsultationDoctor.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/EditConsultation.fxml"));
             Parent root = loader.load();
-            EditConsultationDoctor controller = loader.getController();
+            EditConsultation controller = loader.getController();
             controller.setConsultation(this.currentConsultation);
           //  MainFX.setCenterView(root);
             Stage stage = new Stage();

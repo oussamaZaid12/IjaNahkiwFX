@@ -1,13 +1,14 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
 import entities.Consultation;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import services.ServiceConsultation;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -38,8 +39,8 @@ public class EditConsultation {
     @FXML
     private TextField tfremarques;
 
-    @FXML
-    private TextField tffiche;
+ //   @FXML
+   // private TextField tffiche;
     @FXML
     private CheckBox confirmationCheckBox;
     private Consultation currentConsultation;
@@ -50,9 +51,9 @@ public class EditConsultation {
 
         tfpathologie.setText(consultation.getPathologie());
         tfremarques.setText(consultation.getRemarques());
-        Tfidpatient.setText(String.valueOf(consultation.getIdp()));
+        //Tfidpatient.setText(String.valueOf(consultation.getIdp()));
         Tftherapeute.setText(String.valueOf(consultation.getIdt()));
-        tffiche.setText(String.valueOf(consultation.getFiche()));
+     //   tffiche.setText(String.valueOf(consultation.getFiche()));
 
         // Extract hour and minute from LocalDateTime
         LocalDateTime dateTime = consultation.getDateC();
@@ -73,6 +74,12 @@ public class EditConsultation {
     @FXML
     void ModifierConsultation(ActionEvent event) {
         try {
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+            int idUser = currentUser.getId();
             // Validate the date
             LocalDate dateLocal = TfdatePicker.getValue();
             if (dateLocal == null) {
@@ -88,9 +95,8 @@ public class EditConsultation {
             try {
                 heure = Integer.parseInt(tfheure.getText());
                 minute = Integer.parseInt(tfminute.getText());
-                idPatient = Integer.parseInt(Tfidpatient.getText());
+               // idPatient = Integer.parseInt(Tfidpatient.getText());
                 idTherapeute = Integer.parseInt(Tftherapeute.getText());
-                fiche = Integer.parseInt(tffiche.getText());
             } catch (NumberFormatException e) {
                 showAlert("Input Error", "Please ensure that all inputs are numeric.");
                 return;
@@ -112,11 +118,9 @@ public class EditConsultation {
             LocalDateTime dateTime = LocalDateTime.of(dateLocal, LocalTime.of(heure, minute));
             currentConsultation.setPathologie(pathologie);
             currentConsultation.setRemarques(remarques);
-            currentConsultation.setIdp(idPatient);
+            currentConsultation.setIdp(idUser);
             currentConsultation.setIdt(idTherapeute);
             currentConsultation.setDateC(dateTime);
-            currentConsultation.setFiche(fiche);
-
             serviceConsultation.modifier(currentConsultation);
             showAlert("Success", "Consultation has been updated successfully.");
 
@@ -124,6 +128,15 @@ public class EditConsultation {
             showAlert("Database Error", "An error occurred while updating the consultation: " + e.getMessage());
         }
     }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

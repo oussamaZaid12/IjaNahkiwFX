@@ -1,13 +1,11 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
 import entities.Consultation;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import services.ServiceConsultation;
 
 import java.sql.SQLException;
@@ -92,7 +90,12 @@ public class EditConsultationDoctor {
     @FXML
     void ModifierConsultation(ActionEvent event) {
         try {
-            // Validate the date
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+            int idUser = currentUser.getId();
             LocalDate dateLocal = TfdatePicker.getValue();
             if (dateLocal == null) {
                 showAlert("Input Error", "Please enter a valid date.");
@@ -107,7 +110,7 @@ public class EditConsultationDoctor {
             try {
                 heure = Integer.parseInt(tfheure.getText());
                 minute = Integer.parseInt(tfminute.getText());
-                idPatient = Integer.parseInt(Tfidpatient.getText());
+             //   idPatient = Integer.parseInt(Tfidpatient.getText());
                 idTherapeute = Integer.parseInt(Tftherapeute.getText());
                 fiche = Integer.parseInt(tffiche.getText());
             } catch (NumberFormatException e) {
@@ -131,7 +134,7 @@ public class EditConsultationDoctor {
             LocalDateTime dateTime = LocalDateTime.of(dateLocal, LocalTime.of(heure, minute));
             currentConsultation.setPathologie(pathologie);
             currentConsultation.setRemarques(remarques);
-            currentConsultation.setIdp(idPatient);
+            currentConsultation.setIdp(idUser);
             currentConsultation.setIdt(idTherapeute);
             currentConsultation.setDateC(dateTime);
             currentConsultation.setFiche(fiche);
@@ -143,6 +146,14 @@ public class EditConsultationDoctor {
         } catch (SQLException e) {
             showAlert("Database Error", "An error occurred while updating the consultation: " + e.getMessage());
         }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void showAlert(String title, String message) {

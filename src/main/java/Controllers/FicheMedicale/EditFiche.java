@@ -1,6 +1,8 @@
 package Controllers.FicheMedicale;
 
+import Controllers.User.Session;
 import entities.FicheMedicale;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -46,10 +48,16 @@ public class EditFiche {
     @FXML
     public void ModifierFiche(ActionEvent actionEvent) {
         try {
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+            int idUser = currentUser.getId();
             // Parse IDs from text fields
             int id = Integer.parseInt(tfid.getText());
             int idp = Integer.parseInt(tfidp.getText());
-            int idt = Integer.parseInt(tfidt.getText());
+            //  int idt = Integer.parseInt(tfidt.getText());
 
             // Retrieve and validate dates
             LocalDate dateCreation = tfdatedecreation.getValue();
@@ -73,7 +81,7 @@ public class EditFiche {
             // Set updated values to currentFiche
             currentFiche.setId(id);
             currentFiche.setIdp(idp);
-            currentFiche.setIdt(idt);
+            currentFiche.setIdt(idUser);
             currentFiche.setDateCreation(Date.valueOf(dateCreation));
             currentFiche.setDerniereMaj(Date.valueOf(dateMiseAjout));
 
@@ -91,6 +99,13 @@ public class EditFiche {
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

@@ -86,7 +86,7 @@
                         <Image url="@../images/patienticon.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" onAction="#showDisplayConsultationspatient" prefHeight="38.0" prefWidth="90.0" text="Patient" textFill="#107191">
+                  <Button mnemonicParsing="false" onAction="#showDisplayTherapists" prefHeight="38.0" prefWidth="90.0" text="Patient" textFill="#107191">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>

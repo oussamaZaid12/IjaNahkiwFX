@@ -1,11 +1,14 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
 import entities.Consultation;
+import entities.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -44,6 +47,11 @@ public class AffichageConsultationpatient {
     }
     private void loadConsultations(String searchTerm) {
         try {
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
             List<Consultation> consultations = serviceConsultation.afficher();
             if (searchTerm != null && !searchTerm.isEmpty()) {
                 consultations = consultations.stream()
@@ -53,9 +61,9 @@ public class AffichageConsultationpatient {
 
             consultationscontainer.getChildren().clear();
             for (Consultation con :consultations) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/cardconsultation.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/cardconsultationpatient.fxml"));
                 Node card = loader.load(); // This line can throw IOException
-                Cardconsultation controller = loader.getController();
+                CardconsultationPatient controller = loader.getController();
                 controller.setConsultation(con);
                 controller.setAffichageConsController(this); // Pass reference to this controller
                 consultationscontainer.getChildren().add(card);
@@ -112,5 +120,12 @@ public class AffichageConsultationpatient {
             e.printStackTrace();
             // Handle the exception, for example, by showing an error message
         }
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

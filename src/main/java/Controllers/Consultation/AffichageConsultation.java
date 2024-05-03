@@ -2,7 +2,6 @@ package Controllers.Consultation;
 
 import Controllers.Notification.NotificationWindowController;
 import entities.Consultation;
-import entities.Notification;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

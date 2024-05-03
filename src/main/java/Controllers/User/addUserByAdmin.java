@@ -1,13 +1,13 @@
 package Controllers.User;
 
 
+import entities.Role;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import entities.Role;
-import entities.User;
 import services.UserService;
 
 import java.util.Random;
@@ -72,7 +72,7 @@ public class addUserByAdmin {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
 
-        User u = new User(email.getText(), generatedString, "avatar.png", Role.valueOf(roleComboBox.getValue()), true, fname.getText(), lname.getText(), Integer.parseInt(phone.getText()));
+        User u = new User(email.getText(), password, "avatar.png", Role.valueOf(roleComboBox.getValue()), true, fname.getText(), lname.getText(), Integer.parseInt(phone.getText()));
         if (us.ajouterUser(u)) {
             sendPassword(email.getText(), password);
 
