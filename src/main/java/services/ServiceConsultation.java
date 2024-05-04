@@ -131,11 +131,11 @@ public class ServiceConsultation implements IService<Consultation> {
 
     public List<Consultation> getConsultationsByTherapistId(int therapistId) throws SQLException {
         List<Consultation> consultations = new ArrayList<>();
-        String query = "SELECT * FROM consultation WHERE idt = ?";
+        String query = "SELECT * FROM consultation WHERE idt_id = ?";
 
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, therapistId);
-
+        //System.out.println(therapistId);
         try (ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Consultation consultation = new Consultation();
@@ -155,11 +155,11 @@ public class ServiceConsultation implements IService<Consultation> {
 
     public List<Consultation> getConsultationsByPatientId(int patientid) throws SQLException {
             List<Consultation> consultations = new ArrayList<>();
-            String query = "SELECT * FROM consultation WHERE idt = ?";
+            String query = "SELECT * FROM consultation WHERE idp_id = ?";
 
             PreparedStatement statement = con.prepareStatement(query);
             statement.setInt(1, patientid);
-
+       // System.out.println(patientid);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Consultation consultation = new Consultation();

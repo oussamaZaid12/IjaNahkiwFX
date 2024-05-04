@@ -1,7 +1,9 @@
 package Controllers.Consultation;
 
 import Controllers.Notification.NotificationWindowController;
+import Controllers.User.Session;
 import entities.Consultation;
+import entities.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -32,10 +34,6 @@ public class AffichageConsultation {
     @FXML
     private TextField searchField;
     private final ServiceConsultation serviceConsultation = new ServiceConsultation();
-
-    @FXML
-    private Button notificationsButton;
-
     private ServiceNotification serviceNotification = new ServiceNotification();
 
     public void setServiceNotification(ServiceNotification serviceNotification) {
@@ -61,7 +59,6 @@ public class AffichageConsultation {
         }
     }
 
-
     @FXML
     private void initialize() {
         loadConsultations(null);
@@ -78,7 +75,14 @@ public class AffichageConsultation {
 
     private void loadConsultations(String searchTerm) {
         try {
-            List<Consultation> consultations = serviceConsultation.afficher();
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+            List<Consultation> consultations = serviceConsultation.getConsultationsByTherapistId(currentUser.getId());
+            System.out.println("theerapeute:\n");
+            System.out.println(consultations);
             if (searchTerm != null && !searchTerm.isEmpty()) {
                 consultations = consultations.stream()
                         .filter(pub -> pub.getPathologie().toLowerCase().contains(searchTerm.toLowerCase()))
@@ -105,14 +109,6 @@ public class AffichageConsultation {
         });
     }
 
-    public void ajoutcon(ActionEvent actionEvent) {
-        try {
-            Node displayAjout = FXMLLoader.load(getClass().getResource("/Front/Consultation/AjoutConsultation.fxml"));
-            ConsultationPane.getChildren().setAll(displayAjout);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void ShowCalendar(ActionEvent actionEvent) {
         try {
@@ -165,8 +161,15 @@ public class AffichageConsultation {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 
 }

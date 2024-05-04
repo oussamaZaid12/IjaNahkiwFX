@@ -52,7 +52,9 @@ public class AffichageConsultationpatient {
                 showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
                 return;
             }
-            List<Consultation> consultations = serviceConsultation.afficher();
+            List<Consultation> consultations = serviceConsultation.getConsultationsByPatientId(currentUser.getId());
+            System.out.println("patient:\n");
+            System.out.println(consultations);
             if (searchTerm != null && !searchTerm.isEmpty()) {
                 consultations = consultations.stream()
                         .filter(pub -> pub.getPathologie().toLowerCase().contains(searchTerm.toLowerCase()))

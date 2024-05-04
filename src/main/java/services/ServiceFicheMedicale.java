@@ -63,4 +63,23 @@ public class ServiceFicheMedicale implements IService<FicheMedicale> {
         return fichesMedicales;
     }
 
+    public List<FicheMedicale> getFichesByTherapistId(int therapistId) throws SQLException {
+        List<FicheMedicale> fichesMedicales = new ArrayList<>();
+        String req = "SELECT * FROM fichemedicale WHERE idt_id = ?";
+        PreparedStatement statement = con.prepareStatement(req);
+        statement.setInt(1, therapistId);
+        try (ResultSet res = statement.executeQuery()) {
+            while (res.next()) {
+                FicheMedicale ficheMedicale = new FicheMedicale();
+                ficheMedicale.setId(res.getInt("id"));
+                ficheMedicale.setDateCreation(res.getDate("date_creation"));
+                ficheMedicale.setDerniereMaj(res.getDate("derniere_maj"));
+                ficheMedicale.setIdp(res.getInt("id_p_id"));
+                ficheMedicale.setIdt(res.getInt("id_t_id"));
+                fichesMedicales.add(ficheMedicale);
+            }
+        }
+        return fichesMedicales;
+    }
+
 }
