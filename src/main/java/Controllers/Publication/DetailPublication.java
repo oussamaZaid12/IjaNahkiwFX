@@ -8,6 +8,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import entities.Commentaire;
+import entities.Role;
 import entities.User;
 import entities.publication;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import services.ServiceCommentaire;
 import services.ServiceLike;
+import services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,14 +128,27 @@ public class DetailPublication {
                 commentBox.setSpacing(10); // Space between elements in the hbox
 
                 // Check if the user is an admin or a regular user and add respective icons
-                Image userIcon = new Image(getClass().getResourceAsStream(commentaire.getId_user() == 1 ? "/images/doctoricon.png" : "/images/patienticon.png"));
+                // Assuming ServiceUser is the service used to fetch user information
+                UserService serviceUser = new UserService();
+                User userWhoCommented = serviceUser.getUserById(commentaire.getId_user());
+
+// Check if the user is an admin
+                String iconPath = userWhoCommented != null && userWhoCommented.getRole() == Role.ROLE_ADMIN
+                        ? "/images/doctoricon.png"
+                        : "/images/patienticon.png";
+
+// Load the appropriate icon
+                Image userIcon = new Image(getClass().getResourceAsStream(iconPath));
                 ImageView userIconView = new ImageView(userIcon);
                 userIconView.setFitHeight(20);
                 userIconView.setFitWidth(20);
+
+// Add the icon to the comment box
                 commentBox.getChildren().add(userIconView);
 
+
                 // Add comment label
-                Label commentLabel = new Label("Utilisateur " + commentaire.getId_user() + " : " + commentaire.getContenu_c());
+                Label commentLabel = new Label(userWhoCommented.getNom() + commentaire.getId_user() + " : " + commentaire.getContenu_c());
                 commentBox.getChildren().add(commentLabel);
 
                 // Check for asterisks and add a warning icon if found

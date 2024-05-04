@@ -22,13 +22,17 @@
                </image>
             </ImageView>
                 <ImageView fx:id="imagePub" fitHeight="309.0" fitWidth="560.0" preserveRatio="true" />
-            <HBox prefHeight="0.0" prefWidth="290.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
                <children>
-                      <Label fx:id="idUserPub" prefHeight="20.0" prefWidth="99.0" styleClass="card-description" text="utilisateur:  " />
-                      <Label fx:id="titrePub" prefHeight="27.0" prefWidth="224.0" styleClass="card-title" text="Titre de la publication" />
+                  <ImageView fx:id="photoprofil" fitHeight="39.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                      <Label fx:id="idUserPub" prefHeight="20.0" prefWidth="358.0" styleClass="card-description" text="utilisateur:  " />
+                      <Label fx:id="titrePub" prefHeight="27.0" prefWidth="402.0" styleClass="card-title" text="Titre de la publication">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Label>
                   <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteAction" styleClass="label-like-button" textFill="#1b0101">
                      <HBox.margin>
-                        <Insets left="230.0" />
+                        <Insets left="100.0" />
                      </HBox.margin>
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
@@ -55,8 +59,8 @@
                   </Button>
                </children>
             </HBox>
-            <Label fx:id="descriptionPub" prefHeight="20.0" prefWidth="222.0" styleClass="card-description" text="Description brève de la publication" />
-            <Label fx:id="datePub" styleClass="card-description" text="Date" />
+            <Label fx:id="descriptionPub" prefHeight="20.0" prefWidth="354.0" styleClass="card-description" text="Description brève de la publication" />
+            <Label fx:id="datePub" styleClass="card-description" text="Date" textFill="#3cb4cc" />
             <HBox prefHeight="100.0" prefWidth="200.0" />
                 <!-- Ajoutez d'autres détails que vous souhaitez montrer -->
             </children>
