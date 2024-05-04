@@ -20,8 +20,6 @@
             <content>
                 <VBox prefHeight="715.0" prefWidth="707.0">
                     <children>
-                  <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajoutcon" text="Ajouter Consultation" />
-                  <Button mnemonicParsing="false" text="Button" />
                   <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" text="Afficher Calendrier" />
                   <Button mnemonicParsing="false" onAction="#refreshConsultationsView" text="Consultations" />
                   <Button mnemonicParsing="false" onAction="#showDisplayFiches" text="Fiches" />

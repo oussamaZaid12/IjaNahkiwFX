@@ -1,37 +1,24 @@
 package Controllers.Consultation;
 
 import entities.User;
-import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import services.ServiceNotification;
 import services.UserService;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Listtherapists {
 
     @FXML
     private AnchorPane ConsultationPane;
-
     @FXML
     private FlowPane usersscontainer;
-
-
     private final UserService serviceUser = new UserService();
-
-    @FXML
-    private Button notificationsButton;
-
-    private ServiceNotification serviceNotification = new ServiceNotification();
-
-    public void setServiceNotification(ServiceNotification serviceNotification) {
-        this.serviceNotification = serviceNotification;
-    }
 
     @FXML
     private void initialize() {
@@ -58,12 +45,15 @@ public class Listtherapists {
         }
     }
 
-    public void refreshConsultationsView() {
-        Platform.runLater(() -> {
-            loadusers(null); // Reload all publications
-        });
+
+
+    public void showdisplayconsultations(ActionEvent actionEvent) {
+        try {
+            Node displayAjout = FXMLLoader.load(getClass().getResource("/Front/Consultation/affichageConsultationpatient.fxml"));
+            ConsultationPane.getChildren().setAll(displayAjout);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
     }
-
-
-
 }

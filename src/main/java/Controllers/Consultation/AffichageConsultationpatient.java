@@ -88,7 +88,6 @@ public class AffichageConsultationpatient {
             ConsultationPane.getChildren().setAll(displayAjout);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
@@ -98,7 +97,6 @@ public class AffichageConsultationpatient {
             ConsultationPane.getChildren().setAll(displayCal);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
@@ -108,7 +106,6 @@ public class AffichageConsultationpatient {
             ConsultationPane.getChildren().setAll(displayAjout);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
@@ -118,7 +115,6 @@ public class AffichageConsultationpatient {
             ConsultationPane.getChildren().setAll(displaystat);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
     private void showAlert(Alert.AlertType alertType, String title, String content) {

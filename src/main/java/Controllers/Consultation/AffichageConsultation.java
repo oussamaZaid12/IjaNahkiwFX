@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -56,24 +57,23 @@ public class AffichageConsultation {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
+
         }
     }
 
 
     @FXML
     private void initialize() {
-        loadConsultations(null); // Load all publications initially
+        loadConsultations(null);
         // Add a listener to the search field
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            loadConsultations(newValue); // Load publications with the search term
+            loadConsultations(newValue);
         });
     }
 
     @FXML
     private void handleSearch() {
         String searchTerm = searchField.getText();
-        // Perform search and update the view...
     }
 
     private void loadConsultations(String searchTerm) {
@@ -94,7 +94,7 @@ public class AffichageConsultation {
                 controller.setAffichageConsController(this); // Pass reference to this controller
                 consultationscontainer.getChildren().add(card);
             }
-        } catch (Exception e) { // Catch any exception here
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -111,7 +111,6 @@ public class AffichageConsultation {
             ConsultationPane.getChildren().setAll(displayAjout);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
@@ -121,7 +120,6 @@ public class AffichageConsultation {
             ConsultationPane.getChildren().setAll(displayCal);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
@@ -131,7 +129,6 @@ public class AffichageConsultation {
             ConsultationPane.getChildren().setAll(displayAjout);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
@@ -141,27 +138,35 @@ public class AffichageConsultation {
             ConsultationPane.getChildren().setAll(displaystat);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
     public void showchatclient(ActionEvent actionEvent) {
         try {
-            Node displaystat = FXMLLoader.load(getClass().getResource("/Front/client/client-view.fxml"));
-            ConsultationPane.getChildren().setAll(displaystat);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/client/client-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Client Chat");
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
     public void showchatserver(ActionEvent actionEvent) {
         try {
-            Node displaystat = FXMLLoader.load(getClass().getResource("/Front/server/server-view.fxml"));
-            ConsultationPane.getChildren().setAll(displaystat);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/server/server-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Server Chat");
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
+
+
+
 }
