@@ -11,7 +11,7 @@ public class User {
     private String email;
     private String image;
     private Boolean isBanned;
-
+    private Boolean isRecaptchaVerified;
     public Boolean getBanned() {
         return isBanned;
     }
@@ -22,7 +22,7 @@ public class User {
 
     private static User instance;
 
-    public User(int id, String email, String password, String image, Role role, Boolean isBanned, String nom, String prenom, int age) {
+    public User(int id, String email, String password, String image, Role role, Boolean isBanned, String nom, String prenom, int age,Boolean isRecaptchaVerified) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -32,9 +32,10 @@ public class User {
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
+        this.isRecaptchaVerified = isRecaptchaVerified;
     }
 
-    public User(String email, String password, String image, Role role, Boolean isBanned, String nom, String prenom, int age) {
+    public User(String email, String password, String image, Role role, Boolean isBanned, String nom, String prenom, int age,Boolean isRecaptchaVerified) {
         this.email = email;
         this.password = password;
         this.image = image;
@@ -43,10 +44,18 @@ public class User {
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
+        this.isRecaptchaVerified = isRecaptchaVerified;
     }
 
     public User() {
 
+    }
+    public Boolean getRecaptchaVerified() {
+        return isRecaptchaVerified;
+    }
+
+    public void setRecaptchaVerified(Boolean recaptchaVerified) {
+        isRecaptchaVerified = recaptchaVerified;
     }
 
     public int getId() {

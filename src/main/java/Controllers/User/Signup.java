@@ -5,15 +5,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import entities.Role;
 import entities.User;
 import services.UserService;
 
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public class Signup {
+    private static final String SECRET_KEY = "6LeTZdApAAAAADLTXW9hUG63WDH24xEXVS5GYfbN";
     @FXML
     private Button signupButton;
     @FXML
@@ -33,6 +43,8 @@ public class Signup {
     @FXML
     private Label invalidText;
     @FXML
+    private CheckBox recaptchaCheckBox;
+    @FXML
     private ComboBox<String> genderComboBox;
     @FXML
     private ComboBox<String> roleComboBox;
@@ -51,6 +63,12 @@ public class Signup {
             invalidText.setVisible(true);
             return;
         }
+        if (!recaptchaCheckBox.isSelected()) {
+            invalidText.setText("Veuillez passer le test reCAPTCHA");
+            invalidText.setVisible(true);
+            return;
+        }
+
         if(!passwordTextfield.getText().equals(ConfirmpasswordTextfield.getText())){
             invalidText.setText("Passwords do not match");
             invalidText.setVisible(true);
@@ -81,7 +99,7 @@ public class Signup {
                     .limit(targetStringLength)
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
-            User u = new User(emailTextfield.getText(), passwordTextfield.getText(), "avatar.png", Role.valueOf(roleComboBox.getValue()), true, nomTextField.getText(), prenomTextField.getText(), Integer.parseInt(ageTextField.getText()));
+            User u = new User(emailTextfield.getText(), passwordTextfield.getText(), "avatar.png", Role.valueOf(roleComboBox.getValue()), true, nomTextField.getText(), prenomTextField.getText(), Integer.parseInt(ageTextField.getText()),true);
             us.ajouterUser(u);
         }else{
             invalidText.setText("User already exists");
@@ -103,6 +121,9 @@ public class Signup {
         // Show the profile stage
         profileStage.show();
     }
+
+
+
     public void goToProfile(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/profile.fxml"));
         Parent profileInterface = loader.load();
