@@ -72,7 +72,7 @@ public class addUserByAdmin {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
 
-        User u = new User(email.getText(), password, "avatar.png", Role.valueOf(roleComboBox.getValue()), true, fname.getText(), lname.getText(), Integer.parseInt(phone.getText()),true);
+        User u = new User(email.getText(), generatedString, "avatar.png", Role.valueOf(roleComboBox.getValue()), true, fname.getText(), lname.getText(), Integer.parseInt(phone.getText()));
         if (us.ajouterUser(u)) {
             sendPassword(email.getText(), password);
 

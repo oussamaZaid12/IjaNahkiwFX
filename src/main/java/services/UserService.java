@@ -252,7 +252,6 @@ public String getVerificationCodeByEmail(String email) {
             ResultSet rs = st.executeQuery(req);
 
             while (rs.next()) {
-                boolean isRecaptchaVerified = rs.getBoolean("isRecaptchaVerified");
                 User u = new User(
                         rs.getInt("id"),
                         rs.getString("email"),
@@ -262,10 +261,8 @@ public String getVerificationCodeByEmail(String email) {
                         rs.getBoolean("is_banned"),
                         rs.getString("nom"), // Ajout du nom depuis la base de données
                         rs.getString("prenom"), // Ajout du prénom depuis la base de données
-                        rs.getInt("age"), // Ajout de l'âge depuis la base de données
-                        isRecaptchaVerified
+                        rs.getInt("age") // Ajout de l'âge depuis la base de données
                 );
-
                 list.add(u);
             }
 
