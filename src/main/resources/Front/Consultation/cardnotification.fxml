@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="222.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Notification.Cardnotification">
+    <children>
+        <VBox layoutX="5.0" prefHeight="219.0" prefWidth="592.0" spacing="5" styleClass="card-container">
+            <children>
+                <Label styleClass="card-description" text="You have a consultation in less than 24 hours" />
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteAction" styleClass="label-like-button" textFill="#1b0101">
+                            <graphic>
+                                <ImageView fitHeight="25.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../images/166475.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <font>
+                                <Font size="10.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            <Label fx:id="idnotif" prefHeight="18.0" prefWidth="83.0" text="id" />
+                <!-- Add other details you want to display -->
+            </children>
+        </VBox>
+    </children>
+    <stylesheets>
+        <URL value="@../../css/cardPub.css" />
+        <URL value="@../../css/style.css" />
+    </stylesheets>
+</AnchorPane>

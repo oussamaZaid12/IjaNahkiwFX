@@ -19,15 +19,6 @@ public class NavBar {
     private ServiceNotification serviceNotification;
     private UpcomingConsultationChecker upcomingConsultationChecker;
 
-
-    public void setServiceConsultation(ServiceConsultation serviceConsultation, ServiceNotification serviceNotification) {
-        this.serviceConsultation = serviceConsultation;
-        this.serviceNotification = serviceNotification;
-        initializeUpcomingConsultationChecker();
-    }
-
-
-
     @FXML
     public void showDisplayPublications() {
         try {
@@ -49,27 +40,6 @@ public class NavBar {
         }
     }
 
-    @FXML
-    public void showDisplayConsultationspatient() {
-        try {
-            Node displayCons = FXMLLoader.load(getClass().getResource("/Front/Consultation/affichageConsultationpatient.fxml"));
-            mainContainer.setCenter(displayCons);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
-
-    @FXML
-    public void showDisplayFiches() {
-        try {
-            Node displayFiches = FXMLLoader.load(getClass().getResource("/Front/FicheMedicale/AffichageFiche.fxml"));
-            mainContainer.setCenter(displayFiches);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
 
     @FXML
     public void showHome() {
@@ -102,7 +72,6 @@ public class NavBar {
         try {
             Node displayFiches = FXMLLoader.load(getClass().getResource("/Front/Consultation/listtherapists.fxml"));
             mainContainer.setCenter(displayFiches);
-            System.out.println("test");
         } catch (IOException e) {
             e.printStackTrace();
             // Handle the exception, for example, by showing an error message

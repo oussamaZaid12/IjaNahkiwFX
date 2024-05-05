@@ -26,6 +26,7 @@ public class UpcomingConsultationChecker {
         try {
             List<Consultation> upcomingConsultations = serviceConsultation.getUpcomingConsultations();
             if (!upcomingConsultations.isEmpty()) {
+                System.out.println("found upcoming consultations");
                 for (Consultation consultation : upcomingConsultations) {
                     LocalDateTime now = LocalDateTime.now();
                     LocalDateTime consultationDateTime = consultation.getDateC();
