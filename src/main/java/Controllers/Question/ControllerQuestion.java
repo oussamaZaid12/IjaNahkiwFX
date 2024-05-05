@@ -1,10 +1,14 @@
 package Controllers.Question;
 
+import Controllers.User.Session;
 import entities.Proposition;
 import entities.Question;
+import entities.Questionnaire;
+import entities.User;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -21,13 +25,13 @@ public class ControllerQuestion {
     @FXML
     private TextField labelQuestionnaireId;
     @FXML
-    private TextField labelAnswer1;
+    private TextField proposition1Column;
 
     @FXML
-    private TextField labelAnswer2;
+    private TextField proposition2Column;
 
     @FXML
-    private TextField labelAnswer3;
+    private TextField proposition3Column;
     @FXML
     private ChoiceBox<Integer> labelScore1;
     @FXML
@@ -42,6 +46,7 @@ public class ControllerQuestion {
     private Label errorAnswersLabel;
 
     private ServiceQuestion serviceQuestion;
+    private Questionnaire currentQuestionnaire;
 
     public void initialize() {
         labelScore1.setItems(FXCollections.observableArrayList(-1, 0, 1));
@@ -52,29 +57,10 @@ public class ControllerQuestion {
         serviceQuestion = new ServiceQuestion();  // Create an instance of ServiceQuestion
     }
 
-    @FXML
-    void addQuestion(ActionEvent event) {
-        try {
-            int userId = Integer.parseInt(labelUserId.getText());
-            int questionnaireId = Integer.parseInt(labelQuestionnaireId.getText());
-            Question question = new Question();
-            question.setTitleQuestion(labelTitleQuestion.getText());
-            question.setIdUserId(userId);
-            question.setQuestionnaireId(questionnaireId);
-
-            addPropositionIfNotEmpty(question, labelAnswer1.getText(), labelScore1.getValue());
-            addPropositionIfNotEmpty(question, labelAnswer2.getText(), labelScore2.getValue());
-            addPropositionIfNotEmpty(question, labelAnswer3.getText(), labelScore3.getValue());
-
-            serviceQuestion.addQuestionWithPropositions(question);
-            System.out.println("Question and propositions added successfully!");
-        } catch (NumberFormatException e) {
-            errorUserIdLabel.setText("User ID and Questionnaire ID must be numbers.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error adding question and propositions.");
-        }
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.currentQuestionnaire = questionnaire;
     }
+
 
     private void addPropositionIfNotEmpty(Question question, String title, Integer score) {
         if (title != null && !title.isEmpty() && score != null) {
@@ -87,22 +73,93 @@ public class ControllerQuestion {
 
     private boolean validateInputs() {
         boolean valid = true;
+        StringBuilder errorMessage = new StringBuilder();
+
+        // Validate question title input
         if (labelTitleQuestion.getText().isEmpty() || !labelTitleQuestion.getText().endsWith("?")) {
-            errorQuestionLabel.setText("Question must end with a '?'");
+            errorMessage.append("Question must end with a '?' and should not be empty.\n");
             valid = false;
         }
 
-        if (labelUserId.getText().isEmpty()) {
-            errorUserIdLabel.setText("User ID is required.");
+        // Validate proposition 1
+        if (proposition1Column.getText().isEmpty() || proposition2Column.getText().isEmpty() || proposition3Column.getText().isEmpty() ) {
+            errorMessage.append("Propositions shouldn't be empty.\n");
             valid = false;
         }
 
-        // Example of additional validation for answer texts and scores
-        if (labelAnswer1.getText().isEmpty() ) {
-            errorAnswersLabel.setText("All answers must be provided.");
+        // Validate proposition 2
+        if ( labelScore1.getValue() == null || labelScore2.getValue() == null || labelScore3.getValue() == null) {
+            errorMessage.append("Propositions must be provided with a valid score.\n");
             valid = false;
+        }
+
+        // Validate proposition 3
+
+        // If there are errors, display them in the appropriate label or alert
+        if (!valid) {
+            errorAnswersLabel.setText(errorMessage.toString().trim());
+        } else {
+            errorAnswersLabel.setText(""); // Clear any previous error messages if validation passes
         }
 
         return valid;
     }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+    @FXML
+    void addQuestion(ActionEvent event) {
+        if (!validateInputs()) {
+            return; // Stop execution if validation fails
+        }
+
+        try {
+            // Get the current user
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+
+            // Ensure a questionnaire is selected
+            if (currentQuestionnaire == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun questionnaire sélectionné.");
+                return;
+            }
+
+            // Retrieve user and questionnaire IDs
+            int idUser = currentUser.getId();
+            int questionnaireId = currentQuestionnaire.getId();
+
+            // Create and populate the new question object
+            Question question = new Question();
+            question.setQuestionnaireId(questionnaireId);
+            question.setTitleQuestion(labelTitleQuestion.getText());
+            question.setIdUserId(idUser);
+
+            // Add propositions if not empty
+            addPropositionIfNotEmpty(question, proposition1Column.getText(), labelScore1.getValue());
+            addPropositionIfNotEmpty(question, proposition2Column.getText(), labelScore2.getValue());
+            addPropositionIfNotEmpty(question, proposition3Column.getText(), labelScore3.getValue());
+
+            // Insert the question and associated propositions
+            serviceQuestion.addQuestionWithPropositionss(question);
+            System.out.println("Question and propositions added successfully!");
+
+        } catch (NumberFormatException e) {
+            errorUserIdLabel.setText("User ID and Questionnaire ID must be numbers.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error adding question and propositions.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur inattendue est survenue.");
+            e.printStackTrace();
+        }
+    }
+
 }

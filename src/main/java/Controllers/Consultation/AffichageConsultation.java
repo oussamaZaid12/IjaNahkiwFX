@@ -1,18 +1,29 @@
 package Controllers.Consultation;
 
+import Controllers.Notification.NotificationWindowController;
 import entities.Consultation;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 import services.ServiceConsultation;
+import services.ServiceNotification;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AffichageConsultation {
+
+    @FXML
+    private AnchorPane ConsultationPane;
 
     @FXML
     private FlowPane consultationscontainer;
@@ -20,6 +31,34 @@ public class AffichageConsultation {
     @FXML
     private TextField searchField;
     private final ServiceConsultation serviceConsultation = new ServiceConsultation();
+
+    @FXML
+    private Button notificationsButton;
+
+    private ServiceNotification serviceNotification = new ServiceNotification();
+
+    public void setServiceNotification(ServiceNotification serviceNotification) {
+        this.serviceNotification = serviceNotification;
+    }
+
+    @FXML
+    private void showNotificationWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/NotificationWindow.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Notifications");
+
+            NotificationWindowController notificationWindowController = loader.getController();
+            notificationWindowController.setServiceNotification(serviceNotification);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
 
 
     @FXML
@@ -36,6 +75,7 @@ public class AffichageConsultation {
         String searchTerm = searchField.getText();
         // Perform search and update the view...
     }
+
     private void loadConsultations(String searchTerm) {
         try {
             List<Consultation> consultations = serviceConsultation.afficher();
@@ -46,7 +86,7 @@ public class AffichageConsultation {
             }
 
             consultationscontainer.getChildren().clear();
-            for (Consultation con :consultations) {
+            for (Consultation con : consultations) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/cardconsultation.fxml"));
                 Node card = loader.load(); // This line can throw IOException
                 Cardconsultation controller = loader.getController();
@@ -59,12 +99,69 @@ public class AffichageConsultation {
         }
     }
 
-
     public void refreshConsultationsView() {
         Platform.runLater(() -> {
             loadConsultations(null); // Reload all publications
         });
     }
 
+    public void ajoutcon(ActionEvent actionEvent) {
+        try {
+            Node displayAjout = FXMLLoader.load(getClass().getResource("/Front/Consultation/AjoutConsultation.fxml"));
+            ConsultationPane.getChildren().setAll(displayAjout);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
 
+    public void ShowCalendar(ActionEvent actionEvent) {
+        try {
+            Node displayCal = FXMLLoader.load(getClass().getResource("/Front/Consultation/Calendar.fxml"));
+            ConsultationPane.getChildren().setAll(displayCal);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    public void showDisplayFiches(ActionEvent actionEvent) {
+        try {
+            Node displayAjout = FXMLLoader.load(getClass().getResource("/Front/FicheMedicale/AffichageFiche.fxml"));
+            ConsultationPane.getChildren().setAll(displayAjout);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    public void showstat(ActionEvent actionEvent) {
+        try {
+            Node displaystat = FXMLLoader.load(getClass().getResource("/Front/Consultation/stat.fxml"));
+            ConsultationPane.getChildren().setAll(displaystat);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    public void showchatclient(ActionEvent actionEvent) {
+        try {
+            Node displaystat = FXMLLoader.load(getClass().getResource("/Front/client/client-view.fxml"));
+            ConsultationPane.getChildren().setAll(displaystat);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+
+    public void showchatserver(ActionEvent actionEvent) {
+        try {
+            Node displaystat = FXMLLoader.load(getClass().getResource("/Front/server/server-view.fxml"));
+            ConsultationPane.getChildren().setAll(displaystat);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
 }

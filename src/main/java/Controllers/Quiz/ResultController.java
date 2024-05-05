@@ -1,5 +1,7 @@
 package Controllers.Quiz;
 
+import Controllers.Activite.DisplayAllActiviteController;
+import Controllers.Consultation.AffichageConsultationpatient;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -13,13 +15,18 @@ import entities.Answer;
 import entities.Proposition;
 import entities.Question;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import services.ServiceAnswer;
 import services.ServiceQuestion;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
@@ -28,19 +35,22 @@ public class ResultController {
 
     @FXML
     private TextArea resultArea;
+
     private ServiceQuestion serviceQuestion = new ServiceQuestion();
     private ServiceAnswer serviceAnswer = new ServiceAnswer(); // Service for answer-related operations
+
 
     public void setResults(String results) {
         resultArea.setText(results);
     }
 
+
     public void saveAnswersToPDF() {
         try {
-            List<Question> questions = serviceQuestion.getAllQuestionsWithPropositions();
-            List<Answer> answers = serviceAnswer.fetchAnswersByUserId(1);
+            List<Question> questions = serviceQuestion.getAllQuestionsWithPropositions(2);
+            List<Answer> answers = serviceAnswer.fetchAnswersByUserId(9);
 
-            generatePdf("C:\\Users\\Tifa\\Downloads\\Resultat.pdf", questions, answers);
+            generatePdf("C:\\Users\\Tifa\\Downloads\\Resulat.pdf", questions, answers);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Database error: " + e.getMessage());
@@ -49,7 +59,6 @@ public class ResultController {
             System.out.println("File not found error: " + e.getMessage());
         }
     }
-
     private void generatePdf(String dest, List<Question> questions, List<Answer> answers) throws FileNotFoundException {
         PdfWriter writer = new PdfWriter(dest);
         PdfDocument pdf = new PdfDocument(writer);
@@ -110,9 +119,42 @@ public class ResultController {
         }
 
 
-
-
 }
+    @FXML
+    private void goToDoctorConsultationPage() throws IOException {
+        try {
+            // Logic to navigate to the doctor consultation page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/affichageConsultationpatient.fxml"));
+            Parent root = loader.load();
+            AffichageConsultationpatient controller = loader.getController();
+
+            Stage stage = new Stage();
+            stage.setTitle("Consultation");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+        @FXML
+        private void goToActivitiesPage() throws IOException {
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Activite/ActiviteDisplay.fxml"));
+                Parent root = loader.load();
+
+                // Create a new Stage and Scene
+                Stage stage = new Stage();
+                stage.setTitle("Activities");
+                stage.setScene(new Scene(root));
+
+                // Show the new Stage
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle error or show an alert
+            }
+        }
 
         @FXML
         private void handleClose () {

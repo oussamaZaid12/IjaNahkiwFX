@@ -18,7 +18,7 @@ public class ServiceFicheMedicale implements IService<FicheMedicale> {
 
     @Override
     public void ajouter(FicheMedicale ficheMedicale) throws SQLException {
-        String req = "INSERT INTO fichemedicale (date_creation, derniere_maj, id_p, id_t) VALUES (?, ?, ?, ?)";
+        String req = "INSERT INTO fichemedicale (date_creation, derniere_maj, id_p_id, id_t_id) VALUES (?, ?, ?, ?)";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setObject(1, ficheMedicale.getDateCreation());
         pre.setObject(2, ficheMedicale.getDerniereMaj());
@@ -29,7 +29,7 @@ public class ServiceFicheMedicale implements IService<FicheMedicale> {
 
     @Override
     public void modifier(FicheMedicale ficheMedicale) throws SQLException {
-        String req = "UPDATE fichemedicale SET date_creation=?, derniere_maj=?, id_p=?, id_t=? WHERE id=?";
+        String req = "UPDATE fichemedicale SET date_creation=?, derniere_maj=?, id_p_id=?, id_t_id=? WHERE id=?";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setObject(1, ficheMedicale.getDateCreation());
         pre.setObject(2, ficheMedicale.getDerniereMaj());
@@ -50,17 +50,19 @@ public class ServiceFicheMedicale implements IService<FicheMedicale> {
     public List<FicheMedicale> afficher() throws SQLException {
         List<FicheMedicale> fichesMedicales = new ArrayList<>();
         String req = "SELECT * FROM fichemedicale";
-        Statement ste = con.createStatement();
-        ResultSet res = ste.executeQuery(req);
-        while (res.next()) {
-            FicheMedicale ficheMedicale = new FicheMedicale();
-            ficheMedicale.setId(res.getInt("id"));
-            ficheMedicale.setDateCreation(res.getObject("date_creation", java.util.Date.class));
-            ficheMedicale.setDerniereMaj(res.getObject("derniere_maj", java.util.Date.class));
-            ficheMedicale.setIdp(res.getInt("id_p"));
-            ficheMedicale.setIdt(res.getInt("id_t"));
-            fichesMedicales.add(ficheMedicale);
+        try (Statement ste = con.createStatement();
+             ResultSet res = ste.executeQuery(req)) {
+            while (res.next()) {
+                FicheMedicale ficheMedicale = new FicheMedicale();
+                ficheMedicale.setId(res.getInt("id"));
+                ficheMedicale.setDateCreation(res.getDate("date_creation"));
+                ficheMedicale.setDerniereMaj(res.getDate("derniere_maj"));
+                ficheMedicale.setIdp(res.getInt("id_p_id"));
+                ficheMedicale.setIdt(res.getInt("id_t_id"));
+                fichesMedicales.add(ficheMedicale);
+            }
         }
         return fichesMedicales;
     }
+
 }

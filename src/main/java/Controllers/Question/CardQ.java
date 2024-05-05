@@ -1,6 +1,8 @@
 package Controllers.Question;
 
+import Controllers.Consultation.AffichageConsultationpatient;
 import Controllers.Quiz.ResultController;
+import Controllers.User.Session;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -8,6 +10,7 @@ import com.itextpdf.layout.element.Paragraph;
 import entities.Proposition;
 import entities.Question;
 import entities.Answer;
+import entities.User;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,18 +47,19 @@ public class CardQ {
     private VBox vbox;
     @FXML
     private Button submitButton;
+
     private List<Question> allQuestions;
 
     private ServiceQuestion serviceQuestion = new ServiceQuestion();
     private ServiceAnswer serviceAnswer = new ServiceAnswer(); // Service for answer-related operations
     private Map<Question, Answer> selectedAnswers = new HashMap<>();
     private PredictionService predictionService = new PredictionService("http://localhost:8000/fastapi/");
-
+    private User currentUser = Session.getUser();
 
     @FXML
     public void initialize() {
         try {
-            allQuestions = serviceQuestion.getAllQuestions();
+            allQuestions = serviceQuestion.getQuestionsByQuestionnaire(2);
             setupPagination();
 
             // Bind the VBox's anchors to dynamically center it in the AnchorPane
@@ -119,7 +123,7 @@ public class CardQ {
                 Answer selectedAnswer = new Answer();
                 selectedAnswer.setQuestionId(question.getId());
                 selectedAnswer.setPropositionChoisieId(propositionId);
-                selectedAnswer.setIdUserId(1); // Example user ID, should be dynamically set based on the logged-in user
+                selectedAnswer.setIdUserId(currentUser.getId()); // Example user ID, should be dynamically set based on the logged-in user
 
                 // Store or process the selected answer
                 selectedAnswers.put(question, selectedAnswer);
@@ -160,20 +164,26 @@ public class CardQ {
 
 
     private void updateUIAfterPrediction(Map<String, Object> results) {
+
         if ((boolean) results.getOrDefault("success", false)) {
             Object predictionObj = results.get("prediction");
             int prediction;
             if (predictionObj instanceof Integer) {
                 prediction = (Integer) predictionObj;
+                System.out.println("prediction" + prediction);
             } else if (predictionObj instanceof Double) {
                 prediction = ((Double) predictionObj).intValue();
+                System.out.println("prediction" + prediction);
             } else {
                 showErrorOnUI("Invalid data type for prediction result.");
                 return;
             }
 
-            String message = (prediction == 1) ? "Consult a doctor." : "Your health status is good.";
-            displayResults(message);
+            if (prediction == 1) {
+               displayResults("We advise you to take an appointment with one of our therapists.");
+            } else {
+                displayResults("Your health status is good. Check our activities of the week.");
+            }
         } else {
             String error = (String) results.getOrDefault("error", "Failed to obtain a valid prediction result.");
             showErrorOnUI(error);
@@ -181,16 +191,6 @@ public class CardQ {
     }
 
 
-
-    private void goToDoctorConsultationPage() {
-        // Logic to navigate to the doctor consultation page
-        System.out.println("Navigating to Doctor Consultation Page...");
-    }
-
-    private void goToActivitiesPage() {
-        // Logic to navigate to the activities page
-        System.out.println("Navigating to Activities Page...");
-    }
 
 
     private void displayResults(String results) {
@@ -233,6 +233,7 @@ public class CardQ {
     }
 
 
-    }
+
+}
 
 

@@ -1,6 +1,12 @@
 package Controllers.Quiz;
 
+import Controllers.Question.AffichageQuestionController;
+import Controllers.Question.CardQ;
+import Controllers.Question.ControllerQuestion;
 import entities.Questionnaire;
+import Controllers.User.Session;
+import entities.User;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -63,14 +69,42 @@ public class AffichageQuestionnaireController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Quiz/EditQuestionnaire.fxml"));
                 Parent root = loader.load();
-                EditQuestionnaire controller = loader.getController();
+                EditQuestionnai controller = loader.getController();
                 controller.setQuestionnaire(selected); // Ensure selected is not null
-                MainFX.setCenterView(root);
+                Stage stage=new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             System.out.println("No Questionnaire selected for editing");
+        }
+    }
+
+    @FXML
+    private void handleListQuestion(ActionEvent event) {
+        Questionnaire selected = questionnairesTable.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            try {
+                // Load the `AffichageQuestion` view
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Question/QuestionView.fxml"));
+                Parent root = loader.load();
+
+                // Retrieve the controller and set the questionnaire
+                AffichageQuestionController controller = loader.getController();
+                controller.setQuestionnaire(selected);  // Implement the `setQuestionnaire` method in `AffichageQuestionController`
+                mainContainerQUES.getChildren().setAll(root);
+                // Set up the new stage
+                //Stage stage = new Stage();
+                //stage.setTitle("Questions for " + selected.getTitleQuestionnaire());
+               // stage.setScene(new Scene(root));
+               // stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlert("No Selection", "No Questionnaire Selected", "Please select a questionnaire in the table.");
         }
     }
 
@@ -91,6 +125,7 @@ public class AffichageQuestionnaireController {
             showAlert("No Selection", "No Questionnaire Selected", "Please select a questionnaire in the table.");
         }
     }
+
     private void showAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

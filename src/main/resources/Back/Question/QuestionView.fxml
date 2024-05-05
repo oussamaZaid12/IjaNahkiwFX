@@ -8,16 +8,16 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Question.AffichageQuestionController">
+<AnchorPane  fx:id="mainContainerQUES" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Question.AffichageQuestionController">
     <ImageView fitHeight="755.0" fitWidth="1293.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@../../images/add.jpeg" />
         </image>
     </ImageView>
-    <VBox layoutX="50.0" layoutY="107.0" prefHeight="465.0" prefWidth="733.0" spacing="20.0" AnchorPane.bottomAnchor="138.5999999999999" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="509.20000000000005" AnchorPane.topAnchor="107.0" styleClass="image-view" stylesheets="@../../css/style.css">
+    <VBox layoutX="50.0" layoutY="107.0" prefHeight="465.0" prefWidth="733.0" spacing="20.0" styleClass="image-view" stylesheets="@../../css/style.css" AnchorPane.bottomAnchor="138.5999999999999" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="509.20000000000005" AnchorPane.topAnchor="107.0">
         <Label style="-fx-font-size: 24px;" text="List of Questions" />
         <TableView fx:id="questionsTable" prefHeight="426.0" prefWidth="650.0" VBox.vgrow="ALWAYS">
             <columns>
@@ -27,13 +27,13 @@
                 <TableColumn fx:id="questionTitleColumn" prefWidth="200.0" text="Question">
                     <cellValueFactory><PropertyValueFactory property="titleQuestion" /></cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="answer1Column" prefWidth="150.0" text="Answer 1">
+                <TableColumn fx:id="proposition1Column" prefWidth="150.0" text="Answer 1">
                     <cellValueFactory><PropertyValueFactory property="answer1" /></cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="answer2Column" prefWidth="150.0" text="Answer 2">
+                <TableColumn fx:id="proposition2Column" prefWidth="150.0" text="Answer 2">
                     <cellValueFactory><PropertyValueFactory property="answer2" /></cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="answer3Column" prefWidth="150.0" text="Answer 3">
+                <TableColumn fx:id="proposition3Column" prefWidth="150.0" text="Answer 3">
                     <cellValueFactory><PropertyValueFactory property="answer3" /></cellValueFactory>
                 </TableColumn>
             </columns>
@@ -41,6 +41,11 @@
         <HBox spacing="10">
             <Button onAction="#loadQuestions" style="-fx-font-size: 14px;" text="Refresh" />
             <Button onAction="#handleDelete" text="Delete Selected" />
+             <Button mnemonicParsing="false" onAction="#handleEdit" text="Edit" />
+            <Button onAction="#goBackToQuestionnaire" text="Back to Questionnaires" />
+            <Button onAction="#handleAddQuestion" text="Ajouter Question" />
+
+
         </HBox>
     </VBox>
 </AnchorPane>

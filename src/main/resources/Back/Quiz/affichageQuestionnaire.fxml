@@ -61,6 +61,7 @@
           <HBox spacing="10">
               <Button onAction="#handleEdit" text="Edit Selected" />
               <Button onAction="#handleDelete" text="Delete Selected" />
+            <Button mnemonicParsing="false" onAction="#handleListQuestion" text="Afficher les Questions" />
           </HBox>
       </children>
    </VBox>

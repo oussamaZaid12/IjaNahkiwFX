@@ -3,15 +3,17 @@ package Controllers.Quiz;
 import entities.Questionnaire;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import services.ServiceQuestionnaire;
 
+import Controllers.User.Session;
+import entities.User;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
-public class EditQuestionnaire {
+public class EditQuestionnai {
 
     @FXML
     private Button LabelAjoutQuestionnaire;
@@ -37,7 +39,7 @@ public class EditQuestionnaire {
             LabelTitreQuestionnaire.setText(questionnaire.getTitleQuestionnaire());
             LabelDescrpQuestionnaire.setText(questionnaire.getDescription());
             LabelDateQuestionnaire.setValue(((java.sql.Date) questionnaire.getDate()).toLocalDate());
-            LabelUserQuestionnaire.setText(String.valueOf(questionnaire.getIdUserId()));
+            //LabelUserQuestionnaire.setText(String.valueOf(questionnaire.getIdUserId()));
         } else {
             System.out.println("Questionnaire is null");
             // Optionally handle the scenario when questionnaire is null, e.g., show an error message or log it.
@@ -48,11 +50,15 @@ public class EditQuestionnaire {
     @FXML
     void EditQuestionnaire(ActionEvent event) {
         try {
+            User currentUser = Session.getUser();  // Get the logged-in user
+            if (currentUser == null) {
+                showAlert("Error", "No user logged in.");
+                return;
+            }
             // Update the currentQuestionnaire object with new values from form
             currentQuestionnaire.setTitleQuestionnaire(LabelTitreQuestionnaire.getText());
             currentQuestionnaire.setDescription(LabelDescrpQuestionnaire.getText());
-            currentQuestionnaire.setDate(java.sql.Date.valueOf(LabelDateQuestionnaire.getValue()));
-            currentQuestionnaire.setIdUserId(Integer.parseInt(LabelUserQuestionnaire.getText()));
+            //currentQuestionnaire.setDate(java.sql.Date.valueOf(LabelDateQuestionnaire.getValue()));
 
             // Attempt to update questionnaire in the database
             ServiceQuestionnaire serviceQuestionnaire = new ServiceQuestionnaire();
@@ -63,6 +69,16 @@ public class EditQuestionnaire {
         } catch (SQLException e) {
             System.out.println("Error updating questionnaire: " + e.getMessage());
             // Handle error, possibly show an error message to the user
-        }
+        }    catch (Exception e) {
+        showAlert( "Erreur", "Une erreur inattendue est survenue.");
+        e.printStackTrace();
+    }
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

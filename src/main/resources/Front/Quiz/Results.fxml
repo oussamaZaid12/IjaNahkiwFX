@@ -2,8 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -14,19 +16,30 @@
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Resultat">
+            <Text fill="#3976c1" strokeType="OUTSIDE" strokeWidth="0.0" text="Resultat">
                  <font>
                     <Font size="63.0" />
                  </font>
             </Text>
             <TextArea fx:id="resultArea" editable="false" prefHeight="159.0" prefWidth="300.0" wrapText="true">
                  <font>
-                    <Font size="34.0" />
+                    <Font size="24.0" />
                  </font>
             </TextArea>
-            <Button onAction="#handleClose" text="Close" />
-            <Button text="Download Answers as PDF" onAction="#saveAnswersToPDF" />
-
+      <HBox prefHeight="41.0" prefWidth="560.0">
+         <children>
+                  <Button onAction="#saveAnswersToPDF" text="Télecharger Vos Reponse" styleClass="card-button" />
+            <Separator orientation="VERTICAL" prefHeight="38.0" prefWidth="26.0" />
+                  <Button fx:id="button1" onAction="#goToDoctorConsultationPage" text="Fair une Consultation" />
+            <Separator orientation="VERTICAL" prefHeight="26.0" prefWidth="38.0" />
+                  <Button fx:id="button2" onAction="#goToActivitiesPage" text="Check Activities" />
+         </children>
+      </HBox>
+      <HBox prefHeight="34.0" prefWidth="560.0">
+         <children>
+                  <Button onAction="#handleClose" prefHeight="26.0" prefWidth="46.0" text="Close" />
+         </children>
+      </HBox>
         </VBox>
 
 

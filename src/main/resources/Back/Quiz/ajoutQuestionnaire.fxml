@@ -26,8 +26,6 @@
             <TextField fx:id="LabelDescrpQuestionnaire" />
             <Label text="Date du Questionnaire" />
             <DatePicker fx:id="LabelDateQuestionnaire" />
-            <Label text="ID utilisateur" />
-            <TextField fx:id="LabelUserQuestionnaire" />
             <Button fx:id="LabelAjoutQuestionnaire" onAction="#AjouterQuestionnaire" styleClass="card-button" text="Ajouter" />
          </children>
       </VBox>

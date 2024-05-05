@@ -16,7 +16,7 @@ public class ServiceCommentaire implements IService<Commentaire> {
 
     @Override
     public void ajouter(Commentaire commentaire) throws SQLException {
-        String req = "INSERT INTO commentaire (publication_id, contenu_c, id_user) VALUES (?, ?, ?)";
+        String req = "INSERT INTO commentaire (publication_id, contenu_c, id_user_id) VALUES (?, ?, ?)";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setInt(1, commentaire.getPublication_id());
         pre.setString(2, commentaire.getContenu_c());
@@ -27,7 +27,7 @@ public class ServiceCommentaire implements IService<Commentaire> {
 
     @Override
     public void modifier(Commentaire commentaire) throws SQLException {
-        String req = "UPDATE commentaire SET publication_id=?, contenu_c=?, id_user=? WHERE id=?";
+        String req = "UPDATE commentaire SET publication_id=?, contenu_c=?, id_user_id=? WHERE id=?";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setInt(1, commentaire.getPublication_id());
         pre.setString(2, commentaire.getContenu_c());
@@ -54,7 +54,7 @@ public class ServiceCommentaire implements IService<Commentaire> {
             c.setId(res.getInt("id"));
             c.setPublication_id(res.getInt("publication_id"));
             c.setContenu_c(res.getString("contenu_c"));
-            c.setId_user(res.getInt("id_user"));
+            c.setId_user(res.getInt("id_user_id"));
             listCommentaires.add(c);
         }
         return listCommentaires;
@@ -74,7 +74,7 @@ public class ServiceCommentaire implements IService<Commentaire> {
                 c.setId(res.getInt("id"));
                 c.setPublication_id(res.getInt("publication_id"));
                 c.setContenu_c(res.getString("contenu_c"));
-                c.setId_user(res.getInt("id_user"));
+                c.setId_user(res.getInt("id_user_id"));
                 listCommentaires.add(c);
             }
             return listCommentaires;

@@ -118,44 +118,6 @@ public class NLPProcessor {
 
 
 
-    private String processTokensTEST(String[] tokens, String[] tags) {
-        // Example: respond differently if a noun is mentioned
-
-        for (int i = 0; i < tokens.length; i++) {
-            String token = tokens[i].toLowerCase();
-            switch (token) {
-                case "happy":
-                case "joy":
-                    return "That's wonderful to hear! What's making you feel happy?";
-                case "sad":
-                case "depressed":
-                    return "I'm sorry to hear that you're feeling sad. Can you tell me more about what's bothering you?";
-                case "angry":
-                case "frustrated":
-                    return "It sounds like you're feeling angry or frustrated. Let's talk about what's going on.";
-                case "anxious":
-                case "worried":
-                    return "Feeling anxious or worried is tough. Can you share what's on your mind?";
-                case "lonely":
-                    return "Feeling lonely can be difficult. I'm here to chat with you if you need someone to talk to.";
-                case "suicide":
-                    return "Please contact our green phone 9152987821 immediately.";
-                case "help":
-                    return "Please seek help by contacting our green phone 9152987821.";
-                case "hello":
-                    return "hi";
-
-                // Add more emotional keywords and responses as needed
-            }
-        }
-
-
-        // If no emotional keywords are detected, return a default response
-        return "Tell me more...";
-    }
-
-            // Existing methods for detectSentences, tokenize, and tagPOS...
-
 
     public String[] detectSentences(String input) {
         return sentenceDetector.sentDetect(input);

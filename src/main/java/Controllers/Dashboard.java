@@ -1,74 +1,97 @@
-package Controllers;
+    package Controllers;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.Node;
-import javafx.fxml.FXMLLoader;
-import java.io.IOException;
+    import javafx.fxml.FXML;
+    import javafx.fxml.FXMLLoader;
+    import javafx.scene.Node;
+    import javafx.scene.layout.BorderPane;
 
-public class Dashboard {
+    import java.io.IOException;
 
-    @FXML
-    private BorderPane mainContainer;
+    public class Dashboard {
 
-    @FXML
-    public void showAddPublication() {
-        try {
-            Node addPub = FXMLLoader.load(getClass().getResource("/Back/Publication/ajoutPub.fxml"));
-            mainContainer.setCenter(addPub);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
+        @FXML
+        private BorderPane mainContainer;
+
+        @FXML
+        public void showAddPublication() {
+            try {
+                Node addPub = FXMLLoader.load(getClass().getResource("/Back/Publication/ajoutPub.fxml"));
+                mainContainer.setCenter(addPub);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+
+        @FXML
+        public void showDisplayPublications() {
+            try {
+                Node displayPubs = FXMLLoader.load(getClass().getResource("/Back/Publication/affichagePub.fxml"));
+                mainContainer.setCenter(displayPubs);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+
+        @FXML
+        public void showHome() {
+            try {
+                Node home = FXMLLoader.load(getClass().getResource("/Back/HomeView.fxml"));
+                mainContainer.setCenter(home);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+
+        @FXML
+        public void displaylistAct() {
+            try {
+                Node act = FXMLLoader.load(getClass().getResource("/Back/Activite/AllbackListes.fxml"));
+                mainContainer.setCenter(act);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+
+
+        @FXML
+        public void diplayaddAct() {
+            try {
+                Node acti = FXMLLoader.load(getClass().getResource("/Back/Activite/ajoutActivite.fxml"));
+                mainContainer.setCenter(acti);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+
+        @FXML
+        public void displayQuiz() {
+            try {
+                Node quiz = FXMLLoader.load(getClass().getResource("/Back/Quiz/ajoutQuestionnaire.fxml"));
+                mainContainer.setCenter(quiz);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+
+
+
+        public void addQuiz() {
+            try {
+                Node quiz = FXMLLoader.load(getClass().getResource("/Back/Quiz/affichageQuestionnaire.fxml"));
+                mainContainer.setCenter(quiz);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+        @FXML
+        private void initialize() {
+            showHome();
         }
     }
-
-    @FXML
-    public void showDisplayPublications() {
-        try {
-            Node displayPubs = FXMLLoader.load(getClass().getResource("/Back/Publication/affichagePub.fxml"));
-            mainContainer.setCenter(displayPubs);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
-
-    @FXML
-    public void showHome() {
-        try {
-            Node home = FXMLLoader.load(getClass().getResource("/Back/HomeView.fxml"));
-            mainContainer.setCenter(home);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
-
-    @FXML
-    public void displayQuiz() {
-        try {
-            Node quiz = FXMLLoader.load(getClass().getResource("/Back/Quiz/ajoutQuestionnaire.fxml"));
-            mainContainer.setCenter(quiz);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
-
-
-    @FXML
-    private void initialize() {
-        showHome();
-    }
-
-    public void addQuiz() {
-        try {
-            Node quiz = FXMLLoader.load(getClass().getResource("/Back/Quiz/affichageQuestionnaire.fxml"));
-            mainContainer.setCenter(quiz);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
-}

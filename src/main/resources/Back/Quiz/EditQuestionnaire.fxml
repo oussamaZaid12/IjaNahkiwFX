@@ -9,7 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 
-<AnchorPane prefHeight="758.0" prefWidth="1203.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Quiz.EditQuestionnaire">
+<AnchorPane prefHeight="758.0" prefWidth="1203.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Quiz.EditQuestionnai">
     <ImageView fitHeight="755.0" fitWidth="1293.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@../../images/add.jpeg" />
@@ -24,8 +24,6 @@
                 <TextField fx:id="LabelDescrpQuestionnaire" />
                 <Label text="Date du Questionnaire" />
                 <DatePicker fx:id="LabelDateQuestionnaire" />
-                <Label text="ID utilisateur" />
-                <TextField fx:id="LabelUserQuestionnaire" />
                 <Button onAction="#EditQuestionnaire" styleClass="card-button" text="modifier" />
             </children>
         </VBox>

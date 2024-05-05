@@ -1,0 +1,49 @@
+.root {
+    -fx-font-family: 'Arial';
+    -fx-background-color: #f4f4f4;
+}
+
+.card {
+    -fx-padding: 10px;
+    -fx-spacing: 5px;
+    -fx-border-color: #d0d0d0;
+    -fx-border-radius: 5px;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 10);
+}
+
+.activite-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2a2a2a;
+}
+
+.programme-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2a8ccf;
+}
+
+.exercice-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #f86323;
+}
+.button {
+    -fx-background-color: #5ca0d3;
+    -fx-text-fill: #24889d;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: rgba(255, 190, 166, 0.6);
+}
+
+.card:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.3s ease-in-out;
+}
+

@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import services.ServiceQuestionnaire;
+import entities.User;
+import Controllers.User.Session;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -46,41 +48,51 @@ public class AjoutQuestionnaire {
     @FXML
     void AjouterQuestionnaire(ActionEvent event) {
         if (!validateTitle(LabelTitreQuestionnaire.getText())) {
-            showAlert("Invalid Input", "Error", "Title contains invalid characters.");
+            showAlert(Alert.AlertType.ERROR, "Invalid Input : Error", "Title contains invalid characters.");
             return;
         }
+        try {
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
 
         // Retrieve data from input fields
         String title = LabelTitreQuestionnaire.getText();
         String description = LabelDescrpQuestionnaire.getText();
-        LocalDate date = LabelDateQuestionnaire.getValue();
-
+        int idUser = currentUser.getId();
+        LocalDate dateLocal = LabelDateQuestionnaire.getValue();
+        java.sql.Date date = java.sql.Date.valueOf(dateLocal);
         // Assuming time is not needed, just date
-        LocalTime time = LocalTime.MIDNIGHT; // Use midnight time as only date is needed
+        //LocalTime time = LocalTime.MIDNIGHT; // Use midnight time as only date is needed
 
         // Combine date and time into a LocalDateTime
-        LocalDateTime dateTime = LocalDateTime.of(date, time);
+        //LocalDateTime dateTime = LocalDateTime.of(date, time);
 
         // Parse the user ID from input
-        int userId = Integer.parseInt(LabelUserQuestionnaire.getText());
+        //int userId = Integer.parseInt(LabelUserQuestionnaire.getText());
 
         // Create a new Questionnaire object
-        Questionnaire questionnaire = new Questionnaire();
+        Questionnaire questionnaire = new Questionnaire(title,description,date,idUser);
         questionnaire.setTitleQuestionnaire(title);
         questionnaire.setDescription(description);
-        questionnaire.setDate(java.sql.Date.valueOf(dateTime.toLocalDate()));
-        questionnaire.setIdUserId(userId);
+        questionnaire.setDate(date);
+        questionnaire.setIdUserId(idUser);
 
         // Using the service to add the questionnaire to the database
-        try {
+
             ServiceQuestionnaire serviceQuestionnaire = new ServiceQuestionnaire();
             serviceQuestionnaire.ajouter(questionnaire);
             System.out.println("Questionnaire added successfully!");
             // Here, you could also clear the form or give visual feedback
         } catch (SQLException e) {
             System.out.println("Error adding questionnaire: " + e.getMessage());
-            // Additional error handling can be added here
-        }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur inattendue est survenue.");
+            e.printStackTrace();
+        }   // Additional error handling can be added here
+
     }
 
     private boolean validateTitle(String title) {
@@ -91,20 +103,26 @@ public class AjoutQuestionnaire {
     public void saveQuestionnaire() {
         String title = LabelTitreQuestionnaire.getText();
         if (!validateTitle(title)) {
-            showAlert("Invalid Input", "Error", "Title contains invalid characters.");
+            showAlert(Alert.AlertType.ERROR, "Invalid Input ,Error", "Title contains invalid characters.");
             return;
         }
         // Proceed with saving or updating the questionnaire
     }
 
-    private void showAlert(String title, String header, String content) {
+    private void showAlert1(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
     }
-
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
     public static class Validator {
         public static boolean validateQuestion(String title) {
             return title.matches("[A-Za-z0-9 ,.]*");

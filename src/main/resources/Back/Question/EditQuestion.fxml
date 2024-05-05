@@ -36,13 +36,7 @@
                     <Font size="17.0" />
                 </font>
             </Text>
-            <TextField fx:id="labelUserId" promptText="Enter User ID" />
-            <Label fx:id="errorUserIdLabel" textFill="red" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter les reponses">
-                <font>
-                    <Font size="16.0" />
-                </font>
-            </Text>
+
             <TextField fx:id="labelAnswer1" promptText="Enter Answer 1" />
             <TextField fx:id="labelAnswer2" promptText="Enter Answer 2" />
             <TextField fx:id="labelAnswer3" promptText="Enter Answer 3" />

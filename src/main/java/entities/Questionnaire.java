@@ -2,6 +2,7 @@ package entities;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Questionnaire {
     int id;
@@ -15,6 +16,13 @@ public class Questionnaire {
 
     public Questionnaire(int id, String titleQuestionnaire, String description, Date date, int idUserId) {
         this.id = id;
+        this.titleQuestionnaire = titleQuestionnaire;
+        this.description = description;
+        this.date = date;
+        this.idUserId = idUserId;
+    }
+
+    public Questionnaire(String titleQuestionnaire, String description, Date date, int idUserId) {
         this.titleQuestionnaire = titleQuestionnaire;
         this.description = description;
         this.date = date;
@@ -68,6 +76,12 @@ public class Questionnaire {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     @Override
     public String toString() {
         return "Questionnaire{" +

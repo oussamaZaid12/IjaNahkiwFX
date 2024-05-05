@@ -1,5 +1,8 @@
 package Controllers.Publication;
 
+import Controllers.User.Session;
+import entities.Role;
+import entities.User;
 import entities.publication;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

@@ -27,8 +27,6 @@
             <ImageView fx:id="imagePreview" fitHeight="50.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" />
             <Label text="Date de publication" />
             <DatePicker fx:id="TfDate" />
-            <Label text="ID utilisateur" />
-            <TextField fx:id="TfIdUser" />
             <Button fx:id="TfValider" onAction="#AjouterPublication" styleClass="card-button" text="Ajouter" />
          </children>
       </VBox>
