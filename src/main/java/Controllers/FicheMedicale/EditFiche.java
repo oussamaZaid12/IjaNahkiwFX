@@ -38,8 +38,14 @@ public class EditFiche {
         this.currentFiche = currentFiche;
         tfidp.setText(String.valueOf(currentFiche.getIdp()));
         tfidt.setText(String.valueOf(currentFiche.getIdt()));
-        LocalDate localDateCreation =currentFiche.getDateCreation().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate localDateMiseAjout = currentFiche.getDateCreation().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // Extract year, month, and day components from java.sql.Date
+        Date dateCreation = (Date) currentFiche.getDateCreation();
+        LocalDate localDateCreation = LocalDate.of(dateCreation.getYear() + 1900, dateCreation.getMonth() + 1, dateCreation.getDate());
+
+        Date dateMiseAjout = (Date) currentFiche.getDerniereMaj();
+        LocalDate localDateMiseAjout = LocalDate.of(dateMiseAjout.getYear() + 1900, dateMiseAjout.getMonth() + 1, dateMiseAjout.getDate());
+
         // Set the values of the DatePicker components
         tfdatedecreation.setValue(localDateCreation);
         tfdatemiseajour.setValue(localDateMiseAjout);

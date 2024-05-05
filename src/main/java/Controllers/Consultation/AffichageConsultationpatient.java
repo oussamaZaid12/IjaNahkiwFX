@@ -40,11 +40,6 @@ public class AffichageConsultationpatient {
         });
     }
 
-    @FXML
-    private void handleSearch() {
-        String searchTerm = searchField.getText();
-        // Perform search and update the view...
-    }
     private void loadConsultations(String searchTerm) {
         try {
             User currentUser = Session.getUser();
@@ -53,8 +48,6 @@ public class AffichageConsultationpatient {
                 return;
             }
             List<Consultation> consultations = serviceConsultation.getConsultationsByPatientId(currentUser.getId());
-            System.out.println("patient:\n");
-            System.out.println(consultations);
             if (searchTerm != null && !searchTerm.isEmpty()) {
                 consultations = consultations.stream()
                         .filter(pub -> pub.getPathologie().toLowerCase().contains(searchTerm.toLowerCase()))
