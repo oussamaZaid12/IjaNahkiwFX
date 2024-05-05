@@ -2,10 +2,15 @@ package Controllers.Consultation;
 
 import entities.Consultation;
 import entities.Notification;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import services.ServiceConsultation;
 import services.ServiceNotification;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,12 +39,21 @@ public class UpcomingConsultationChecker {
                         createNotification(consultation);
                     }
                 }
-               // showAlert(upcomingConsultations);
+            //showAlert(upcomingConsultations);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/popup.fxml"));
+                Parent root = loader.load();
+               // EditConsultationDoctor controller = loader.getController();
+               // controller.setConsultation(this.currentConsultation);
+                //  MainFX.setCenterView(root);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
             } else {
                 System.out.println("No upcoming consultations found.");
             }
         } catch (SQLException e) {
-            // Handle the exception, e.g., log the error
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -57,7 +71,6 @@ public class UpcomingConsultationChecker {
             serviceNotification.ajouter(notification);
             notifications.add(notification);
         } catch (SQLException e) {
-            // Handle the exception, e.g., log the error
         }
     }
 
