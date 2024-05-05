@@ -109,10 +109,12 @@ public class Cardconsultation {
             ServiceFicheMedicale serviceFiche = new ServiceFicheMedicale();
             int idp = currentConsultation.getIdp();
             int idt = currentConsultation.getIdt();
-            serviceFiche.createFicheByTherapistAndPatientId(idp, idt);
-            System.out.println("Fiche ajoutée dans la base: ");
             FicheMedicale fiche = serviceFiche.getFicheByTherapistAndPatientId(idp, idt);
             System.out.println("La fiche trouvée dans la base: " + fiche);
+            if(fiche==null){
+            System.out.println("pas de fiche trouvée");
+            serviceFiche.createFicheByTherapistAndPatientId(idp, idt);
+            System.out.println("Fiche créée dans la base: ");}
             ServiceConsultation serviceConsultation = new ServiceConsultation();
             serviceConsultation.modifyFicheMedicaleId(currentConsultation.getId(), fiche.getId());
             System.out.println("Consultation modifiée dans la base");
