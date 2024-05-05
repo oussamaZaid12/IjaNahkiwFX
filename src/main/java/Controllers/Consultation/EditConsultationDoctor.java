@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import services.ServiceConsultation;
+import utils.MailUtil;
+import utils.EmailService;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -141,6 +143,8 @@ public class EditConsultationDoctor {
             currentConsultation.setConfirmation(confirmationCheckBox.isSelected()); // Set the confirmation status
 
             serviceConsultation.modifier(currentConsultation);
+            EmailService emailService = new EmailService(currentUser.getEmail());
+            emailService.start();
             showAlert("Success", "Consultation has been updated successfully.");
 
         } catch (SQLException e) {

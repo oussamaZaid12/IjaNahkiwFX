@@ -104,7 +104,7 @@ public class Cardconsultation {
         alert.showAndWait();
     }
 
-    public void AttirbuerFiche(ActionEvent actionEvent) {
+    public void AttribuerFiche(ActionEvent actionEvent) {
         try {
             ServiceFicheMedicale serviceFiche = new ServiceFicheMedicale();
             int idp = currentConsultation.getIdp();

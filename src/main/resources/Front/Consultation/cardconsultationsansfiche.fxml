@@ -22,7 +22,7 @@
                 <Label fx:id="remarques" styleClass="card-description" text="Remarques" />
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#AttirbuerFiche" text="Attribuer une fiche" />
+                        <Button mnemonicParsing="false" onAction="#AttribuerFiche" text="Attribuer une fiche" />
                         <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteAction" styleClass="label-like-button" textFill="#1b0101">
                             <HBox.margin>
                                 <Insets left="230.0" />
