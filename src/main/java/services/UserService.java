@@ -272,15 +272,6 @@ public String getVerificationCodeByEmail(String email) {
 
         return list;
     }
-
-
-
-
-
-
-
-
-
     public String getRoleByEmail(String email) {
         String role = "Unknown"; // Default value
 
@@ -367,6 +358,9 @@ public boolean verifyCode(String code) {
                 roleString = roleString.replaceAll("[\\[\\]\"]", ""); // Remove square brackets and quotes
                 Role role = Role.valueOf(roleString);
                 user.setRole(role);
+                user.setNom(resultSet.getString("nom")); // Vous définissez le nom ici
+                user.setPrenom(resultSet.getString("prenom")); // Vous définissez le prénom ici
+                user.setAge(resultSet.getInt("age"));
 
                 user.setBanned(resultSet.getBoolean("is_banned"));
             }
@@ -402,15 +396,17 @@ public boolean verifyCode(String code) {
     public void updateProfile(User user) {
         try {
             // Update user information
-            String updateUserQuery = "UPDATE user SET email=?, profile_picture=?, roles=? WHERE id=?";
+            String updateUserQuery = "UPDATE user SET email=?, profile_picture=?, nom=?, prenom=?, age=? WHERE id=?";
             PreparedStatement updateUserStatement = connection.prepareStatement(updateUserQuery);
             updateUserStatement.setString(1, user.getEmail());
             updateUserStatement.setString(2, user.getImage());
-            updateUserStatement.setString(3, user.getRole().toString());
-            updateUserStatement.setInt(4, user.getId());
+            updateUserStatement.setString(3, user.getNom());
+            updateUserStatement.setString(4, user.getPrenom());
+            updateUserStatement.setInt(5, user.getAge());
+            updateUserStatement.setInt(6, user.getId());
+
             int userRowsUpdated = updateUserStatement.executeUpdate();
             updateUserStatement.close();
-
 
             if (userRowsUpdated > 0 ) {
                 System.out.println("Profile updated successfully!");
@@ -421,6 +417,7 @@ public boolean verifyCode(String code) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
     public void chngeUserActive(User user, boolean active) {
         String query = "UPDATE user SET is_banned = ? WHERE id = ?";

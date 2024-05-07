@@ -138,6 +138,7 @@ public class Signup {
             invalidText.setText("User already exists");
             invalidText.setVisible(true);
             return;
+
         }
     }
 
@@ -156,8 +157,8 @@ public class Signup {
     /// Méthode pour enregistrer l'image de profil dans le répertoire approprié
     private void saveProfileImage(String imagePath, String imageName) {
         File source = new File(imagePath);
-        File destination = new File("./images" + imageName); // Spécifiez le chemin du dossier de destination
-
+        File destination = new File("src/main/resources/static", imageName);         // Spécifiez le chemin du dossier de destination
+        System.out.println("Destination path: " + destination.getAbsolutePath());
         try {
             // Créez un flux d'entrée pour l'image source
             FileInputStream fis = new FileInputStream(source);
@@ -193,6 +194,15 @@ public class Signup {
         if (selectedFile != null) {
             // Obtient le chemin d'accès de l'image sélectionnée
             profileImagePath = selectedFile.getAbsolutePath();
+
+            // Affiche le chemin d'accès (à des fins de débogage)
+            System.out.println("Selected Image Path: " + profileImagePath);
+
+            // Vérifie si le fichier existe réellement à cet emplacement
+            if (!selectedFile.exists()) {
+                showAlert("Selected file does not exist.");
+                return;
+            }
         }
     }
 

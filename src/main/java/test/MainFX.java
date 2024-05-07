@@ -15,7 +15,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage stage) {
         try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/DashboardAdmin.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/signup.fxml"));
             mainLayout = loader.load();
             Scene scene = new Scene(mainLayout);
             stage.setScene(scene);
