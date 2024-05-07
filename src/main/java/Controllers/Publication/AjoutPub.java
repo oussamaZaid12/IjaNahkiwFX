@@ -12,6 +12,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.videoio.VideoCapture;
 import services.ServicePublication;
 
 import java.io.File;
@@ -23,36 +27,37 @@ import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-
 public class AjoutPub {
 
-    // Constants
     private static final String IMAGES_DIR = "src/main/resources/images/";
-
     @FXML private DatePicker TfDate;
     @FXML private TextField TfDescription;
-    @FXML private TextField TfIdUser;
     @FXML private TextField TfTitre;
     @FXML private Button TfValider;
-    @FXML private ImageView imagePreview; // Pour afficher l'aperçu de l'image
+    @FXML private ImageView imagePreview;
 
-    private File imageFile; // Pour stocker le fichier image sélectionné
-       /*     private void switchToDisplayPublicationsScene() {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/AffichagePub.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) TfValider.getScene().getWindow();
-                    stage.setScene(scene);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
+    private File imageFile;
+    private VideoCapture capture;
+    private boolean cameraActive;
+    private Mat frame;
 
+    static {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    }
+
+    @FXML
+    private void initialize() {
+        capture = new VideoCapture();
+        frame = new Mat();
+        try {
+            Files.createDirectories(Paths.get(IMAGES_DIR));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void AjouterPublication(ActionEvent event) {
-        // Vérifiez que tous les champs nécessaires sont remplis
         if (TfTitre.getText().isEmpty() || TfDescription.getText().isEmpty() || TfDate.getValue() == null || imageFile == null) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs et l'image doivent être remplis.");
             return;
@@ -65,23 +70,16 @@ public class AjoutPub {
                 return;
             }
 
-            // Récupération des informations à partir des champs de texte
             String titre = TfTitre.getText();
             String description = TfDescription.getText();
-            int idUser = currentUser.getId();  // Utilisez l'ID de l'utilisateur connecté
+            int idUser = currentUser.getId();
             LocalDate dateLocal = TfDate.getValue();
             java.sql.Date date = java.sql.Date.valueOf(dateLocal);
 
-            // Création du répertoire d'images s'il n'existe pas
-            Files.createDirectories(Paths.get(IMAGES_DIR));
-
-            // Copie de l'image dans le répertoire d'images et récupération du nom de fichier
-            Path sourcePath = imageFile.toPath();
-            Path destinationPath = Paths.get(IMAGES_DIR + imageFile.getName());
-            Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            Path destinationPath = Paths.get(IMAGES_DIR, imageFile.getName());
+            Files.copy(imageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
             String imageName = destinationPath.getFileName().toString();
 
-            // Création de l'objet publication et ajout à la base de données
             publication pub = new publication(idUser, titre, description, imageName, date);
             ServicePublication servicePublication = new ServicePublication();
             servicePublication.ajouter(pub);
@@ -99,7 +97,6 @@ public class AjoutPub {
         }
     }
 
-
     @FXML
     private void choisirImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -108,9 +105,35 @@ public class AjoutPub {
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
-            imageFile = file;
-            Image image = new Image(file.toURI().toString());
+            imageFile = new File(IMAGES_DIR, file.getName());
+            try {
+                Files.copy(file.toPath(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la copie de l'image choisie.");
+                e.printStackTrace();
+                return;
+            }
+            Image image = new Image("file:" + imageFile.getPath());
             imagePreview.setImage(image);
+        }
+    }
+
+    @FXML
+    private void takePhoto(ActionEvent event) {
+        if (!cameraActive) {
+            capture.open(0);
+            cameraActive = true;
+        }
+
+        if (capture.isOpened()) {
+            capture.read(frame);
+
+            String outputFileName = IMAGES_DIR + "captured_image.png";
+            Imgcodecs.imwrite(outputFileName, frame);
+            imageFile = new File(outputFileName);
+            imagePreview.setImage(new Image("file:" + outputFileName));
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'accéder à la caméra.");
         }
     }
 

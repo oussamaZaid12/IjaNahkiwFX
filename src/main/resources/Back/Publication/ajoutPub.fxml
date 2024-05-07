@@ -27,7 +27,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="btnChoisirImage" onAction="#choisirImage" styleClass="card-button" text="Choisir Image" />
-                  <Button fx:id="btnTakePhoto" mnemonicParsing="false"  styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css">
+                  <Button fx:id="btnTakePhoto" mnemonicParsing="false" onAction="#takePhoto" styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>
