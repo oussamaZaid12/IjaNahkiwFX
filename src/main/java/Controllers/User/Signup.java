@@ -41,12 +41,42 @@ public class Signup {
     private ComboBox<String> genderComboBox;
     @FXML
     private ComboBox<String> roleComboBox;
+    @FXML
+    Label captchaCode;
+    @FXML
+    TextField captchaInput;
 
     @FXML
     private Button uploadProfileImageButton;
 
     private String profileImagePath;
+    private String captcha;
+    public void initialize() {
+        // Générer et afficher le captcha au chargement de la page
+        generateCaptcha();
+    }
 
+    // Méthode pour générer et afficher le captcha
+    private void generateCaptcha() {
+        Random rand = new Random();
+        StringBuilder captchaBuilder = new StringBuilder();
+        // Générer un captcha de longueur 6
+        for (int i = 0; i < 6; i++) {
+            // Pour chaque itération, décidez aléatoirement d'ajouter un caractère ou un chiffre
+            if (rand.nextBoolean()) {
+                // Ajouter un chiffre aléatoire entre 0 et 9
+                int randomNumber = rand.nextInt(10);
+                captchaBuilder.append(randomNumber);
+            } else {
+                // Ajouter un caractère aléatoire de 'A' à 'Z'
+                char randomChar = (char) ('A' + rand.nextInt(26));
+                captchaBuilder.append(randomChar);
+            }
+        }
+        // Combinez les nombres et les caractères aléatoires pour former le captcha
+        captcha = captchaBuilder.toString();
+        captchaCode.setText(captcha);
+    }
     public void signupButtonOnAction(ActionEvent event) throws IOException {
 
         // Vérifie si tous les champs sont remplis
@@ -83,6 +113,10 @@ public class Signup {
         if (!ageTextField.getText().matches("\\d+")) {
             invalidText.setText("Age must be a numeric value");
             invalidText.setVisible(true);
+            return;
+        }
+        if (!captchaInput.getText().equals(captcha)) {
+            showAlert("Captcha does not match");
             return;
         }
 
@@ -197,5 +231,11 @@ public class Signup {
 
         // Show the profile stage
         profileStage.show();
+    }
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

@@ -73,7 +73,7 @@
                                 </FXCollections>
                             </items>
                         </ComboBox>
-                        <Button fx:id="signupButton" layoutX="216.0" layoutY="440.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #f2d5c5;" text="Signup" textFill="WHITE" />
+                        <Button fx:id="signupButton" layoutX="257.0" layoutY="473.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #f2d5c5;" text="Signup" textFill="WHITE" />
                         <Label fx:id="invalidText" layoutX="3.0" layoutY="352.0" prefHeight="30.0" prefWidth="194.0" textFill="RED" />
                         <Label layoutX="48.0" layoutY="138.0" text="Email">
                             <font>
@@ -92,13 +92,21 @@
                             </font>
                         </Label>
                         <TextField fx:id="emailTextfield1" layoutX="140.0" layoutY="168.0" promptText="Confirm Email" />
-                        <Button fx:id="uploadProfileImageButton" layoutX="152.0" layoutY="369.0" mnemonicParsing="false" onAction="#uploadProfileImage" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #f2d5c5;" text="Upload Image" textFill="WHITE" />
-                        <Label layoutX="28.0" layoutY="372.0" text="Profile Image">
+                        <Button fx:id="uploadProfileImageButton" layoutX="152.0" layoutY="354.0" mnemonicParsing="false" onAction="#uploadProfileImage" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #f2d5c5;" text="Upload Image" textFill="WHITE" />
+                        <Label layoutX="29.0" layoutY="357.0" text="Profile Image">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </Label>
                         <Label layoutX="50.0" layoutY="207.0" text="age" />
+                        <Label fx:id="captchaCode" layoutX="141.0" layoutY="389.0" prefHeight="55.0" prefWidth="147.0" text="Label" textFill="#ff4400">
+                            <font>
+                                <Font name="Zapfino" size="14.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="captchaInput" layoutX="134.0" layoutY="437.0" prefHeight="26.0" prefWidth="161.0" />
+                        <Label layoutX="27.0" layoutY="441.0" prefHeight="17.0" prefWidth="98.0" text="Entre code" />
+                        <Label layoutX="30.0" layoutY="408.0" prefHeight="17.0" prefWidth="139.0" text="Security Code" />
                     </children>
                 </AnchorPane>
             </center>

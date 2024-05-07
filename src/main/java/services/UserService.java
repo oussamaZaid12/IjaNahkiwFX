@@ -102,7 +102,7 @@ public String getVerificationCodeByEmail(String email) {
             String s = "[\"" + user.getRole().toString().toUpperCase() + "\"]";
             preparedStatement.setString(4, s);
             preparedStatement.setString(5, user.getNom());
-            preparedStatement.setString(6, user.getPassword());
+            preparedStatement.setString(6, user.getPrenom());
             preparedStatement.setInt(7, user.getAge());
             preparedStatement.executeUpdate();
             System.out.println("User added successfully!");
