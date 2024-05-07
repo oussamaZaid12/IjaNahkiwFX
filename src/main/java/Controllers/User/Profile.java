@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class Profile {
     @FXML
@@ -46,9 +45,9 @@ public class Profile {
     private User currentUser;
     private UserService userService = new UserService();
 
-    public void initData(User user) {
-        currentUser = user;
-        if (currentUser != null) {
+    public void initialize(User currentUser) {
+        User u = Session.getUser();
+        if (u != null) {
             populateProfileInformation(currentUser);
         }
     }
@@ -98,24 +97,33 @@ public class Profile {
 
     @FXML
     private void UpdateData() {
+        // Récupérer l'utilisateur actuel à partir de la session
+        User currentUser = Session.getUser();
+
+        // Vérifier si l'utilisateur actuel est null
         if (currentUser == null) {
             System.out.println("Erreur : currentUser est null.");
             return;
         }
 
         try {
+            // Mettre à jour les informations de l'utilisateur avec les valeurs des champs
             currentUser.setNom(nom.getText());
             currentUser.setPrenom(prenom.getText());
             currentUser.setEmail(email.getText());
             currentUser.setAge(Integer.parseInt(age.getText()));
+
+            // Mettre à jour le profil de l'utilisateur dans la base de données
             userService.updateProfile(currentUser);
 
             // Afficher un message de succès
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Profil mis à jour", "Votre profil a été mis à jour avec succès.");
         } catch (Exception e) {
+            // En cas d'erreur, afficher un message d'erreur
             showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de la mise à jour du profil", "Une erreur s'est produite lors de la mise à jour de votre profil : " + e.getMessage());
         }
     }
+
 
 
     @FXML

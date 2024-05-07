@@ -229,7 +229,7 @@ public class Signup {
         Profile profileController = loader.getController();
 
         // Initialize data using the controller's method
-        profileController.initData(user);
+        profileController.initialize(user);
 
         Scene profileScene = new Scene(profileInterface);
         Stage profileStage = new Stage();

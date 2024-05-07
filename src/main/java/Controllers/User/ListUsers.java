@@ -385,7 +385,7 @@ public class ListUsers {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/forgetPassword.fxml"));
         Parent profileInterface = loader.load();
         Profile profileController = loader.getController();
-        profileController.initData(user);
+        profileController.initialize(user);
         Scene profileScene = new Scene(profileInterface);
         Stage profileStage = new Stage();
         profileStage.setScene(profileScene);
