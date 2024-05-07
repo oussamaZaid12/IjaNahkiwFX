@@ -27,6 +27,10 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="btnChoisirImage" onAction="#choisirImage" styleClass="card-button" text="Choisir Image" />
+                  <Button fx:id="startCameraBtn" onAction="#startCamera" text="Start Camera" />
+                  <Button fx:id="stopCameraBtn" onAction="#stopCamera" text="Stop Camera" />
+                  <Button fx:id="takePhotoBtn" onAction="#takePhoto" text="Take Photo" />
+
                   <Button fx:id="btnTakePhoto" mnemonicParsing="false" onAction="#takePhoto" styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
@@ -38,7 +42,7 @@
                   </Button>
                </children>
             </HBox>
-            <ImageView fx:id="imagePreview" fitHeight="50.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imagePreview" fitHeight="192.0" fitWidth="291.0" pickOnBounds="true" preserveRatio="true" />
             <Label text="Date de publication" />
             <DatePicker fx:id="TfDate" />
             <Button fx:id="TfValider" onAction="#AjouterPublication" styleClass="card-button" text="Ajouter" />

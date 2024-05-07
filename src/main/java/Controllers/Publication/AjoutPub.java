@@ -3,10 +3,10 @@ package Controllers.Publication;
 import Controllers.User.Session;
 import entities.User;
 import entities.publication;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -14,8 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
+import org.opencv.imgcodecs.Imgcodecs;
 import services.ServicePublication;
 
 import java.io.File;
@@ -33,13 +33,13 @@ public class AjoutPub {
     @FXML private DatePicker TfDate;
     @FXML private TextField TfDescription;
     @FXML private TextField TfTitre;
-    @FXML private Button TfValider;
     @FXML private ImageView imagePreview;
 
     private File imageFile;
     private VideoCapture capture;
-    private boolean cameraActive;
     private Mat frame;
+    private AnimationTimer timer;
+    private boolean isPreviewing = false;
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -54,6 +54,52 @@ public class AjoutPub {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Initialize and define the animation timer to update frames
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (capture.isOpened()) {
+                    capture.read(frame);
+                    Image image = Utils.mat2Image(frame);
+                    imagePreview.setImage(image);
+                }
+            }
+        };
+    }
+
+    @FXML
+    private void startCamera(ActionEvent event) {
+        if (!capture.isOpened()) {
+            capture.open(0);
+        }
+
+        if (capture.isOpened() && !isPreviewing) {
+            isPreviewing = true;
+            timer.start();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'accéder à la caméra.");
+        }
+    }
+
+    @FXML
+    private void stopCamera(ActionEvent event) {
+        timer.stop();
+        isPreviewing = false;
+        capture.release();
+    }
+
+    @FXML
+    private void takePhoto(ActionEvent event) {
+        if (capture.isOpened()) {
+            String outputFileName = IMAGES_DIR + generateUniqueFileName("captured_image");
+            Imgcodecs.imwrite(outputFileName, frame);
+            imageFile = new File(outputFileName);
+            imagePreview.setImage(new Image("file:" + outputFileName));
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'accéder à la caméra.");
+        }
+        stopCamera(event);
     }
 
     @FXML
@@ -91,12 +137,12 @@ public class AjoutPub {
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur SQL", "Un problème est survenu lors de l'ajout de la publication.");
             e.printStackTrace();
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur inattendue est survenue.");
-            e.printStackTrace();
         }
     }
 
+    private String generateUniqueFileName(String baseName) {
+        return baseName + "_" + System.currentTimeMillis() + ".png";
+    }
     @FXML
     private void choisirImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -105,38 +151,17 @@ public class AjoutPub {
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
-            imageFile = new File(IMAGES_DIR, file.getName());
             try {
-                Files.copy(file.toPath(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Path destinationPath = Paths.get(IMAGES_DIR + file.getName());
+                Files.copy(file.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                imageFile = destinationPath.toFile();
+                imagePreview.setImage(new Image(file.toURI().toString()));
             } catch (IOException e) {
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la copie de l'image choisie.");
+                showAlert(Alert.AlertType.ERROR, "Erreur lors de la copie de l'image", "Une erreur est survenue lors de la copie du fichier.");
                 e.printStackTrace();
-                return;
             }
-            Image image = new Image("file:" + imageFile.getPath());
-            imagePreview.setImage(image);
         }
     }
-
-    @FXML
-    private void takePhoto(ActionEvent event) {
-        if (!cameraActive) {
-            capture.open(0);
-            cameraActive = true;
-        }
-
-        if (capture.isOpened()) {
-            capture.read(frame);
-
-            String outputFileName = IMAGES_DIR + "captured_image.png";
-            Imgcodecs.imwrite(outputFileName, frame);
-            imageFile = new File(outputFileName);
-            imagePreview.setImage(new Image("file:" + outputFileName));
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'accéder à la caméra.");
-        }
-    }
-
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
