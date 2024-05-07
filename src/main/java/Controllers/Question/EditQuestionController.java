@@ -1,56 +1,109 @@
 package Controllers.Question;
 
+import entities.Proposition;
 import entities.Question;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import services.ServiceQuestion;
+
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditQuestionController {
 
     @FXML
-    private TextField questionTitleField;
+    private TextField labelTitleQuestion;
 
     @FXML
-    private Button saveButton;
+    private TextField proposition1Column;
 
+    @FXML
+    private TextField proposition2Column;
+
+    @FXML
+    private TextField proposition3Column;
+    @FXML
+    private ChoiceBox<Integer> labelScore1;
+    @FXML
+    private ChoiceBox<Integer> labelScore2;
+    @FXML
+    private ChoiceBox<Integer> labelScore3;
     private ServiceQuestion serviceQuestion;
     private Question currentQuestion;
 
-    public EditQuestionController() {
-        serviceQuestion = new ServiceQuestion();
+    public void setCurrentQuestion(Question question) {
+        this.currentQuestion = question;
+        displayQuestionData();
     }
 
-    @FXML
-    public void initialize() {
-        // Initialization logic, if necessary
+    public void setServiceQuestion(ServiceQuestion serviceQuestion) {
+        this.serviceQuestion = serviceQuestion;
     }
 
-    // Call this method when loading the controller to edit a specific question
-    public void setQuestion(Question question) {
-        currentQuestion = question;
-        questionTitleField.setText(question.getTitleQuestion());
-        // Set other fields as necessary
-    }
+    private void displayQuestionData() {
+        labelTitleQuestion.setText(currentQuestion.getTitleQuestion());
 
-
-
-    @FXML
-    protected void handleSaveAction() {
-        // Update the currentQuestion object with the new data from the form
-        currentQuestion.setTitleQuestion(questionTitleField.getText());
-        // Update other properties as necessary
-
-        try {
-            // Save the updated question
-            serviceQuestion.modifier(currentQuestion);
-            // Optionally, close the editor window and refresh the list in the main interface
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle the exception, such as showing an error message to the user
+        // Set propositions if available
+        if (currentQuestion.getPropositions().size() >= 1) {
+            proposition1Column.setText(currentQuestion.getPropositions().get(0).getTitleProposition());
+        }
+        if (currentQuestion.getPropositions().size() >= 2) {
+            proposition2Column.setText(currentQuestion.getPropositions().get(1).getTitleProposition());
+        }
+        if (currentQuestion.getPropositions().size() >= 3) {
+            proposition3Column.setText(currentQuestion.getPropositions().get(2).getTitleProposition());
         }
     }
 
-    // Other methods as necessary, e.g., for canceling the edit
+    @FXML
+    void handleSaveAction() {
+        if (!validateInputs()) {
+            return;
+        }
+
+        try {
+            // Update the current question object with new data from the form
+            currentQuestion.setTitleQuestion(labelTitleQuestion.getText());
+
+            // Update propositions if available
+            updatePropositionIfNotEmpty(currentQuestion, 0, proposition1Column.getText(), labelScore1.getValue());
+            updatePropositionIfNotEmpty(currentQuestion, 1, proposition2Column.getText(), labelScore2.getValue());
+            updatePropositionIfNotEmpty(currentQuestion, 2, proposition3Column.getText(), labelScore3.getValue());
+
+            // Save the updated question
+            serviceQuestion.modifier(currentQuestion);
+
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Question updated successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to update question.");
+        }
+    }
+
+    private boolean validateInputs() {
+        // Validate input fields here
+        return true;
+    }
+
+    private void updatePropositionIfNotEmpty(Question question, int index, String propositionText, Integer score) {
+        // Update proposition at specified index if the input is not empty
+        if (!propositionText.isEmpty() && index < question.getPropositions().size()) {
+            Proposition proposition = question.getPropositions().get(index);
+            proposition.setTitleProposition(propositionText);
+            proposition.setScore(score); // Update score
+        }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

@@ -40,6 +40,7 @@ public class AffichageQuestionController {
     private TableColumn<Question, String> proposition3Column;
     @FXML
     private AnchorPane mainContainerQUES;
+
     private ServiceQuestion service = new ServiceQuestion();
     private Questionnaire currentQuestionnaire;
 
@@ -77,13 +78,13 @@ public class AffichageQuestionController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Question/EditQuestion.fxml")); // Correct the path
                 Parent root = loader.load();
                 EditQuestionController controller = loader.getController(); // Use the correct controller class for editing questions
-                controller.setQuestion(selected); // Make sure the edit controller has this method
-                Stage stage = new Stage();
-                stage.setTitle("Edit Question");
-                stage.setScene(new Scene(root));
-                stage.showAndWait();  // Use showAndWait to handle modifications before reloading data
-                loadQuestions();// Assuming you have a method setCenterView to change the main content
-                MainFX.setCenterView(root); // You may need to adapt this line to your main application's navigation logic
+                controller.setCurrentQuestion(selected); // Make sure the edit controller has this method
+                mainContainerQUES.getChildren().setAll(root);
+                //Stage stage = new Stage();
+                //stage.setTitle("Edit Question");
+                //stage.setScene(new Scene(root));
+                //stage.showAndWait();  // Use showAndWait to handle modifications before reloading data
+                //loadQuestions();// Assuming you have a method setCenterView to change the main content
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,12 +103,12 @@ public class AffichageQuestionController {
                 // Pass the questionnaire data to the AddQuestion controller
                 ControllerQuestion addController = loader.getController();
                 addController.setQuestionnaire(currentQuestionnaire);
-                //ajoutQues.getChildren().setAll(root);
+                mainContainerQUES.getChildren().setAll(root);
 
-                Stage stage = new Stage();
-                stage.setTitle("Add Question to " + currentQuestionnaire.getTitleQuestionnaire());
-                stage.setScene(new Scene(root));
-                stage.show();
+                //Stage stage = new Stage();
+                //stage.setTitle("Add Question to " + currentQuestionnaire.getTitleQuestionnaire());
+                //stage.setScene(new Scene(root));
+                //stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -153,17 +154,7 @@ public class AffichageQuestionController {
         }
     }
 
-    @FXML
-    private void loadQuestions2() {
-        try {
-            List<Question> list = service.afficher(); // Adapt this method to fetch questions with concatenated answers
-            ObservableList<Question> observableList = FXCollections.observableArrayList(list);
-            questionsTable.setItems(observableList);
-        } catch (Exception e) {
-            showAlert("Error", "Loading Error", "Error loading questions from the database.");
-            e.printStackTrace();
-        }
-    }
+
 
     private void showAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

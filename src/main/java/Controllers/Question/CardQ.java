@@ -170,18 +170,18 @@ public class CardQ {
             int prediction;
             if (predictionObj instanceof Integer) {
                 prediction = (Integer) predictionObj;
-                System.out.println("prediction" + prediction);
+                System.out.println("prediction = " + prediction);
             } else if (predictionObj instanceof Double) {
                 prediction = ((Double) predictionObj).intValue();
-                System.out.println("prediction" + prediction);
+                System.out.println("prediction = " + prediction);
             } else {
                 showErrorOnUI("Invalid data type for prediction result.");
                 return;
             }
 
-            if (prediction == 1) {
+            if (prediction == 0) {
                displayResults("We advise you to take an appointment with one of our therapists.");
-            } else {
+            } else if (prediction == 1){
                 displayResults("Your health status is good. Check our activities of the week.");
             }
         } else {

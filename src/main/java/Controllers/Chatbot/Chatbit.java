@@ -67,7 +67,7 @@ public class Chatbit {
             new Thread(() -> {
                 try {
                     // Use the processTokens method from NLPProcessorsController
-                    String botResponse = nlpController.processTokens(tokens, tags);
+                    String botResponse = nlpController.processInputWithFuzzyMatching(tokens);
 
                     // Update UI in the JavaFX Application Thread
                     Platform.runLater(() -> appendBotMessage(botResponse, timestamp));

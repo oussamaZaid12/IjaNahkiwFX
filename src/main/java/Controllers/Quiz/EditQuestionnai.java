@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import services.ServiceQuestionnaire;
 
 import Controllers.User.Session;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 
 public class EditQuestionnai {
 
+    public AnchorPane ContainQuest;
     @FXML
     private Button LabelAjoutQuestionnaire;
 

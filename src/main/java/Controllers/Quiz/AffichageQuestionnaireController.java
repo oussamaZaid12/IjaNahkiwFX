@@ -40,6 +40,9 @@ public class AffichageQuestionnaireController {
     @FXML private TableColumn<Questionnaire, Integer> userIdColumn;
     @FXML
     private AnchorPane mainContainerQUES;
+
+    @FXML
+    private AnchorPane ContainQuest;
     private ServiceQuestionnaire service = new ServiceQuestionnaire();
 
     @FXML
@@ -70,10 +73,12 @@ public class AffichageQuestionnaireController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Quiz/EditQuestionnaire.fxml"));
                 Parent root = loader.load();
                 EditQuestionnai controller = loader.getController();
+
                 controller.setQuestionnaire(selected); // Ensure selected is not null
-                Stage stage=new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
+                mainContainerQUES.getChildren().setAll(root);
+                //Stage stage=new Stage();
+                //stage.setScene(new Scene(root));
+                //stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,4 +148,23 @@ public class AffichageQuestionnaireController {
     }
 
 
+    public void handleAddQuest(ActionEvent actionEvent) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Quiz/AjoutQuestionnaire.fxml"));
+                Parent root = loader.load();
+
+                // Pass the questionnaire data to the AddQuestion controller
+                AjoutQuestionnaire addController = loader.getController();
+                addController.initialize();
+                mainContainerQUES.getChildren().setAll(root);
+
+                //Stage stage = new Stage();
+                //stage.setTitle("Add Question to " + currentQuestionnaire.getTitleQuestionnaire());
+                //stage.setScene(new Scene(root));
+                //stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+    }
 }
