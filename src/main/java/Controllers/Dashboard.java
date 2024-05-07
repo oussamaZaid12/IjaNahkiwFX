@@ -48,8 +48,19 @@
         @FXML
         public void displaylistAct() {
             try {
-                Node act = FXMLLoader.load(getClass().getResource("/Back/Activite/AllbackListes.fxml"));
+                Node act = FXMLLoader.load(getClass().getResource("/Back/Activite/affichageActivite.fxml"));
                 mainContainer.setCenter(act);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+
+        @FXML
+        void diplayaddAct2( ) {
+            try {
+                Node act2 = FXMLLoader.load(getClass().getResource("/Back/Activite/ActiviteDisplay.fxml"));
+                mainContainer.setCenter(act2);
             } catch (IOException e) {
                 e.printStackTrace();
                 // Handle the exception, for example, by showing an error message

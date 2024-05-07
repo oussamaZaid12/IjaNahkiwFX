@@ -26,17 +26,17 @@ import java.time.LocalDate;
 
 public class AjoutPub {
 
-            // Constants
-            private static final String IMAGES_DIR = "src/main/resources/images/";
+    // Constants
+    private static final String IMAGES_DIR = "src/main/resources/images/";
 
-            @FXML private DatePicker TfDate;
-            @FXML private TextField TfDescription;
-            @FXML private TextField TfIdUser;
-            @FXML private TextField TfTitre;
-            @FXML private Button TfValider;
-            @FXML private ImageView imagePreview; // Pour afficher l'aperçu de l'image
+    @FXML private DatePicker TfDate;
+    @FXML private TextField TfDescription;
+    @FXML private TextField TfIdUser;
+    @FXML private TextField TfTitre;
+    @FXML private Button TfValider;
+    @FXML private ImageView imagePreview; // Pour afficher l'aperçu de l'image
 
-            private File imageFile; // Pour stocker le fichier image sélectionné
+    private File imageFile; // Pour stocker le fichier image sélectionné
        /*     private void switchToDisplayPublicationsScene() {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/AffichagePub.fxml"));
@@ -101,24 +101,24 @@ public class AjoutPub {
 
 
     @FXML
-            private void choisirImage(ActionEvent event) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Choisir une image pour la publication");
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.jpeg", "*.bmp", "*.gif"));
-                File file = fileChooser.showOpenDialog(null);
+    private void choisirImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image pour la publication");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.jpeg", "*.bmp", "*.gif"));
+        File file = fileChooser.showOpenDialog(null);
 
-                if (file != null) {
-                    imageFile = file;
-                    Image image = new Image(file.toURI().toString());
-                    imagePreview.setImage(image);
-                }
-            }
-
-            private void showAlert(Alert.AlertType alertType, String title, String content) {
-                Alert alert = new Alert(alertType);
-                alert.setTitle(title);
-                alert.setHeaderText(null);
-                alert.setContentText(content);
-                alert.showAndWait();
-            }
+        if (file != null) {
+            imageFile = file;
+            Image image = new Image(file.toURI().toString());
+            imagePreview.setImage(image);
         }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+}

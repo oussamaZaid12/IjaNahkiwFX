@@ -297,6 +297,22 @@
                         <Insets />
                      </opaqueInsets>
                   </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#diplayaddAct2" text="liste" textFill="#107191">
+                           <font>
+                              <Font name="Candara" size="18.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="label-like-button" />
+                              <String fx:value="image-view" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </HBox>
                   <Separator prefWidth="200.0" />
                   <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
                      <children>
