@@ -480,4 +480,50 @@ public boolean verifyCode(String code) {
 
         return userDataByStatus;
     }
+    public Map<String, Integer> getTherapistAndPatientCount() {
+        Map<String, Integer> countMap = new HashMap<>();
+        String query = "SELECT roles, COUNT(*) AS count FROM user WHERE JSON_CONTAINS(roles, ?) OR JSON_CONTAINS(roles, ?) GROUP BY roles";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, "\"ROLE_THERAPEUTE\"");
+            statement.setString(2, "\"ROLE_PATIENT\"");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String role = resultSet.getString("roles");
+                int count = resultSet.getInt("count");
+                countMap.put(role, count);
+            }
+
+            // Affichage des résultats dans la console
+            System.out.println("Nombre de thérapeutes et patients : ");
+            for (Map.Entry<String, Integer> entry : countMap.entrySet()) {
+                System.out.println(entry.getKey() + " : " + entry.getValue());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Gérer SQLException de manière appropriée
+        }
+
+        return countMap;
+    }
+    public double getAveragePatientAge() {
+        double totalAge = 0;
+        int patientCount = 0;
+        String query = "SELECT AVG(age) AS average_age FROM user WHERE JSON_CONTAINS(roles, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, "\"ROLE_PATIENT\"");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    totalAge = resultSet.getDouble("average_age");
+                    patientCount++;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Gérer SQLException de manière appropriée
+        }
+        System.out.println("Average patient age: " + totalAge);
+        return totalAge;
+    }
 }
