@@ -103,16 +103,11 @@ public class EditConsultationDoctor {
                 showAlert("Input Error", "Please enter a valid date.");
                 return;
             }
-            if (dateLocal.isBefore(LocalDate.now())) {
-                showAlert("Input Error", "The date of the consultation cannot be in the past.");
-                return;
-            }
 
-            int heure, minute, idPatient, idTherapeute, fiche;
+            int heure, minute, idTherapeute, fiche;
             try {
                 heure = Integer.parseInt(tfheure.getText());
                 minute = Integer.parseInt(tfminute.getText());
-             //   idPatient = Integer.parseInt(Tfidpatient.getText());
                 idTherapeute = Integer.parseInt(Tftherapeute.getText());
                 fiche = Integer.parseInt(tffiche.getText());
             } catch (NumberFormatException e) {

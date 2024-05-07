@@ -10,12 +10,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="222.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Notification.Cardnotification">
+<AnchorPane prefHeight="147.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Notification.Cardnotification">
     <children>
-        <VBox layoutX="5.0" prefHeight="219.0" prefWidth="592.0" spacing="5" styleClass="card-container">
+        <VBox layoutX="5.0" prefHeight="148.0" prefWidth="482.0" spacing="5" styleClass="card-container">
             <children>
                 <Label styleClass="card-description" text="You have a consultation in less than 24 hours" />
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox prefHeight="50.0" prefWidth="470.0">
                     <children>
                         <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteAction" styleClass="label-like-button" textFill="#1b0101">
                             <graphic>
@@ -31,7 +31,7 @@
                         </Button>
                     </children>
                 </HBox>
-            <Label fx:id="idnotif" prefHeight="18.0" prefWidth="83.0" text="id" />
+            <Label fx:id="idnotif" prefHeight="36.0" prefWidth="470.0" />
                 <!-- Add other details you want to display -->
             </children>
         </VBox>

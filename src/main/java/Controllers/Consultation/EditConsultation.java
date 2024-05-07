@@ -86,10 +86,6 @@ public class EditConsultation {
                 showAlert("Input Error", "Please enter a valid date.");
                 return;
             }
-            if (dateLocal.isBefore(LocalDate.now())) {
-                showAlert("Input Error", "The date of the consultation cannot be in the past.");
-                return;
-            }
 
             int heure, minute, idPatient, idTherapeute, fiche;
             try {
