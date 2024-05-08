@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import services.ServiceConsultation;
 import services.ServiceNotification;
@@ -163,15 +164,22 @@ public class AffichageConsultation {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/server/server-view.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Server Chat");
-            stage.show();
+
+            // Create a new stage for the chat window
+            Stage chatStage = new Stage();
+            chatStage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow()); // Set main window as owner
+            chatStage.setScene(new Scene(root));
+            chatStage.setTitle("Server Chat");
+
+            // Set modality to NONE
+            chatStage.initModality(Modality.NONE);
+
+            chatStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
