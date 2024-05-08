@@ -1,9 +1,9 @@
 package services;
 
 
-import org.mindrot.jbcrypt.BCrypt;
 import entities.Role;
 import entities.User;
+import org.mindrot.jbcrypt.BCrypt;
 import utils.MyDB;
 
 import java.sql.*;
@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class UserService  implements IUser<User>{
+public class UserService implements IUser<User>{
     private MyDB myConnection = MyDB.getInstance();
     private Connection connection = myConnection.getConnection();
 
@@ -523,4 +523,33 @@ public boolean verifyCode(String code) {
         System.out.println("Average patient age: " + totalAge);
         return totalAge;
     }
+    public List<User> getTherapistUsers() {
+        List<User> list = new ArrayList<>();
+        try {
+            String req = "SELECT * FROM `user` WHERE roles = '[\"ROLE_THERAPEUTE\"]'";
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(req);
+
+            while (rs.next()) {
+                User u = new User(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("profile_picture"),
+                        Role.ROLE_THERAPEUTE, // Set the role directly since it's filtered in the query
+                        rs.getBoolean("is_banned"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getInt("age")
+                );
+                list.add(u);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
+    }
 }
+

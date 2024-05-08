@@ -79,25 +79,25 @@ public class ServiceConsultation implements IService<Consultation> {
 
         String query = "SELECT * FROM consultation WHERE YEAR(date_c) = ? AND MONTH(date_c) = ?";
 
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, year);
-        statement.setInt(2, month);
+             PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, year);
+            statement.setInt(2, month);
 
-        try (ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                Consultation consultation = new Consultation();
-                consultation.setId(resultSet.getInt("id"));
-                consultation.setIdp(resultSet.getInt("idp_id"));
-                consultation.setIdt(resultSet.getInt("idt_id"));
-                consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
-                consultation.setPathologie(resultSet.getString("pathologie"));
-                consultation.setRemarques(resultSet.getString("remarques"));
-                consultation.setConfirmation(resultSet.getBoolean("confirmation"));
-                consultation.setFiche(resultSet.getInt("fichemedicale_id"));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Consultation consultation = new Consultation();
+                    consultation.setId(resultSet.getInt("id"));
+                    consultation.setIdp(resultSet.getInt("idp_id"));
+                    consultation.setIdt(resultSet.getInt("idt_id"));
+                    consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
+                    consultation.setPathologie(resultSet.getString("pathologie"));
+                    consultation.setRemarques(resultSet.getString("remarques"));
+                    consultation.setConfirmation(resultSet.getBoolean("confirmation"));
+                    consultation.setFiche(resultSet.getInt("fichemedicale_id"));
 
-                consultations.add(consultation);
+                    consultations.add(consultation);
+                }
             }
-        }
 
         return consultations;
     }
@@ -131,11 +131,10 @@ public class ServiceConsultation implements IService<Consultation> {
 
     public List<Consultation> getConsultationsByTherapistId(int therapistId) throws SQLException {
         List<Consultation> consultations = new ArrayList<>();
-        String query = "SELECT * FROM consultation WHERE idt = ?";
+        String query = "SELECT * FROM consultation WHERE idt_id = ?";
 
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, therapistId);
-
         try (ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Consultation consultation = new Consultation();
@@ -154,28 +153,27 @@ public class ServiceConsultation implements IService<Consultation> {
     }
 
     public List<Consultation> getConsultationsByPatientId(int patientid) throws SQLException {
-        List<Consultation> consultations = new ArrayList<>();
-        String query = "SELECT * FROM consultation WHERE idt = ?";
+            List<Consultation> consultations = new ArrayList<>();
+            String query = "SELECT * FROM consultation WHERE idp_id = ?";
 
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, patientid);
-
-        try (ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                Consultation consultation = new Consultation();
-                consultation.setId(resultSet.getInt("id"));
-                consultation.setIdp(resultSet.getInt("idp_id"));
-                consultation.setIdt(resultSet.getInt("idt_id"));
-                consultation.setFiche(resultSet.getInt("fichemedicale_id"));
-                consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
-                consultation.setPathologie(resultSet.getString("pathologie"));
-                consultation.setRemarques(resultSet.getString("remarques"));
-                consultation.setConfirmation(resultSet.getBoolean("confirmation"));
-                consultations.add(consultation);
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1, patientid);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Consultation consultation = new Consultation();
+                    consultation.setId(resultSet.getInt("id"));
+                    consultation.setIdp(resultSet.getInt("idp_id"));
+                    consultation.setIdt(resultSet.getInt("idt_id"));
+                    consultation.setFiche(resultSet.getInt("fichemedicale_id"));
+                    consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
+                    consultation.setPathologie(resultSet.getString("pathologie"));
+                    consultation.setRemarques(resultSet.getString("remarques"));
+                    consultation.setConfirmation(resultSet.getBoolean("confirmation"));
+                    consultations.add(consultation);
+                }
             }
+            return consultations;
         }
-        return consultations;
-    }
     public static List<Consultation> getConsultationsByFiche(FicheMedicale currentFiche) throws SQLException {
         List<Consultation> consultations = new ArrayList<>();
         String query = "SELECT * FROM consultation WHERE fichemedicale_id = ?";
@@ -226,5 +224,18 @@ public class ServiceConsultation implements IService<Consultation> {
         }
         return upcomingConsultations;
     }
+    public void modifyFicheMedicaleId(int consultationId, int newFicheMedicaleId) throws SQLException {
+        String req = "UPDATE consultation SET fichemedicale_id=? WHERE id=?";
+        try (PreparedStatement pre = con.prepareStatement(req)) {
+            pre.setInt(1, newFicheMedicaleId);
+            pre.setInt(2, consultationId);
+            pre.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Database access error:");
+            e.printStackTrace();
+            throw e;  // Rethrow the exception after logging it
+        }
+    }
+
 }
 

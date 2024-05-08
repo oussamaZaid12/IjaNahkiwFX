@@ -1,9 +1,9 @@
 package Controllers.User;
 
+import entities.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import entities.User;
 import services.UserService;
 
 public class EditUser {

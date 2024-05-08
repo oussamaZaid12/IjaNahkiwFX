@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Publication.CallController">
+    <children>
+        <ImageView fx:id="localVideo" fitWidth="320" fitHeight="240" layoutX="10" layoutY="10"/>
+        <ImageView fx:id="remoteVideo" fitWidth="320" fitHeight="240" layoutX="340" layoutY="10"/>
+        <Button text="Start Server" layoutX="10" layoutY="270" onAction="#handleStartServer"/>
+        <Button text="Start Client" layoutX="120" layoutY="270" onAction="#handleStartClient"/>
+        <Button text="Stop" onAction="#handleStop" layoutX="10" layoutY="100"/>
+        <Button text="Mute Sound"  layoutX="360" layoutY="10"/>
+        <Button text="Unmute Sound" layoutX="460" layoutY="10"/>
+
+    </children>
+</AnchorPane>

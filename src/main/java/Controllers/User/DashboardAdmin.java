@@ -1,5 +1,6 @@
 package Controllers.User;
 
+import entities.Role;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +10,6 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import entities.Role;
 import services.UserService;
 
 import java.io.IOException;

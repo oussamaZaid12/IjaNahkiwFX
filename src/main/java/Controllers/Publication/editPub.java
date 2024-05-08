@@ -1,5 +1,7 @@
 package Controllers.Publication;
 
+import Controllers.User.Session;
+import entities.User;
 import entities.publication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,23 +56,24 @@ public class editPub {
         currentPublication = pub;
         TfTitreEdit.setText(pub.getTitreP());
         TfDescriptionEdit.setText(pub.getDescriptionP());
-        TfIdUserEdit.setText(String.valueOf(pub.getIdUserId()));
 
-        // Convert java.sql.Date to java.time.LocalDate
         LocalDate dateLocal = new java.util.Date(pub.getDateP().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         TfDateEdit.setValue(dateLocal);
 
-        // Set image with a unique timestamp to prevent caching
-        String imagePath = "/images/" + pub.getImageP() + "?time=" + System.currentTimeMillis();
+        // Updated image path with renamed file and consistent accessing
+        String imageName = "Capture_decran_2024_04_11_072440.png"; // Updated filename
+        String imagePath = "/images/" + imageName + "?time=" + System.currentTimeMillis();
         InputStream imageStream = getClass().getResourceAsStream(imagePath);
         if (imageStream != null) {
             Image image = new Image(imageStream);
             imagePreview.setImage(image);
         } else {
             System.out.println("Image not found: " + imagePath);
-            // You can set a default image here if necessary
+            // Optionally set a default image or handle the error
         }
     }
+
+
 
 
 
@@ -92,16 +95,20 @@ public class editPub {
     @FXML
     void ModifierPublication(ActionEvent event) {
         try {
+            User currentUser = Session.getUser();  // Get the logged-in user
+            if (currentUser == null) {
+                showAlert("Error", "No user logged in.");
+                return;
+            }
+
             String titre = TfTitreEdit.getText();
             String description = TfDescriptionEdit.getText();
-            int idUser = Integer.parseInt(TfIdUserEdit.getText());
             LocalDate dateLocal = TfDateEdit.getValue();
             java.sql.Date date = java.sql.Date.valueOf(dateLocal);
 
-            // Update the publication object
+            // Set only the fields that can be updated
             currentPublication.setTitreP(titre);
             currentPublication.setDescriptionP(description);
-            currentPublication.setIdUserId(idUser);
             currentPublication.setDateP(date);
 
             // Update the image if a new one was selected
@@ -118,19 +125,16 @@ public class editPub {
             servicePublication.modifier(currentPublication);
 
             // Show success message
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText(null);
-            alert.setContentText("Publication has been updated successfully.");
-            alert.showAndWait();
-
-        } catch (IOException | NumberFormatException | SQLException e) {
-            // Show error message
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("An error occurred: " + e.getMessage());
-            alert.showAndWait();
+            showAlert("Success", "Publication has been updated successfully.");
+        } catch (IOException | SQLException e) {
+            showAlert("Error", "An error occurred: " + e.getMessage());
         }
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

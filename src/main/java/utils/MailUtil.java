@@ -5,7 +5,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class MailUtil{
+public class MailUtil {
     private static final String HOST = "smtp-relay.brevo.com";
     private static final String USERNAME = "karat6657@gmail.com";
     private static final String PASSWORD = "Jd0z7k2DxNbn6QZ8";

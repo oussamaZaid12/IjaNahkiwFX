@@ -157,7 +157,7 @@ public class Signup {
     /// Méthode pour enregistrer l'image de profil dans le répertoire approprié
     private void saveProfileImage(String imagePath, String imageName) {
         File source = new File(imagePath);
-        File destination = new File("src/main/resources/static", imageName);         // Spécifiez le chemin du dossier de destination
+        File destination = new File("src/main/resources/images", imageName);         // Spécifiez le chemin du dossier de destination
         System.out.println("Destination path: " + destination.getAbsolutePath());
         try {
             // Créez un flux d'entrée pour l'image source

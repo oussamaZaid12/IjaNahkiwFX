@@ -1,5 +1,6 @@
 package Controllers.User;
 
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import entities.User;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.UserService;
@@ -66,7 +66,7 @@ public class Profile {
             age.setText(String.valueOf(userAge));
             // Chargement et affichage de l'image du profil
             if (user.getImage() != null && !user.getImage().isEmpty()) {
-                String imagePath = "C:\\Users\\eya\\Desktop\\ekher pull\\src\\main\\resources\\static\\" + user.getImage();
+                String imagePath = "C:\\Users\\Tifa\\Desktop\\007\\src\\main\\resources\\images\\" + user.getImage();
                 File file = new File(imagePath);
                 if (file.exists()) {
                     try {

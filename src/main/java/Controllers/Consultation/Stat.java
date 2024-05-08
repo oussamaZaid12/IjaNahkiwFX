@@ -6,8 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
-import services.ServiceConsultation;
 import javafx.scene.control.Button;
+import services.ServiceConsultation;
 
 import java.net.URL;
 import java.sql.SQLException;

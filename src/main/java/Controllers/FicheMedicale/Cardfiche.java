@@ -1,9 +1,5 @@
 package Controllers.FicheMedicale;
-import Controllers.Consultation.Cardconsultation;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import services.ServiceConsultation;
+
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -16,13 +12,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import services.ServiceConsultation;
 import services.ServiceFicheMedicale;
-import test.MainFX;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,7 +74,10 @@ public class Cardfiche {
             Parent root = loader.load();
             EditFiche controller = loader.getController();
             controller.setFiche(this.currentFiche);
-            MainFX.setCenterView(root);
+            //MainFX.setCenterView(root);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Failed to load edit fiche view: " + e.getMessage());
@@ -105,7 +107,10 @@ public class Cardfiche {
             Parent root = loader.load();
             Qrcode controller = loader.getController();
             controller.setFiche(this.currentFiche);
-            MainFX.setCenterView(root);
+            //MainFX.setCenterView(root);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Failed to load QR code generation view: " + e.getMessage());

@@ -13,10 +13,6 @@ import utils.MailUtil;
 
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.logging.Logger;
 
 public class ForgetPassword {
     @FXML
