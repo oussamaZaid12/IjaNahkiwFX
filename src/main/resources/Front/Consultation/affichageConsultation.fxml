@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -20,23 +21,40 @@
             <content>
                 <VBox prefHeight="715.0" prefWidth="707.0">
                     <children>
-                  <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" text="Afficher Calendrier" />
-                  <Button mnemonicParsing="false" onAction="#refreshConsultationsView" text="Consultations" />
-                  <Button mnemonicParsing="false" onAction="#showDisplayFiches" text="Fiches" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="728.0" spacing="10">
+                            <padding>
+                                <Insets top="10" />
+                            </padding>
+                            <children>
+                                <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" styleClass="card-button" text="Afficher Calendrier" />
+                                <Button mnemonicParsing="false" onAction="#refreshConsultationsView" styleClass="card-button" text="Consultations" />
+                                <Button mnemonicParsing="false" onAction="#showDisplayFiches" styleClass="card-button" text="Fiches" />
+                                <Button fx:id="notificationsButton" mnemonicParsing="false" onAction="#showNotificationWindow" styleClass="card-button" text="Notifications" />
+                                <Button fx:id="stat" mnemonicParsing="false" onAction="#showstat" styleClass="card-button" text="Statistiques" />
+                            </children>
+                        </HBox>
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="728.0" text="Liste Des Consultations" textFill="#4c8ea6">
                             <font>
                                 <Font size="28.0" />
                             </font>
                         </Label>
                         <FlowPane fx:id="consultationscontainer" prefHeight="277.0" prefWidth="719.0" />
-                  <Button fx:id="tfclient" mnemonicParsing="false" onAction="#showchatclient" text="Client" />
-                  <Button fx:id="tfserver" mnemonicParsing="false" onAction="#showchatserver" text="Server" />
-                  <Button fx:id="notificationsButton" mnemonicParsing="false" onAction="#showNotificationWindow" text="Notificiations" />
-                  <Button fx:id="stat" mnemonicParsing="false" onAction="#showstat" text="Statistiques" />
-
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="728.0" spacing="10">
+                            <padding>
+                                <Insets top="10" />
+                            </padding>
+                            <children>
+                                <Button fx:id="tfclient" mnemonicParsing="false" onAction="#showchatclient" styleClass="card-button" text="Client" />
+                                <Button fx:id="tfserver" mnemonicParsing="false" onAction="#showchatserver" styleClass="card-button" text="Server" />
+                            </children>
+                        </HBox>
                     </children>
                 </VBox>
             </content>
+         <stylesheets>
+            <URL value="@../../css/style.css" />
+            <URL value="@../../css/styleDashbord.css" />
+         </stylesheets>
         </ScrollPane>
         <VBox layoutX="963.0" layoutY="25.0" prefHeight="55.0" prefWidth="468.0">
             <children>

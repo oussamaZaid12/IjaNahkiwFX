@@ -15,7 +15,7 @@
     <children>
         <VBox layoutX="2.0" layoutY="2.0" prefHeight="234.0" prefWidth="646.0" spacing="5" styleClass="card-container">
             <children>
-            <Label fx:id="tfid"  styleClass="card-description" text="Id fiche" />
+            <Label fx:id="tfid" styleClass="card-description" text="Id fiche" />
                 <Label fx:id="tfidp" prefHeight="20.0" prefWidth="72.0" styleClass="card-description" text="Id patient" />
                 <Label fx:id="tfidt" styleClass="card-description" text="Id therapeute" />
                 <Label fx:id="tfdatecreation" styleClass="card-description" text="Date de creation" />
@@ -49,8 +49,16 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                  <Button mnemonicParsing="false" onAction="#generateqrcode" text="generere qr code" />
-                  <Button mnemonicParsing="false" onAction="#handleDownloadPDF" text="generer pdf" />
+                  <Button mnemonicParsing="false" onAction="#generateqrcode" styleClass="card-button" text="generere qr code">
+                     <stylesheets>
+                        <URL value="@../../css/style.css" />
+                        <URL value="@../../css/styleDashbord.css" />
+                     </stylesheets></Button>
+                  <Button mnemonicParsing="false" onAction="#handleDownloadPDF" styleClass="card-button" text="generer pdf">
+                     <stylesheets>
+                        <URL value="@../../css/style.css" />
+                        <URL value="@../../css/styleDashbord.css" />
+                     </stylesheets></Button>
                     </children>
                 </HBox>
                 <VBox fx:id="consultationsContainer" prefHeight="57.0" prefWidth="1322.0" styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css">

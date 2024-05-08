@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -20,7 +21,7 @@
             <content>
                 <VBox prefHeight="715.0" prefWidth="707.0">
                     <children>
-                  <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" text="Afficher Calendrier" />
+                  <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" styleClass="card-button" text="Afficher Calendrier" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="728.0" text="Liste Des Consultations" textFill="#4c8ea6">
                             <font>
                                 <Font size="28.0" />
@@ -30,6 +31,10 @@
                     </children>
                 </VBox>
             </content>
+         <stylesheets>
+            <URL value="@../../css/style.css" />
+            <URL value="@../../css/styleDashbord.css" />
+         </stylesheets>
         </ScrollPane>
         <VBox layoutX="963.0" layoutY="25.0" prefHeight="55.0" prefWidth="468.0">
             <children>

@@ -26,7 +26,13 @@ public class ServiceConsultation implements IService<Consultation> {
         pre.setString(4, consultation.getPathologie());
         pre.setString(5, consultation.getRemarques());
         pre.setBoolean(6, consultation.isConfirmation());
-        pre.setInt(7, consultation.getFiche());
+        //pre.setInt(7, consultation.getFiche());
+        ServiceFicheMedicale serviceFiche = new ServiceFicheMedicale();
+        int idp = consultation.getIdp();
+        int idt = consultation.getIdt();
+        FicheMedicale fiche = serviceFiche.getFicheByTherapistAndPatientId(idp, idt);
+        pre.setInt(7, fiche.getId());
+        System.out.println("La fiche trouvée dans la base: " + fiche);
         pre.executeUpdate();
     }
 
