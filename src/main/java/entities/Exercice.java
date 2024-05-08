@@ -5,7 +5,11 @@ public class Exercice {
     private String nomCoach;
     private String duree;
 
-    // Constructor
+    // Default constructor
+    public Exercice() {
+    }
+
+    // Constructor with parameters
     public Exercice(int id, String nomCoach, String duree) {
         this.id = id;
         this.nomCoach = nomCoach;
@@ -36,6 +40,7 @@ public class Exercice {
     public void setDuree(String duree) {
         this.duree = duree;
     }
+
     @Override
     public String toString() {
         return nomCoach + " (" + id + ")";

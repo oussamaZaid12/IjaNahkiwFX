@@ -3,15 +3,14 @@ package Controllers.Activite;
 import entities.Activite;
 import entities.Exercice;
 import entities.Programme;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
 import javafx.util.StringConverter;
 import services.ServiceActivite;
 import services.ServiceExercice;
 import services.ServiceProgramme;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -29,58 +28,55 @@ public class AjoutProgrammeController {
     @FXML
     private TextField tfImage;
 
+    private ServiceProgramme serviceProgramme = new ServiceProgramme();
+    private ServiceActivite serviceActivite = new ServiceActivite();
+    private ServiceExercice serviceExercice = new ServiceExercice();
+
     @FXML
-    private void initialize() {
+    public void initialize() {
         loadActivites();
         loadExercices();
     }
 
     private void loadActivites() {
-        ServiceActivite serviceActivite = new ServiceActivite();
         try {
             List<Activite> activites = serviceActivite.afficher();
             cbActiviteId.getItems().setAll(activites);
             cbActiviteId.setConverter(new StringConverter<Activite>() {
                 @Override
                 public String toString(Activite object) {
-
-                    return object != null ? object.getNom() + " (" + object.getId() + ")" : "";
+                    return object != null ? object.getNom() + " (ID: " + object.getId() + ")" : null;
                 }
+
                 @Override
                 public Activite fromString(String string) {
-                    return null; // No conversion from string back to Activite needed here.
+                    return null; // No conversion from string needed
                 }
             });
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle this properly in a production environment
+            showError("Database Error", "Failed to load activities from the database.");
         }
     }
 
-
-    @FXML
     private void loadExercices() {
-        ServiceExercice serviceExercice = new ServiceExercice();
         try {
             List<Exercice> exercices = serviceExercice.afficher();
-            cbExerciceId.setItems(FXCollections.observableArrayList(exercices));
+            cbExerciceId.getItems().setAll(exercices);
             cbExerciceId.setConverter(new StringConverter<Exercice>() {
                 @Override
-                public String toString(Exercice exercice) {
-                    return exercice != null ? exercice.getNomCoach() + " (" + exercice.getId() + ")" : "";
+                public String toString(Exercice object) {
+                    return object != null ? object.getNomCoach() + " (ID: " + object.getId() + ")" : null;
                 }
 
                 @Override
                 public Exercice fromString(String string) {
-                    return null; // Not needed here
+                    return null; // No conversion from string needed
                 }
             });
         } catch (SQLException e) {
-            e.printStackTrace();
+            showError("Database Error", "Failed to load exercices from the database.");
         }
     }
-
-
-
 
     @FXML
     private void handleAddProgramme() {
@@ -88,38 +84,33 @@ public class AjoutProgrammeController {
             Activite selectedActivite = cbActiviteId.getSelectionModel().getSelectedItem();
             Exercice selectedExercice = cbExerciceId.getSelectionModel().getSelectedItem();
 
-            if (selectedActivite == null||selectedExercice == null) {
-                System.out.println("No Activite ou exercice selected");
+            if (selectedActivite == null || selectedExercice == null) {
+                showError("Input Error", "You must select both an activity and an exercise.");
                 return;
             }
-            int activiteId = selectedActivite.getId();
-            int exerciceId = selectedExercice.getId();
-            String lieu = tfLieu.getText();
-            String but = tfBut.getText();
-            String nomL = tfNomL.getText();
-            String image = tfImage.getText();
 
-            Programme programme = new Programme(0, activiteId, exerciceId, lieu, but, nomL, image);
-            ServiceProgramme serviceProgramme = new ServiceProgramme();
-            serviceProgramme.ajouter(programme);
-
-            // Clear fields after adding
-            clearFields();
-            System.out.println("Programme added successfully!");
+            Programme newProgramme = new Programme(0, selectedActivite.getId(), selectedExercice.getId(),
+                    tfLieu.getText(), tfBut.getText(), tfNomL.getText(), tfImage.getText());
+            serviceProgramme.ajouter(newProgramme);
+            showConfirmation("Success", "Programme added successfully!");
         } catch (SQLException e) {
-            System.out.println("Error adding programme: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid number format: " + e.getMessage());
+            showError("Database Error", "Failed to add programme: " + e.getMessage());
         }
     }
 
-    private void clearFields() {
-        cbActiviteId.getSelectionModel().clearSelection();
-        cbExerciceId.getSelectionModel().clearSelection();
-        tfLieu.clear();
-        tfBut.clear();
-        tfNomL.clear();
-        tfImage.clear();
+    private void showError(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
+    private void showConfirmation(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

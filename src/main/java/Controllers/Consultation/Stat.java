@@ -3,12 +3,19 @@ package Controllers.Consultation;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import services.ServiceConsultation;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -19,7 +26,8 @@ public class Stat implements Initializable {
     private Button stat;
     @FXML
     private PieChart pieChart;
-
+    @FXML
+    private AnchorPane ConsultationPane;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializePieChart(); // Call the method to initialize the pie chart
@@ -66,7 +74,22 @@ public class Stat implements Initializable {
         // Add data to PieChart
         pieChart.getData().addAll(pieChartData);
     }
+    public void showChatbot(ActionEvent actionEvent) {
+        try {
+            // Load the chatbot window or overlay
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Quiz/Chatbot.fxml")); // Adjust path as needed
+            Parent chatbotRoot = loader.load();
 
+            // Display the chatbot window as a modal or embedded
+            Stage chatbotStage = new Stage();
+            chatbotStage.setTitle("Chatbot");
+            chatbotStage.setScene(new Scene(chatbotRoot));
+            chatbotStage.initOwner(ConsultationPane.getScene().getWindow());
+            chatbotStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     // Method to handle showing the pie chart
     public void showPieChart() {
         initializePieChart();

@@ -29,7 +29,31 @@ public class MyDB {
         return instance;
     }
 
-    public Connection getConnection() {
+    public Connection getConnectionX() {
         return connection;
     }
+
+    public Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                reconnect();
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to check connection status: " + e.getMessage());
+            reconnect();
+        }
+        return connection;
+    }
+
+    private void reconnect() {
+        try {
+            connection = DriverManager.getConnection(URL, USER, PWD);
+            connection.setAutoCommit(true);
+            System.out.println("Reconnected to the database.");
+        } catch (SQLException e) {
+            System.out.println("Failed to reconnect to the database: " + e.getMessage());
+            throw new RuntimeException("Database connection failed", e);
+        }
+    }
+
 }

@@ -5,8 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 import services.UserService;
 
 import java.io.IOException;
@@ -54,6 +57,22 @@ public class Listtherapists {
         } catch (IOException e) {
             e.printStackTrace();
             // Handle the exception, for example, by showing an error message
+        }
+    }
+    public void showChatbot(ActionEvent actionEvent) {
+        try {
+            // Load the chatbot window or overlay
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Quiz/Chatbot.fxml")); // Adjust path as needed
+            Parent chatbotRoot = loader.load();
+
+            // Display the chatbot window as a modal or embedded
+            Stage chatbotStage = new Stage();
+            chatbotStage.setTitle("Chatbot");
+            chatbotStage.setScene(new Scene(chatbotRoot));
+            chatbotStage.initOwner(ConsultationPane.getScene().getWindow());
+            chatbotStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

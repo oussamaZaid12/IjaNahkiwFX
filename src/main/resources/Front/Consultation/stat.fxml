@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.scene.chart.PieChart?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controllers.Consultation.Stat"
-            prefHeight="400.0" prefWidth="600.0">
-    <PieChart fx:id="pieChart" layoutX="50.0" layoutY="50.0" prefHeight="300.0" prefWidth="500.0"/>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
+<AnchorPane fx:id="ConsultationPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Consultation.Stat">
+    <PieChart fx:id="pieChart" layoutX="50.0" layoutY="50.0" prefHeight="300.0" prefWidth="500.0" />
+    <AnchorPane translateX="1400.0" translateY="650.0">
+        <Button fx:id="chatbotButton" onAction="#showChatbot" styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <graphic>
+                <ImageView fitHeight="66.0" fitWidth="50.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../images/bull.png" />
+                    </image>
+                </ImageView>
+            </graphic></Button>
+    </AnchorPane>
 </AnchorPane>

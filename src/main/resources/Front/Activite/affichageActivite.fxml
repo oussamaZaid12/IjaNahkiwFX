@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="723.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.affichageActivite">
+<AnchorPane prefHeight="684.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.affichageActivite">
     <children>
-        <ImageView fitHeight="755.0" fitWidth="1293.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="684.0" fitWidth="745.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../images/bkg simple.png"/>
+                <Image url="@../../images/BKG ADD PUB.png"/>
             </image>
         </ImageView>
         <VBox layoutX="15.0" layoutY="50.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 10; -fx-background-radius: 10;">
@@ -25,7 +25,6 @@
                 <Button text="Search" onAction="#handleSearch" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;"/>
                 <Button text="Sort by Date" onAction="#handleSortByDate" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;"/>
                 <HBox spacing="10" style="-fx-alignment: center;">
-                    <Button text="Export to Excel" onAction="#exportToExcel" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
                     <Button text="Consulter Programme" onAction="#handleViewProgramme" style="-fx-background-color: #ff5722; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;"/>
                     <Button text="Consulter Exercice" onAction="#handleViewExercice" style="-fx-background-color: #00bcd4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;"/>
                 </HBox>

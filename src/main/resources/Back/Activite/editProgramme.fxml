@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane prefHeight="758.0" prefWidth="1203.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.EditProgramme">
+    <children>
+        <ImageView fitHeight="755.0" fitWidth="1293.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../images/BKG ADD PUB.png" />
+            </image>
+        </ImageView>
+        <VBox layoutX="215.0" layoutY="124.0" prefHeight="400.0" prefWidth="420.0" spacing="8.0" styleClass="image-view" stylesheets="@../../css/style.css">
+            <children>
+                <Label text="Activité ID" />
+                <TextField fx:id="tfActiviteId" />
+                <Label text="Exercice ID" />
+                <TextField fx:id="tfExerciceId" />
+                <Label text="Lieu" />
+                <TextField fx:id="tfLieu" />
+                <Label text="But" />
+                <TextField fx:id="tfBut" />
+                <Label text="Nom L" />
+                <TextField fx:id="tfNomL" />
+                <Label text="Image URL" />
+                <TextField fx:id="tfImage" />
+                <Button fx:id="TfValider" onAction="#editProgramme" styleClass="card-button" text="Modifier" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

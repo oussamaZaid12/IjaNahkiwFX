@@ -3,6 +3,7 @@
     import Controllers.User.Profile;
     import Controllers.User.Session;
     import entities.User;
+    import javafx.event.ActionEvent;
     import javafx.fxml.FXML;
     import javafx.fxml.FXMLLoader;
     import javafx.scene.Node;
@@ -158,5 +159,25 @@
         @FXML
         private void initialize() {
             showHome();
+        }
+
+        public void ajoutExrc(ActionEvent actionEvent) {
+            try {
+                Node addPub = FXMLLoader.load(getClass().getResource("/Back/Activite/AjoutExercice.fxml"));
+                mainContainer.setCenter(addPub);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+
+        public void ajoutProg(ActionEvent actionEvent) {
+            try {
+                Node addPub = FXMLLoader.load(getClass().getResource("/Back/Activite/AjouProgramme.fxml"));
+                mainContainer.setCenter(addPub);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
         }
     }

@@ -90,6 +90,16 @@ public class NavBar {
             // Handle the exception, for example, by showing an error message
         }
     }
+
+    public void affichageActivite(ActionEvent event) {
+        try {
+            Node a = FXMLLoader.load(getClass().getResource("/Front/Activite/MainInterface.fxml"));
+            mainContainer.setCenter(a);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
     @FXML
     private void showChatbot() {
         try {

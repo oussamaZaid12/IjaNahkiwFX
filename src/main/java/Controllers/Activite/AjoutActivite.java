@@ -10,7 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import services.ServiceActivite;
+import services.EmailService;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -26,6 +28,8 @@ public class AjoutActivite {
     @FXML
     private AnchorPane addprog;
 
+    private EmailService emailService = new EmailService(); // Assuming EmailService is correctly set up
+
     @FXML
     void AjouterActivite(ActionEvent event) {
         String nom = TfNom.getText();
@@ -36,12 +40,16 @@ public class AjoutActivite {
         try {
             ServiceActivite serviceActivite = new ServiceActivite();
             serviceActivite.ajouter(activite);
-            System.out.println("Activity added successfully!");
+            emailService.sendEmailToAllUsers("New Activity Created", "A new activity named " + nom + " on " + dateTime + " has been created.");
+            System.out.println("Activity added successfully and notification sent.");
             TfNom.clear();
             TfGenre.clear();
         } catch (SQLException e) {
             System.out.println("Error adding activity: " + e.getMessage());
             showAlert("Database Error", "Error adding activity to the database.");
+        } catch (MessagingException e) {
+            System.out.println("Failed to send email notification.");
+            showAlert("Email Error", "Failed to send notification email.");
         }
     }
 
