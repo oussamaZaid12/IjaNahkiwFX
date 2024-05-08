@@ -29,6 +29,11 @@ public class MainFX extends Application {
             e.printStackTrace(); // Print the stack trace for debugging
         }
     }
+
+    public static void setCenterView(Parent node) {
+        mainLayout.getChildren().setAll(node);
+
+    }
     private void loadSavedLoginInfo(Login loginController) {
         System.out.println("Loading saved login info..."); // Instruction de débogage
 
@@ -49,11 +54,6 @@ public class MainFX extends Application {
             System.out.println("No saved login info found."); // Instruction de débogage
         }
     }
-    public static void setCenterView(Parent node) {
-        mainLayout.getChildren().setAll(node);
-
-    }
-
     public static void main(String[] args) {
         launch(args);
     }

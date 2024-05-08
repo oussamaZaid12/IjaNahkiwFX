@@ -33,6 +33,51 @@ public class Login {
     @FXML
     private CheckBox rememberMeCheckbox;
     private User connectedUser;
+    private void navigateTo(String fxmlPath) throws IOException {
+        System.out.println("Navigating to " + fxmlPath.substring(fxmlPath.lastIndexOf("/") + 1).replace(".fxml", "").toUpperCase());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent navBar = loader.load();
+        Scene navBarScene = new Scene(navBar);
+        Stage navBarStage = new Stage();
+        navBarStage.setScene(navBarScene);
+
+        // Close the current window
+        Stage currentStage = (Stage) loginButton.getScene().getWindow();
+        currentStage.close();
+
+        // Show the new window
+        navBarStage.show();
+    }
+
+    @FXML
+    private void forgetPassword(ActionEvent event){
+        UserService userService = new UserService();
+        Stage resetPasswordStage = new Stage();
+        Parent resetPasswordInterface;
+        try {
+            resetPasswordInterface = FXMLLoader.load(getClass().getResource("/gui/forgetPassword.fxml"));
+            Scene resetPasswordScene = new Scene(resetPasswordInterface);
+            resetPasswordStage.setScene(resetPasswordScene);
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+
+            // Show the UserInterface stage
+            resetPasswordStage.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    public void goToSignup() throws IOException {
+        Stage signupStage = new Stage();
+        Parent signupInterface = FXMLLoader.load(getClass().getResource("/gui/signup.fxml"));
+        Scene signupScene = new Scene(signupInterface);
+        signupStage.setScene(signupScene);
+        Stage currentStage = (Stage) loginButton.getScene().getWindow();
+        currentStage.close();
+        signupStage.show();
+    }
 
     public void setEmail(String email) {
         emailTextfield.setText(email);
@@ -66,6 +111,7 @@ public class Login {
         logger.info("Password match: " + passwordMatch);
         if (passwordMatch) {
             this.connectedUser = u;
+            Session.setUser(u);
             if (rememberMeCheckbox.isSelected()) {
                 // Sauvegarder les informations de connexion si l'option "Se souvenir de moi" est sélectionnée
                 saveLoginInfo(emailTextfield.getText(), passwordTextfield.getText());
@@ -107,77 +153,6 @@ public class Login {
             prefs.put("email", email);
             prefs.put("password", password);
         }
-    }
-    private void navigateTo(String fxmlPath) throws IOException {
-        System.out.println("Navigating to " + fxmlPath.substring(fxmlPath.lastIndexOf("/") + 1).replace(".fxml", "").toUpperCase());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-        Parent navBar = loader.load();
-        Scene navBarScene = new Scene(navBar);
-        Stage navBarStage = new Stage();
-        navBarStage.setScene(navBarScene);
-
-        // Close the current window
-        Stage currentStage = (Stage) loginButton.getScene().getWindow();
-        currentStage.close();
-
-        // Show the new window
-        navBarStage.show();
-    }
-
-
-
-
-    /*
-    public void goToProfile(User user) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/profile.fxml"));
-        Parent profileInterface = loader.load();
-
-        // Get the controller instance
-        Profile profileController = loader.getController();
-
-        // Initialize data using the controller's method
-        profileController.initData(user);
-
-        Scene profileScene = new Scene(profileInterface);
-        Stage profileStage = new Stage();
-        profileStage.setScene(profileScene);
-
-        // Close the current stage (assuming loginButton is accessible from here)
-        Stage currentStage = (Stage) loginButton.getScene().getWindow();
-        currentStage.close();
-
-        // Show the profile stage
-        profileStage.show();
-    }
-*/
-    @FXML
-    private void forgetPassword(ActionEvent event){
-        UserService userService = new UserService();
-        Stage resetPasswordStage = new Stage();
-        Parent resetPasswordInterface;
-        try {
-            resetPasswordInterface = FXMLLoader.load(getClass().getResource("/gui/forgetPassword.fxml"));
-            Scene resetPasswordScene = new Scene(resetPasswordInterface);
-            resetPasswordStage.setScene(resetPasswordScene);
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.close();
-
-            // Show the UserInterface stage
-            resetPasswordStage.show();
-
-        } catch (IOException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-    public void goToSignup() throws IOException {
-        Stage signupStage = new Stage();
-        Parent signupInterface = FXMLLoader.load(getClass().getResource("/gui/signup.fxml"));
-        Scene signupScene = new Scene(signupInterface);
-        signupStage.setScene(signupScene);
-        Stage currentStage = (Stage) loginButton.getScene().getWindow();
-        currentStage.close();
-        signupStage.show();
     }
 
 }
