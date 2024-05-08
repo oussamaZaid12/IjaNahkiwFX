@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.CheckBox?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.User.Login">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <left>
             <AnchorPane prefHeight="407.0" prefWidth="228.0" style="-fx-background-color: #f2d5c5;" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="410.0" fitWidth="239.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/affiche 1 A3.png" />
                      </image>
@@ -29,17 +30,14 @@
          <center>
             <AnchorPane prefHeight="400.0" prefWidth="373.0" style="-fx-background-color: #f2d5c5;" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" layoutX="96.0" layoutY="24.0" prefHeight="17.0" prefWidth="209.0" text="Login" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="96.0" layoutY="24.0" prefHeight="17.0" prefWidth="209.0" text="Login" textFill="#287b8d">
                      <font>
-                        <Font name="Verdana Bold" size="24.0" />
+                        <Font name="Constantia" size="33.0" />
                      </font>
-                     <effect>
-                        <DropShadow />
-                     </effect>
                   </Label>
-                  <Label layoutX="79.0" layoutY="122.0" text="Email">
+                  <Label layoutX="88.0" layoutY="122.0" text="Email">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Poppins Regular" size="14.0" />
                      </font>
                   </Label>
                   <Label layoutX="79.0" layoutY="183.0" text="Password">
@@ -47,15 +45,21 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="emailTextfield" layoutX="166.0" layoutY="119.0" promptText="Email" />
-                  <PasswordField fx:id="passwordTextfield" layoutX="166.0" layoutY="180.0" promptText="Password" />
-                  <Button fx:id="loginButton" layoutX="109.0" layoutY="306.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="25.0" prefWidth="95.0" style="-fx-background-color: #2d3047;" text="Login" textFill="WHITE" />
+                  <TextField fx:id="emailTextfield" layoutX="166.0" layoutY="119.0" prefHeight="26.0" prefWidth="167.0" promptText="Email" />
+                  <PasswordField fx:id="passwordTextfield" layoutX="166.0" layoutY="180.0" prefHeight="26.0" prefWidth="166.0" promptText="Password" />
+                  <Button fx:id="loginButton" layoutX="109.0" layoutY="306.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="25.0" prefWidth="95.0" style="-fx-background-color: #287b8d;" styleClass="answer-button" stylesheets="@../css/styleDashbord.css" text="Login" textFill="WHITE" />
                   <Label fx:id="invalidText" layoutX="105.0" layoutY="261.0" prefHeight="30.0" prefWidth="242.0" textFill="RED" />
-                  <Hyperlink fx:id="forgetP" layoutX="138.0" layoutY="353.0" onAction="#forgetPassword" text="Mot de passe oublié ?" />
-                  <Button fx:id="loginButton1" layoutX="226.0" layoutY="306.0" mnemonicParsing="false" onAction="#goToSignup" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: #2d3047;" text="SignUp" textFill="WHITE" />
+                  <Hyperlink fx:id="forgetP" layoutX="150.0" layoutY="350.0" onAction="#forgetPassword" text="Mot de passe oublié ?" />
+                  <Button fx:id="loginButton1" layoutX="226.0" layoutY="306.0" mnemonicParsing="false" onAction="#goToSignup" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: #287b8d;" styleClass="answer-button" text="SignUp" textFill="WHITE" />
+                  <CheckBox fx:id="rememberMeCheckbox" layoutX="179.0" layoutY="243.0" text="Se souvenir de moi" />
                </children>
             </AnchorPane>
          </center>
       </BorderPane>
+
    </children>
+   <stylesheets>
+      <URL value="@../css/style.css" />
+      <URL value="@../css/styleDashbord.css" />
+   </stylesheets>
 </AnchorPane>

@@ -49,46 +49,47 @@ public class NLPProcessor {
     // Initialize the responses for each keyword
     private void initializeResponses() {
         keywordResponses = new HashMap<>();
-        keywordResponses.put("happy", Arrays.asList(
+        keywordResponses.put("heureuse", Arrays.asList(
                 "C'est merveilleux à entendre ! Qu'est-ce qui vous rend heureux/heureuse ?",
                 "C'est formidable de se concentrer sur les choses positives dans nos vies.",
                 "Partager des moments heureux les rend encore plus spéciaux."
         ));
-        keywordResponses.put("joy", keywordResponses.get("happy"));  // Reuse happy responses for joy
+        keywordResponses.put("heureux", keywordResponses.get("heureuse"));  // Reuse happy responses for joy
 
-        keywordResponses.put("sad", Arrays.asList(
+        keywordResponses.put("triste", Arrays.asList(
                 "Je suis désolé(e) d'apprendre que vous êtes triste. Pouvez-vous m'en dire plus sur ce qui vous dérange ?",
                 "Bien sûr, dites-moi comment je peux vous aider.",
                 "Veuillez demander de l'aide en contactant notre ligne verte au 9152987821."
         ));
-        keywordResponses.put("depressed", keywordResponses.get("sad"));  // Reuse sad responses
+        keywordResponses.put("déprimé", keywordResponses.get("triste"));  // Reuse sad responses
+        //keywordResponses.put("deprimé", keywordResponses.get("triste"));  // Reuse sad responses
 
-        keywordResponses.put("angry", Arrays.asList(
+        keywordResponses.put("fâché", Arrays.asList(
                 "Il semble que vous soyez en colère ou frustré(e). Parlons de ce qui se passe."
         ));
-        keywordResponses.put("frustrated", keywordResponses.get("angry"));  // Reuse angry responses
+        keywordResponses.put("frustré", keywordResponses.get("fâché"));  // Reuse angry responses
 
         keywordResponses.put("anxieuse", Arrays.asList(
                 "Ressentir de l'anxiété ou de l'inquiétude est difficile. Pouvez-vous partager ce qui vous préoccupe ?"
         ));
-        keywordResponses.put("salut", keywordResponses.get("anxieuse"));
+        keywordResponses.put("anxieux", keywordResponses.get("anxieuse"));
 
-        keywordResponses.put("worried", keywordResponses.get("anxious"));  // Reuse anxious responses
+        keywordResponses.put("inquiet", keywordResponses.get("anxious"));  // Reuse anxious responses
 
-        keywordResponses.put("lonely", Arrays.asList(
+        keywordResponses.put("seul", Arrays.asList(
                 "Se sentir seul(e) peut être difficile. Je suis ici pour discuter avec vous si vous avez besoin de parler à quelqu'un."
         ));
-
+        keywordResponses.put("isolé", keywordResponses.get("seul"));
         keywordResponses.put("suicide", Arrays.asList(
                 "Je suis vraiment désolé(e) d'entendre ça, mais vous avez tant de choses à attendre avec impatience. Veuillez contacter notre ligne verte au 9152987821 immédiatement."
         ));
-        keywordResponses.put("kill", keywordResponses.get("suicide"));  // Reuse suicide responses
+        keywordResponses.put("tuer", keywordResponses.get("suicide"));  // Reuse suicide responses
 
         keywordResponses.put("aide", Arrays.asList(
                 "Bien sûr, dites-moi comment je peux vous aider.",
                 "Veuillez demander de l'aide en contactant notre ligne verte au 9152987821."
         ));
-
+        keywordResponses.put("aider", keywordResponses.get("aider"));
         keywordResponses.put("bonjour", Arrays.asList(
                 "Salut. Qu'est-ce qui vous amène ici aujourd'hui ?",
                 "Bonjour. Comment vous sentez-vous aujourd'hui ?"
@@ -105,9 +106,10 @@ public class NLPProcessor {
         keywordResponses.put("rendez-vous", Arrays.asList(
                 "Consultez notre site web pour plus d'informations."
         ));
-        keywordResponses.put("appointment", keywordResponses.get("rendez-vous"));
+        keywordResponses.put("consultation", keywordResponses.get("rendez-vous"));
         keywordResponses.put("rendez vous", keywordResponses.get("rendez-vous"));
         // Reuse rendez-vous responses
+
     }
 
     // Process tokens with fuzzy matching

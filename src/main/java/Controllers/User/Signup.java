@@ -51,6 +51,7 @@ public class Signup {
 
     private String profileImagePath;
     private String captcha;
+
     public void initialize() {
         // Générer et afficher le captcha au chargement de la page
         generateCaptcha();

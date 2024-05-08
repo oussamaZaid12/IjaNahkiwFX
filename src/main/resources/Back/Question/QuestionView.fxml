@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="mainContainerQUES" prefHeight="723.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Question.AffichageQuestionController">
-    <ImageView fitHeight="903.0" fitWidth="1383.0" layoutX="74.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="734.0" fitWidth="1380.0" layoutX="102.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@../../images/add.jpeg" />
         </image>

@@ -16,6 +16,7 @@ import services.UserService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 
 public class Login {
 
@@ -29,8 +30,18 @@ public class Login {
     private Hyperlink signupLink;
     @FXML
     private Label invalidText;
+    @FXML
+    private CheckBox rememberMeCheckbox;
     private User connectedUser;
+
+    public void setEmail(String email) {
+        emailTextfield.setText(email);
+    }
+    public void setPassword(String password) {
+        passwordTextfield.setText(password);
+    }
     public void loginButtonOnAction(ActionEvent e) throws IOException {
+        Logger logger = Logger.getLogger(Login.class.getName());
         if (emailTextfield.getText().isEmpty() || passwordTextfield.getText().isEmpty()) {
             invalidText.setText("Veuillez remplir tous les champs");
             return;
@@ -46,13 +57,27 @@ public class Login {
             invalidText.setText("Compte inactif veuillez contacter l'administrateur");
             return;
         }
+        String storedPassword = u.getPassword();
 
-        String enteredPassword = passwordTextfield.getText();
-        boolean passwordMatch = BCrypt.checkpw(enteredPassword, u.getPassword());
+        // Check if the entered password matches the stored password hash
+        boolean passwordMatch = BCrypt.checkpw(passwordTextfield.getText(), storedPassword);
+        logger.info("Password entered by user: " + passwordTextfield.getText());
+        logger.info("Password stored in database: " + storedPassword);
+        logger.info("Password match: " + passwordMatch);
         if (passwordMatch) {
             this.connectedUser = u;
-            Session.setUser(u);  // Set user in session
+            if (rememberMeCheckbox.isSelected()) {
+                // Sauvegarder les informations de connexion si l'option "Se souvenir de moi" est sélectionnée
+                saveLoginInfo(emailTextfield.getText(), passwordTextfield.getText());
+                logger.info("Login info saved: Email - " + emailTextfield.getText() + ", Password - " + passwordTextfield.getText());
+            } else {
+                // Effacer les informations de connexion sauvegardées si l'option "Se souvenir de moi" n'est pas sélectionnée
+                clearSavedLoginInfo();
+                logger.info("Login info cleared");
+            }
 
+            User ui = us.getUserById(u.getId());
+            invalidText.setText("");
             if (u.getRole() == Role.ROLE_ADMIN) {
                 navigateTo("/Back/Dashboard.fxml");
             } else if (u.getRole() == Role.ROLE_THERAPEUTE) {
@@ -64,7 +89,25 @@ public class Login {
             invalidText.setText("Mot de passe incorrect");
         }
     }
+    private void clearSavedLoginInfo() {
+        // Obtient les préférences utilisateur
+        Preferences prefs = Preferences.userNodeForPackage(Login.class);
 
+        // Supprime les clés "email" et "password" des préférences
+        prefs.remove("email");
+        prefs.remove("password");
+    }
+
+    private void saveLoginInfo(String email, String password) {
+        if (rememberMeCheckbox.isSelected()) {
+            // Obtient les préférences utilisateur
+            Preferences prefs = Preferences.userNodeForPackage(Login.class);
+
+            // Enregistre l'email et le mot de passe dans les préférences
+            prefs.put("email", email);
+            prefs.put("password", password);
+        }
+    }
     private void navigateTo(String fxmlPath) throws IOException {
         System.out.println("Navigating to " + fxmlPath.substring(fxmlPath.lastIndexOf("/") + 1).replace(".fxml", "").toUpperCase());
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

@@ -15,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import services.ServiceConsultation;
@@ -92,14 +91,14 @@ public class AffichageConsultation {
             consultationscontainer.getChildren().clear();
             for (Consultation con : consultations) {
                 if(con.getFiche()!=0){
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/cardconsultation.fxml"));
-                Node card = loader.load(); // This line can throw IOException
-                Cardconsultation controller = loader.getController();
-                controller.setConsultation(con);
-                controller.setAffichageConsController(this); // Pass reference to this controller
-                consultationscontainer.getChildren().add(card);
-            }
-            else
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/cardconsultation.fxml"));
+                    Node card = loader.load(); // This line can throw IOException
+                    Cardconsultation controller = loader.getController();
+                    controller.setConsultation(con);
+                    controller.setAffichageConsController(this); // Pass reference to this controller
+                    consultationscontainer.getChildren().add(card);
+                }
+                else
                 {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/cardconsultationsansfiche.fxml"));
                     Node card = loader.load(); // This line can throw IOException

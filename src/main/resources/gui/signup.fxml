@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -25,16 +26,16 @@
                                 <Image url="@../images/logo.png" />
                             </image>
                         </ImageView>
-                        <Button layoutX="46.0" layoutY="298.0" mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="118.0" style="-fx-background-color: #2d3047;" text="Back" textFill="WHITE" />
+                        <Button layoutX="46.0" layoutY="298.0" mnemonicParsing="false" onAction="#goBack" prefHeight="25.0" prefWidth="118.0" style="-fx-background-color: #287b8d;" styleClass="answer-button" text="Back" textFill="WHITE" />
                     </children>
                 </AnchorPane>
             </left>
             <center>
                 <AnchorPane prefHeight="500.0" prefWidth="373.0" style="-fx-background-color: #287b8d;" BorderPane.alignment="CENTER">
                     <children>
-                        <Label alignment="CENTER" layoutX="69.0" layoutY="25.0" prefHeight="17.0" prefWidth="209.0" text="Secure Login" textFill="WHITE">
+                        <Label alignment="CENTER" layoutX="69.0" layoutY="2.0" prefHeight="41.0" prefWidth="250.0" styleClass="card-title" text="Secure Login" textFill="WHITE">
                             <font>
-                                <Font name="Verdana Bold" size="24.0" />
+                                <Font name="Constantia Bold" size="22.0" />
                             </font>
                             <effect>
                                 <DropShadow />
@@ -73,7 +74,7 @@
                                 </FXCollections>
                             </items>
                         </ComboBox>
-                        <Button fx:id="signupButton" layoutX="257.0" layoutY="473.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #f2d5c5;" text="Signup" textFill="WHITE" />
+                        <Button fx:id="signupButton" layoutX="261.0" layoutY="467.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: #dbb5a8;" text="Signup" textFill="WHITE" />
                         <Label fx:id="invalidText" layoutX="3.0" layoutY="352.0" prefHeight="30.0" prefWidth="194.0" textFill="RED" />
                         <Label layoutX="48.0" layoutY="138.0" text="Email">
                             <font>
@@ -92,24 +93,31 @@
                             </font>
                         </Label>
                         <TextField fx:id="emailTextfield1" layoutX="140.0" layoutY="168.0" promptText="Confirm Email" />
-                        <Button fx:id="uploadProfileImageButton" layoutX="152.0" layoutY="354.0" mnemonicParsing="false" onAction="#uploadProfileImage" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #f2d5c5;" text="Upload Image" textFill="WHITE" />
+                        <Button fx:id="uploadProfileImageButton" layoutX="152.0" layoutY="354.0" mnemonicParsing="false" onAction="#uploadProfileImage" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #dbb5a8;" styleClass="answer-button" text="Upload Image" textFill="WHITE" />
                         <Label layoutX="29.0" layoutY="357.0" text="Profile Image">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </Label>
                         <Label layoutX="50.0" layoutY="207.0" text="age" />
-                        <Label fx:id="captchaCode" layoutX="141.0" layoutY="389.0" prefHeight="55.0" prefWidth="147.0" text="Label" textFill="#ff4400">
+                        <Label fx:id="captchaCode" layoutX="141.0" layoutY="389.0" prefHeight="55.0" prefWidth="147.0" text="Label" textFill="#f4c826">
                             <font>
-                                <Font name="Zapfino" size="14.0" />
+                                <Font size="16.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="captchaInput" layoutX="134.0" layoutY="437.0" prefHeight="26.0" prefWidth="161.0" />
-                        <Label layoutX="27.0" layoutY="441.0" prefHeight="17.0" prefWidth="98.0" text="Entre code" />
-                        <Label layoutX="30.0" layoutY="408.0" prefHeight="17.0" prefWidth="139.0" text="Security Code" />
+                        <TextField fx:id="captchaInput" layoutX="137.0" layoutY="431.0" prefHeight="26.0" prefWidth="161.0" />
+                        <Label layoutX="38.0" layoutY="435.0" prefHeight="17.0" prefWidth="98.0" text="Entre code" />
+                        <Label layoutX="30.0" layoutY="408.0" prefHeight="18.0" prefWidth="102.0" text="Security Code">
+                            <font>
+                                <Font size="25.0" />
+                            </font></Label>
                     </children>
                 </AnchorPane>
             </center>
         </BorderPane>
     </children>
+    <stylesheets>
+        <URL value="@../css/style.css" />
+        <URL value="@../css/styleDashbord.css" />
+    </stylesheets>
 </AnchorPane>

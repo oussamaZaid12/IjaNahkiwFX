@@ -83,9 +83,7 @@ public class ServiceFicheMedicale implements IService<FicheMedicale> {
     }
 
     public FicheMedicale getFicheByTherapistAndPatientId(int idp, int idt) throws SQLException {
-
         String req = "SELECT * FROM fichemedicale WHERE id_t_id = ? AND id_p_id = ? AND id != 0";
-
         FicheMedicale ficheMedicale = new FicheMedicale();
 
         try (PreparedStatement statement = con.prepareStatement(req)) {
@@ -132,5 +130,4 @@ public class ServiceFicheMedicale implements IService<FicheMedicale> {
             throw e;  // Rethrow the exception after logging it
         }
     }
-
 }

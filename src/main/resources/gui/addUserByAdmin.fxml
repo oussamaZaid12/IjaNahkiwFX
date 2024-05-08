@@ -11,45 +11,50 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.User.addUserByAdmin">
+<AnchorPane prefHeight="723.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.User.addUserByAdmin">
     <children>
-        <BorderPane prefHeight="400.0" prefWidth="600.0">
+        <ImageView fitHeight="733.0" fitWidth="1314.0" layoutX="123.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/add.jpeg" />
+            </image>
+        </ImageView>
+        <BorderPane layoutX="48.0" prefHeight="711.0" prefWidth="1431.0" styleClass="image-view" stylesheets="@../css/style.css">
             <left>
-                <AnchorPane prefHeight="600.0" prefWidth="228.0" style="-fx-background-color: #dbb5a8;" BorderPane.alignment="CENTER">
-                    <children>
-                        <ImageView fitHeight="600.0" fitWidth="250.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <image>
-                                <Image url="@../images/affiche 1 A3.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
+                <AnchorPane prefHeight="711.0" prefWidth="1.0" BorderPane.alignment="CENTER" />
             </left>
             <center>
-                <AnchorPane prefHeight="400.0" prefWidth="373.0" style="-fx-background-color: #f2d5c5;" BorderPane.alignment="CENTER">
+                <AnchorPane prefHeight="706.0" prefWidth="1407.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label fx:id="titleid" alignment="CENTER" layoutX="1.0" layoutY="25.0" prefHeight="30.0" prefWidth="369.0" text="Ajouter utilisateur" textFill="WHITE">
+                        <VBox layoutX="432.0" layoutY="119.0" prefHeight="354.0" prefWidth="308.0" translateY="40.0">
+                            <children>
+                                <TextField fx:id="email" prefHeight="46.0" prefWidth="272.0" promptText="Email" />
+                                <TextField fx:id="fname" prefHeight="47.0" prefWidth="293.0" promptText="First name" translateY="40.0" />
+                                <TextField fx:id="lname" prefHeight="54.0" prefWidth="294.0" promptText="Last name" translateY="80.0" />
+                                <TextField fx:id="phone" prefHeight="50.0" prefWidth="294.0" promptText="age" translateY="120.0" />
+                            </children>
+                        </VBox>
+                        <Label fx:id="titleid" alignment="CENTER" layoutX="370.0" layoutY="74.0" prefHeight="30.0" prefWidth="369.0" text="Ajouter utilisateur" textFill="WHITE">
                             <font>
-                                <Font name="Verdana Bold" size="24.0" />
+                                <Font name="Poppins Bold" size="24.0" />
                             </font>
                             <effect>
                                 <DropShadow />
                             </effect>
                         </Label>
-                        <Label layoutX="60.0" layoutY="121.0" text="Email">
+                        <Label layoutX="328.0" layoutY="166.0" text="Email">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <Label layoutX="59.0" layoutY="161.0" text="First Name">
+                        <Label layoutX="329.0" layoutY="256.0" text="Nom">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="email" layoutX="138.0" layoutY="118.0" promptText="Email" />
-                        <ComboBox fx:id="roleComboBox" layoutX="140.0" layoutY="267.0" prefHeight="25.0" prefWidth="147.0" promptText="Select Role">
+                        <ComboBox fx:id="roleComboBox" layoutX="528.0" layoutY="513.0" prefHeight="26.0" prefWidth="212.0" promptText="Select Role">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="ROLE_PATIENT" />
@@ -57,22 +62,26 @@
                                 </FXCollections>
                             </items>
                         </ComboBox>
-                        <Button fx:id="signupButton" layoutX="231.0" layoutY="350.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="25.0" prefWidth="112.0" style="-fx-background-color: #a68d86;" text="Add" textFill="#fff9f9" />
+                        <Button fx:id="signupButton" layoutX="597.0" layoutY="576.0" mnemonicParsing="false" onAction="#signupButtonOnAction" prefHeight="44.0" prefWidth="142.0" styleClass="card-button" stylesheets="@../css/style.css" text="Add" textFill="#fff9f9" />
                         <Label fx:id="invalidText" layoutX="81.0" layoutY="311.0" prefHeight="30.0" prefWidth="242.0" textFill="RED" />
-                        <Label layoutX="61.0" layoutY="200.0" text="Last Name">
+                        <Label layoutX="320.0" layoutY="346.0" text="Prenom">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </Label>
-                        <Label layoutX="62.0" layoutY="271.0" text="Role" />
-                  <TextField fx:id="fname" layoutX="139.0" layoutY="159.0" promptText="First name" />
-                  <TextField fx:id="lname" layoutX="138.0" layoutY="198.0" promptText="Last name" />
-                  <TextField fx:id="phone" layoutX="139.0" layoutY="230.0" promptText="age" />
-                  <Label layoutX="62.0" layoutY="234.0" text="Age" />
+                        <Label layoutX="331.0" layoutY="516.0" text="Role">
+                            <font>
+                                <Font size="14.0" />
+                            </font></Label>
+                        <Label layoutX="333.0" layoutY="441.0" text="Age">
+                            <font>
+                                <Font size="14.0" />
+                            </font></Label>
 
                     </children>
                 </AnchorPane>
             </center>
         </BorderPane>
     </children>
+
 </AnchorPane>

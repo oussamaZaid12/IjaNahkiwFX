@@ -65,7 +65,7 @@ public class Cardconsultation {
             Parent root = loader.load();
             EditConsultationDoctor controller = loader.getController();
             controller.setConsultation(this.currentConsultation);
-          //  MainFX.setCenterView(root);
+            //  MainFX.setCenterView(root);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -112,9 +112,9 @@ public class Cardconsultation {
             FicheMedicale fiche = serviceFiche.getFicheByTherapistAndPatientId(idp, idt);
             System.out.println("La fiche trouvée dans la base: " + fiche);
             if(fiche.getId()==0){
-            System.out.println("pas de fiche trouvée");
-            serviceFiche.createFicheByTherapistAndPatientId(idp, idt);
-            System.out.println("Fiche créée dans la base: ");}
+                System.out.println("pas de fiche trouvée");
+                serviceFiche.createFicheByTherapistAndPatientId(idp, idt);
+                System.out.println("Fiche créée dans la base: ");}
 
 
             ServiceConsultation serviceConsultation = new ServiceConsultation();

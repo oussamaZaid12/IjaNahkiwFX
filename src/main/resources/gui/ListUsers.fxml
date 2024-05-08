@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,15 +12,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #59CE8F;" xmlns="http://javafx.com/javafx/21" stylesheets="@../gui/monStyle.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.User.ListUsers">
+<AnchorPane prefHeight="684.0" prefWidth="1328.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.User.ListUsers">
     <children>
-        <SplitPane dividerPositions="0.29797979797979796" prefHeight="700.0" prefWidth="1200.0">
+        <SplitPane dividerPositions="0.29797979797979796" layoutX="20.0" layoutY="15.0" prefHeight="743.0" prefWidth="1360.0">
             <items>
                 <!-- Left Pane with Image -->
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="698.0" prefWidth="282.0" style="-fx-background-color: #f2d5c5;">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="742.0" prefWidth="358.0" style="-fx-background-color: #f2d5c5;">
                     <children>
-                        <ImageView fitHeight="698.0" fitWidth="361.0" layoutX="-3.0">
+                        <ImageView fitHeight="739.0" fitWidth="408.0" layoutX="4.0" layoutY="4.0">
                             <image>
                                 <Image url="@../images/affiche 1 A3.png" />
                             </image>
@@ -28,27 +30,25 @@
                 </AnchorPane>
 
                 <!-- Right Pane with TableView, Pagination, and Buttons -->
-                <AnchorPane fx:id="titre" minHeight="0.0" minWidth="0.0" prefHeight="1200.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
+                <AnchorPane fx:id="titre" minHeight="0.0" minWidth="0.0" prefHeight="698.0" prefWidth="846.0" style="-fx-background-color: #ffffff;">
                     <children>
 
                         <!-- VBox to contain elements -->
-                        <VBox layoutY="47.0" prefHeight="650.0" prefWidth="821.0" spacing="10.0">
-
-                            <!-- Title Label -->
-                            <Label fx:id="titre_u" text="La table des utilisateurs">
+                        <VBox layoutX="81.0" layoutY="62.0" prefHeight="618.0" prefWidth="682.0" spacing="10.0">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="La table des utilisateurs" textAlignment="CENTER" wrappingWidth="685.4000854492188">
                                 <font>
-                                    <Font name="Arial Narrow Italic" size="23.0" />
+                                    <Font name="Poppins Regular" size="25.0" />
                                 </font>
-                            </Label>
+                            </Text>
 
                             <!-- TableView -->
-                            <TableView fx:id="tableView" prefHeight="300.0" prefWidth="821.0" style="-fx-background-color: #f2d5c5;">
+                            <TableView fx:id="tableView" prefHeight="300.0" prefWidth="745.0" style="-fx-background-color: #f2d5c5;" stylesheets="@../css/style.css">
                                 <columns>
                                     <TableColumn fx:id="nom" prefWidth="102.40002059936523" text="Nom" />
-                                    <TableColumn fx:id="prenom" prefWidth="113.59999084472656" text="prenom" />
-                                    <TableColumn fx:id="email" prefWidth="240.79998779296875" text="email" />
-                                    <TableColumn fx:id="isbanned" prefWidth="111.19989013671875" text="isbanned" />
-                                    <TableColumn fx:id="age" prefWidth="104.00006103515625" text="age" />
+                                    <TableColumn fx:id="prenom" prefWidth="113.59999084472656" text="Prenom" />
+                                    <TableColumn fx:id="email" prefWidth="240.79998779296875" text="Email" />
+                                    <TableColumn fx:id="isbanned" prefWidth="111.19989013671875" text="Isbanned" />
+                                    <TableColumn fx:id="age" prefWidth="104.00006103515625" text="Age" />
                                 </columns>
                             </TableView>
 
@@ -56,16 +56,16 @@
                             <Pagination fx:id="pagination" pageCount="1" />
 
                             <!-- HBox to contain buttons horizontally -->
-                            <HBox spacing="10.0">
+                            <HBox spacing="50.0" stylesheets="@../css/style.css">
                                 <!-- Buttons -->
-                                <Button fx:id="modifierbutton" mnemonicParsing="false" text="modifier" />
-                                <Button fx:id="suppbutton" mnemonicParsing="false" text="supprimer" />
-                                <Button fx:id="refreshbutton" mnemonicParsing="false" onAction="#refreshbuttonaction" text="actualiser" />
+                                <Button fx:id="modifierbutton" mnemonicParsing="false" prefHeight="46.0" prefWidth="110.0" styleClass="answer-button" stylesheets="@../css/style.css" text="Modifier" />
+                                <Button fx:id="suppbutton" mnemonicParsing="false" prefHeight="47.0" prefWidth="106.0" styleClass="answer-button" text="Supprimer" />
+                                <Button fx:id="refreshbutton" mnemonicParsing="false" onAction="#refreshbuttonaction" prefHeight="47.0" prefWidth="118.0" styleClass="answer-button" text="Actualiser" />
 
                                 <!-- Button and Image for PDF -->
-                                <Button fx:id="pdfButton" mnemonicParsing="false" onAction="#handlePDFExport">
+                                <Button fx:id="pdfButton" mnemonicParsing="false" onAction="#handlePDFExport" prefHeight="40.0" prefWidth="57.0" styleClass="label-like-button">
                                     <graphic>
-                                        <ImageView fitHeight="50.0" fitWidth="50.0">
+                                        <ImageView fitHeight="40.0" fitWidth="38.0" styleClass="label-like-button">
                                             <image>
                                                 <Image url="@../images/pdf icon.png" />
                                             </image>
@@ -80,4 +80,8 @@
             </items>
         </SplitPane>
     </children>
+    <stylesheets>
+        <URL value="@monStyle.css" />
+        <URL value="@../css/styleDashbord.css" />
+    </stylesheets>
 </AnchorPane>
