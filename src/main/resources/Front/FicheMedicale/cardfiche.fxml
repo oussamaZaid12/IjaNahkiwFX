@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="FichePane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FicheMedicale.Cardfiche">
+<AnchorPane fx:id="FichePane" prefHeight="239.0" prefWidth="651.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.FicheMedicale.Cardfiche">
     <children>
-        <VBox layoutX="5" layoutY="5" prefHeight="478.0" prefWidth="655.0" spacing="5" styleClass="card-container">
+        <VBox layoutX="2.0" layoutY="2.0" prefHeight="234.0" prefWidth="646.0" spacing="5" styleClass="card-container">
             <children>
-            <Label fx:id="tfid" prefHeight="20.0" prefWidth="72.0" styleClass="card-description" text="Id fiche" />
+            <Label fx:id="tfid"  styleClass="card-description" text="Id fiche" />
                 <Label fx:id="tfidp" prefHeight="20.0" prefWidth="72.0" styleClass="card-description" text="Id patient" />
                 <Label fx:id="tfidt" styleClass="card-description" text="Id therapeute" />
                 <Label fx:id="tfdatecreation" styleClass="card-description" text="Date de creation" />
@@ -53,6 +53,13 @@
                   <Button mnemonicParsing="false" onAction="#handleDownloadPDF" text="generer pdf" />
                     </children>
                 </HBox>
+                <VBox fx:id="consultationsContainer" prefHeight="57.0" prefWidth="1322.0" styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <VBox.margin>
+                        <Insets left="77.0" />
+                    </VBox.margin></VBox>
                 <!-- Add other details you want to display -->
             </children>
         </VBox>

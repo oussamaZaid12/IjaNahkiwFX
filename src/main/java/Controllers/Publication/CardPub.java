@@ -1,30 +1,40 @@
 package Controllers.Publication;
 
+import Controllers.User.Session;
 import entities.Commentaire;
+import entities.Role;
+import entities.User;
 import entities.publication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import services.ServiceCommentaire;
 import services.ServicePublication;
-import test.MainFX;
+import services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 public class CardPub {
     @FXML
     private Button btnDelete;
+    @FXML
+    private Button btnModifier;
+    @FXML
+    private ImageView photoprofil;
     @FXML
     private AnchorPane cardPane;
     @FXML
@@ -49,44 +59,90 @@ public class CardPub {
     }
     @FXML
     public void initialize() {
+
         warningIcon.setVisible(true); // Temporarily force visibility
     }
 
 
     public void setPublication(publication publication) {
-
         this.currentPublication = publication;
         titrePub.setText(publication.getTitreP());
         descriptionPub.setText(publication.getDescriptionP());
-        idUserPub.setText(String.valueOf(publication.getIdUserId()));
         datePub.setText(publication.getDateP().toString());
 
-        // Ajuster la visibilité des boutons en fonction de l'ID de l'utilisateur
-        boolean isUserOne = publication.getIdUserId() != 1;
-        btnDelete.setVisible(isUserOne);
+        // Retrieve user information based on the user ID in the publication
+        UserService serviceUser = new UserService();
+        User author = serviceUser.getUserById(publication.getIdUserId());
 
+        if (author != null) {
+            // Display the author's name and surname
+            idUserPub.setText(author.getNom() + " " + author.getPrenom());
+
+            // Load the author's profile picture
+            String profileImagePath = "/images/" + author.getImage();
+            InputStream profileImageStream = getClass().getResourceAsStream(profileImagePath);
+
+            // Check if the input stream is null and assign a default image if necessary
+            if (profileImageStream != null) {
+                Image profileImage = new Image(profileImageStream);
+                photoprofil.setImage(profileImage);
+            } else {
+                // Use a default profile image when the specified image is not found
+                photoprofil.setImage(new Image(getClass().getResourceAsStream("/images/doctoricon.png")));
+            }
+        } else {
+            // Handle the case where the user cannot be found
+            idUserPub.setText("Auteur inconnu");
+            photoprofil.setImage(new Image(getClass().getResourceAsStream("/images/doctoricon.png")));
+        }
+
+        // Load publication image
         String imagePath = "/images/" + publication.getImageP();
         InputStream imageStream = getClass().getResourceAsStream(imagePath);
+
+        // Check if the input stream is null and assign a default image if necessary
         if (imageStream != null) {
             Image image = new Image(imageStream);
             imagePub.setImage(image);
         } else {
-            // Set a default image or leave it blank
+            // Use a default image for the publication if the specified image is not found
+            imagePub.setImage(new Image(getClass().getResourceAsStream("/images/bkg2.png")));
         }
+
+        updateButtonVisibility();
         updateWarningIconVisibility();
-
-
     }
+
+
+
+
+    private void updateButtonVisibility() {
+        User currentUser = Session.getUser();
+        // Show delete button only if the current user is the poster or an admin
+        boolean canEditDelete = currentUser != null &&
+                (currentUser.getRole() == Role.ROLE_ADMIN);
+        btnDelete.setVisible(canEditDelete);
+        btnModifier.setVisible(canEditDelete);
+    }
+
     @FXML
     private void handleEditAction(ActionEvent event) {
+
+
         try {
+
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Publication/editPub.fxml"));
+            System.out.println("try to edit");
             Parent root = loader.load();
             editPub controller = loader.getController();
             controller.setPublication(this.currentPublication);
-            MainFX.setCenterView(root);
+            Stage stage=new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            //MainFX.setCenterView(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.printf(e.getMessage());;
         }
 
     }
@@ -115,34 +171,38 @@ public class CardPub {
 
     @FXML
     private void handleCardClick(MouseEvent event) {
-        if (event.getClickCount() == 2) { // For a double-click, for example
+        if (event.getClickCount() == 2) {
+            FXMLLoader loader = new FXMLLoader();
             try {
-                FXMLLoader loader;
-                if (currentPublication.getIdUserId() == 1) {
-                    // Load the backend detail view if the user ID is not 1
-                    loader = new FXMLLoader(getClass().getResource("/Back/Publication/DetailPublication.fxml"));
-                } else {
-                    // Load the front end detail view otherwise
-                    loader = new FXMLLoader(getClass().getResource("/Front/Publication/DetailPublication.fxml"));
-                }
+                User currentUser = Session.getUser();
+                String resourcePath = currentUser != null && currentUser.getRole() == Role.ROLE_ADMIN ? "/Back/Publication/DetailPublication.fxml" : "/Front/Publication/DetailPublication.fxml";
+                loader.setLocation(getClass().getResource(resourcePath));
                 Parent detailView = loader.load();
-
                 DetailPublication controller = loader.getController();
                 controller.setPublication(this.currentPublication);
+                cardPane.getChildren().setAll(detailView);
 
-                // Assuming you have a static method in MainFX to change the center view
-                MainFX.setCenterView(detailView);
+                //Stage stage=new Stage();
+                //stage.setScene(new Scene(detailView));
+                //stage.show();
+                //MainFX.setCenterView(detailView);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Failed to load detail view: " + e.getMessage());
+                showAlert("Error", "Cannot load the detail view: " + e.getMessage());
             }
         }
     }
 
+
+
+
+
+
     private void updateWarningIconVisibility() {
         try {
-        boolean hasProfanity = checkForProfanity(currentPublication);
-        System.out.println("Updating warning icon visibility. Profanity found: " + hasProfanity);
-        warningIcon.setVisible(hasProfanity);}
+            boolean hasProfanity = checkForProfanity(currentPublication);
+            System.out.println("Updating warning icon visibility. Profanity found: " + hasProfanity);
+            warningIcon.setVisible(hasProfanity);}
         catch (SQLException e) {
             e.printStackTrace();
             warningIcon.setVisible(false);
@@ -168,7 +228,13 @@ public class CardPub {
     }
 
 
-
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION); // Utilisez AlertType.ERROR pour les erreurs
+        alert.setTitle(title);
+        alert.setHeaderText(null); // Pas de texte d'en-tête
+        alert.setContentText(content);
+        alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
+    }
 
 
 

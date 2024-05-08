@@ -1,0 +1,72 @@
+/* Styles for TableView */
+.table-view {
+    -fx-background-color: #f2f2f2;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #4CAF50;
+}
+
+.table-view .column-header,
+.table-view .table-cell {
+    -fx-border-color: #dddddd;
+    -fx-border-width: 0.5px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+/* Styles for table rows */
+.table-row-cell {
+    -fx-background-color: #D5E3F0;
+}
+
+/* Styles for alternating rows */
+.table-row-cell:odd {
+    -fx-background-color: #f0f0f2;
+}
+
+/* Styles for Title Label */
+#titre_u {
+    -fx-font-family: "Arial Narrow";
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Styles for Buttons */
+.button {
+    -fx-background-color: #f2d5c5;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-cursor: pointer;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
+}
+
+.button:hover {
+    -fx-background-color: #e0b8a4;
+}
+
+/* Styles for Pagination */
+.pagination {
+    -fx-background-color: transparent;
+}
+
+.pagination-button {
+    -fx-background-color: #f2d5c5;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.pagination-button:hover {
+    -fx-background-color: #e0b8a4;
+}
+
+/* Styles for SplitPane */
+.split-pane {
+    -fx-background-color: #59CE8F;
+}

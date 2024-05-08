@@ -1,16 +1,26 @@
 package Controllers;
 
+import Controllers.Consultation.UpcomingConsultationChecker;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import services.ServiceConsultation;
+import services.ServiceNotification;
+
 import java.io.IOException;
 
 public class NavBar {
 
     @FXML
     private BorderPane mainContainer;
-
+    private ServiceConsultation serviceConsultation;
+    private ServiceNotification serviceNotification;
+    private UpcomingConsultationChecker upcomingConsultationChecker;
 
     @FXML
     public void showDisplayPublications() {
@@ -19,10 +29,8 @@ public class NavBar {
             mainContainer.setCenter(displayPubs);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
-
 
     @FXML
     public void showDisplayConsultations() {
@@ -35,26 +43,6 @@ public class NavBar {
         }
     }
 
-    @FXML
-    public void showDisplayConsultationspatient() {
-        try {
-            Node displayCons = FXMLLoader.load(getClass().getResource("/Front/Consultation/affichageConsultationpatient.fxml"));
-            mainContainer.setCenter(displayCons);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
-    @FXML
-    public void showDisplayFiches() {
-        try {
-            Node displayFiches = FXMLLoader.load(getClass().getResource("/Front/FicheMedicale/AffichageFiche.fxml"));
-            mainContainer.setCenter(displayFiches);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
 
     @FXML
     public void showHome() {
@@ -63,12 +51,61 @@ public class NavBar {
             mainContainer.setCenter(home);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
         }
     }
 
     @FXML
     private void initialize() {
         showHome();
+        serviceConsultation = new ServiceConsultation();
+        serviceNotification = new ServiceNotification();
+        initializeUpcomingConsultationChecker();
     }
+
+    private void initializeUpcomingConsultationChecker() {
+        if (serviceConsultation != null && serviceNotification != null) {
+            upcomingConsultationChecker = new UpcomingConsultationChecker(serviceConsultation, serviceNotification);
+            upcomingConsultationChecker.checkUpcomingConsultations();
+        } else {
+            System.out.println("ServiceConsultation or ServiceNotification is not set. Please set the instances.");
+        }
+    }
+
+    public void showDisplayTherapists(ActionEvent actionEvent) {
+        try {
+            Node displayFiches = FXMLLoader.load(getClass().getResource("/Front/Consultation/listtherapists.fxml"));
+            mainContainer.setCenter(displayFiches);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+    @FXML
+    public void DisplayQuiz() {
+        try {
+            Node quiz = FXMLLoader.load(getClass().getResource("/Front/Quiz/CardQuestion.fxml"));
+            mainContainer.setCenter(quiz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+    @FXML
+    private void showChatbot() {
+        try {
+            // Load the chatbot window or overlay
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Quiz/Chatbot.fxml")); // Adjust path as needed
+            Parent chatbotRoot = loader.load();
+
+            // Display the chatbot window as a modal or embedded
+            Stage chatbotStage = new Stage();
+            chatbotStage.setTitle("Chatbot");
+            chatbotStage.setScene(new Scene(chatbotRoot));
+            chatbotStage.initOwner(mainContainer.getScene().getWindow());
+            chatbotStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

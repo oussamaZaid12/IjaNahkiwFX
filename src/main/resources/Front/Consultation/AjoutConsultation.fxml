@@ -39,10 +39,6 @@
                 <Label text="Minute de la consultation" />
                 <TextField fx:id="tfminute" prefHeight="26.0" prefWidth="30.0" />
 
-                <Label text="ID patient" />
-                <TextField fx:id="Tfidpatient" />
-                <Label text="ID thérapeute" />
-                <TextField fx:id="Tftherapeute" />
                 <Button fx:id="TfValider" onAction="#AjouterConsultation" styleClass="card-button" text="Ajouter" />
             </children>
         </VBox>

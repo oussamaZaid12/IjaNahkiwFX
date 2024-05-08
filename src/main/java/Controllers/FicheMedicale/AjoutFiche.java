@@ -1,6 +1,8 @@
 package Controllers.FicheMedicale;
 
+import Controllers.User.Session;
 import entities.FicheMedicale;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,37 +41,52 @@ public class AjoutFiche {
     @FXML
     void AjouterFiche(ActionEvent event) {
         try {
-            // Retrieve data from input fields
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+            int idUser = currentUser.getId();
             LocalDate localDateCreation = tfdatecreation.getValue();
+            if (localDateCreation == null) {
+                showAlert("Input Error", "Please enter a valid creation date.");
+                return;
+            }
             Date dateCreation = Date.valueOf(localDateCreation);
 
             LocalDate localDateDerniereMaj = tfdernieremaj.getValue();
+            if (localDateDerniereMaj == null) {
+                showAlert("Input Error", "Please enter a valid last update date.");
+                return;
+            }
             Date dateDerniereMaj = Date.valueOf(localDateDerniereMaj);
-            int idPatient = Integer.parseInt(tfidp.getText());
-            int idTherapeute = Integer.parseInt(tfidt.getText());
 
-            // Create a new FicheMedicale object with the retrieved data
-            FicheMedicale ficheMedicale = new FicheMedicale(dateCreation, dateDerniereMaj, idPatient, idTherapeute);
+            // Check that the last update date is not before the creation date
+            if (dateDerniereMaj.before(dateCreation)) {
+                showAlert("Input Error", "The last update date cannot be before the creation date.");
+                return;
+            }
+
+            int idPatient = Integer.parseInt(tfidp.getText());
+           // int idTherapeute = Integer.parseInt(tfidt.getText());
+
+            // Create a new FicheMedicale object
+            FicheMedicale ficheMedicale = new FicheMedicale(dateCreation, dateDerniereMaj, idPatient, idUser);
 
             // Call a service method to add the fiche medicale to the database
             ServiceFicheMedicale serviceFicheMedicale = new ServiceFicheMedicale();
             serviceFicheMedicale.ajouter(ficheMedicale);
 
             // Show success message
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText(null);
-            alert.setContentText("Fiche medicale added successfully.");
-            alert.showAndWait();
+            showAlert("Success", "Fiche medicale added successfully.");
 
         } catch (NumberFormatException e) {
-            // Handle NumberFormatException
             showAlert("Error", "Please enter valid numeric values for ID Patient and ID Therapeute.");
         } catch (SQLException e) {
-            // Handle SQLException
             showAlert("Error", "An error occurred while adding fiche medicale: " + e.getMessage());
         }
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -88,4 +105,12 @@ public class AjoutFiche {
             // Handle the exception, for example, by showing an error message
         }
     }
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }

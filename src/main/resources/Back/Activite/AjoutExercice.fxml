@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.AjoutExerciceController">
+    <VBox spacing="10" layoutX="20" layoutY="20">
+        <Label text="Add New Exercice"/>
+        <TextField fx:id="tfNomCoach" promptText="Coach Name"/>
+        <TextField fx:id="tfDuree" promptText="Duration"/>
+        <Button text="Add Exercice" onAction="#handleAddExercice" maxWidth="Infinity"/>
+    </VBox>
+</AnchorPane>
