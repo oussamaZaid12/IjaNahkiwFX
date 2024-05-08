@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import services.ServicePublication;
 
@@ -18,6 +19,9 @@ public class AffichagePub {
 
     @FXML
     private TextField searchField;
+    @FXML
+    private AnchorPane affichagefrontContainer;
+
     private final ServicePublication servicePublication = new ServicePublication();
 
     @FXML
@@ -51,13 +55,18 @@ public class AffichagePub {
                 Node card = loader.load(); // This line can throw IOException
                 CardPub controller = loader.getController();
                 controller.setPublication(pub);
+
+                // Pass the `affichagefrontContainer` to the `CardPub` controller
+                controller.setAffichagefrontContainer(affichagefrontContainer);
+
                 controller.setAffichagePubController(this); // Pass reference to this controller
                 publicationsContainer.getChildren().add(card);
             }
         } catch (Exception e) { // Catch any exception here
             e.printStackTrace();
         }
-    }
+    } 
+
 
 
     public void refreshPublicationsView() {
@@ -65,6 +74,7 @@ public class AffichagePub {
             loadPublications(null); // Reload all publications
         });
     }
+
 
 
 

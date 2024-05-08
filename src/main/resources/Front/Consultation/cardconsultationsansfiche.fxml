@@ -22,6 +22,7 @@
                 <Label fx:id="remarques" styleClass="card-description" text="Remarques" />
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
+
                         <Button mnemonicParsing="false" onAction="#AttribuerFiche" styleClass="card-button" stylesheets="@../../css/style.css" text="Attribuer une fiche" style="-fx-background-color: #E0C0AD;" />
                         <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteAction" styleClass="label-like-button">
                             <HBox.margin>
@@ -57,4 +58,6 @@
         <URL value="@../../css/cardPub.css" />
         <URL value="@../../css/style.css" />
     </stylesheets>
+
 </AnchorPane>
+

@@ -39,7 +39,7 @@
                             </font>
                         </Label>
                         <FlowPane fx:id="consultationscontainer" prefHeight="277.0" prefWidth="719.0" />
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="728.0" spacing="10">
+              <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="728.0" spacing="10">
                             <padding>
                                 <Insets top="10" />
                             </padding>
@@ -48,6 +48,7 @@
                                 <Button fx:id="tfserver" mnemonicParsing="false" onAction="#showchatserver" styleClass="card-button" text="Server" />
                             </children>
                         </HBox>
+
                     </children>
                 </VBox>
             </content>

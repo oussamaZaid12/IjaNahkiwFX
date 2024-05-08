@@ -15,6 +15,7 @@
             </content>
         </ScrollPane>
     </children>
+
     <Label layoutX="114" layoutY="26" text="">
         <font>
             <Font name="Arial Rounded MT Bold" size="23"></Font>

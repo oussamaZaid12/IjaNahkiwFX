@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -11,21 +10,28 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="cardPane" onMouseClicked="#handleCardClick" prefHeight="489.0" prefWidth="655.0" styleClass="image-view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Publication.CardPub">
+<AnchorPane fx:id="cardPane" onMouseClicked="#handleCardClick" prefHeight="489.0" prefWidth="655.0" styleClass="image-view" stylesheets="@../../css/cardPub.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Publication.CardPub">
 
     <children>
-        <VBox layoutX="5" layoutY="5" prefHeight="478.0" prefWidth="655.0" spacing="5" styleClass="card-container">
+        <VBox layoutX="5" layoutY="5" prefHeight="478.0" prefWidth="655.0" spacing="5" styleClass="card-container" stylesheets="@../../css/style.css">
             <children>
             <ImageView fx:id="warningIcon" fitHeight="36.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/notifIcon.png" />
                </image>
             </ImageView>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="photoprofil" fitHeight="34.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true" />
+                      <Label fx:id="idUserPub" prefHeight="20.0" prefWidth="358.0" styleClass="card-description" text="utilisateur:  " textFill="#4696dc">
+                     <HBox.margin>
+                        <Insets left="22.0" />
+                     </HBox.margin></Label>
+               </children>
+            </HBox>
                 <ImageView fx:id="imagePub" fitHeight="309.0" fitWidth="560.0" preserveRatio="true" />
             <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="290.0">
                <children>
-                  <ImageView fx:id="photoprofil" fitHeight="39.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                      <Label fx:id="idUserPub" prefHeight="20.0" prefWidth="358.0" styleClass="card-description" text="utilisateur:  " />
                       <Label fx:id="titrePub" prefHeight="27.0" prefWidth="402.0" styleClass="card-title" text="Titre de la publication">
                      <HBox.margin>
                         <Insets />
@@ -66,8 +72,4 @@
             </children>
         </VBox>
     </children>
-   <stylesheets>
-      <URL value="@../../css/cardPub.css" />
-      <URL value="@../../css/style.css" />
-   </stylesheets>
 </AnchorPane>

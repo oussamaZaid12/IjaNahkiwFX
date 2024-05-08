@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -27,9 +28,14 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="btnChoisirImage" onAction="#choisirImage" styleClass="card-button" text="Choisir Image" />
-                  <Button fx:id="startCameraBtn" onAction="#startCamera" text="Start Camera" />
-                  <Button fx:id="stopCameraBtn" onAction="#stopCamera" text="Stop Camera" />
-                  <Button fx:id="takePhotoBtn" onAction="#takePhoto" text="Take Photo" />
+
+                  <Button fx:id="startCameraBtn" onAction="#startCamera" styleClass="card-button" text="Start Camera">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="66.0" />
+                     </HBox.margin></Button>
 
                   <Button fx:id="btnTakePhoto" mnemonicParsing="false" onAction="#takePhoto" styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css">
                      <graphic>

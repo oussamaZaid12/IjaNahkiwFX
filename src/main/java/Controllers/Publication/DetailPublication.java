@@ -301,6 +301,31 @@ public class DetailPublication {
     }
 
 
+
+    @FXML
+    public void ReturnShowPublications() {
+        try {
+            // Get the current user
+            User currentUser = Session.getUser();
+
+            // Determine the path based on the user's role
+            String resourcePath;
+            if (currentUser != null && currentUser.getRole() == Role.ROLE_ADMIN) {
+                resourcePath = "/Back/Publication/affichagePub.fxml";
+            } else {
+                // If the role is not "ROLE_USER" or the user is not authenticated, load the default front view
+                resourcePath = "/Front/Publication/affichagePub.fxml";
+            }
+
+            // Load the corresponding FXML file
+            Node displayPubs = FXMLLoader.load(getClass().getResource(resourcePath));
+            detailsPubPane.getChildren().setAll(displayPubs);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Cannot load the view: " + e.getMessage());
+        }
+    }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -308,16 +333,7 @@ public class DetailPublication {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    @FXML
-    public void ReturnShowPublications() {
-        try {
-            Node displayPubs = FXMLLoader.load(getClass().getResource("/Front/Publication/affichagePub.fxml"));
-            detailsPubPane.getChildren().setAll(displayPubs);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
+
 
 
 }

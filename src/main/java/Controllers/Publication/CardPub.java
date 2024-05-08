@@ -36,7 +36,7 @@ public class CardPub {
     @FXML
     private ImageView photoprofil;
     @FXML
-    private AnchorPane cardPane;
+    private AnchorPane affichagefrontContainer;
     @FXML
     private ImageView imagePub;
     @FXML
@@ -56,6 +56,9 @@ public class CardPub {
 
     public void setAffichagePubController(AffichagePub controller) {
         this.affichagePubController = controller;
+    }
+    public void setAffichagefrontContainer(AnchorPane affichagefrontContainer) {
+        this.affichagefrontContainer = affichagefrontContainer;
     }
     @FXML
     public void initialize() {
@@ -175,23 +178,28 @@ public class CardPub {
             FXMLLoader loader = new FXMLLoader();
             try {
                 User currentUser = Session.getUser();
-                String resourcePath = currentUser != null && currentUser.getRole() == Role.ROLE_ADMIN ? "/Back/Publication/DetailPublication.fxml" : "/Front/Publication/DetailPublication.fxml";
+                String resourcePath = currentUser != null && currentUser.getRole() == Role.ROLE_ADMIN
+                        ? "/Back/Publication/DetailPublication.fxml"
+                        : "/Front/Publication/DetailPublication.fxml";
                 loader.setLocation(getClass().getResource(resourcePath));
                 Parent detailView = loader.load();
+
+                // Retrieve the controller to set the publication data
                 DetailPublication controller = loader.getController();
                 controller.setPublication(this.currentPublication);
-                cardPane.getChildren().setAll(detailView);
 
-                //Stage stage=new Stage();
-                //stage.setScene(new Scene(detailView));
-                //stage.show();
-                //MainFX.setCenterView(detailView);
+                // Clear and then add the detail view within affichagefrontContainer
+                affichagefrontContainer.getChildren().clear();
+                affichagefrontContainer.getChildren().add(detailView);
+
             } catch (IOException e) {
                 System.err.println("Failed to load detail view: " + e.getMessage());
                 showAlert("Error", "Cannot load the detail view: " + e.getMessage());
             }
         }
     }
+
+
 
 
 
