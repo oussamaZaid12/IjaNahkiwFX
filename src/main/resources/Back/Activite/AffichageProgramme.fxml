@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.AffichageProgramme" style="-fx-background-color: #f4f4f4;">
+    <children>
+        <VBox spacing="20" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10">
+            <HBox spacing="15">
+                <TextField fx:id="searchLieu" promptText="Search by Lieu" prefWidth="200" style="-fx-prompt-text-fill: derive(#0073e6, -30%); -fx-font-size: 14px;">
+                    <HBox.margin>
+                        <Insets left="10"/>
+                    </HBox.margin>
+                </TextField>
+                <TextField fx:id="searchBut" promptText="Search by But" prefWidth="200" style="-fx-prompt-text-fill: derive(#0073e6, -30%); -fx-font-size: 14px;"/>
+                <Button text="Search" onAction="#handleSearch" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold;">
+                    <padding>
+                        <Insets top="5" right="10" bottom="5" left="10"/>
+                    </padding>
+                </Button>
+                <Button text="Sort by But" onAction="#handleSortByBut" style="-fx-background-color: #5ea9f4; -fx-text-fill: white; -fx-font-weight: bold;">
+                    <padding>
+                        <Insets top="5" right="10" bottom="5" left="10"/>
+                    </padding>
+                </Button>
+            </HBox>
+
+            <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID ID" minWidth="100"/>
+                    <TableColumn fx:id="activiteIdColumn" text="Activite ID" minWidth="100"/>
+                    <TableColumn fx:id="exerciceIdColumn" text="Exercice ID" minWidth="100"/>
+                    <TableColumn fx:id="lieuColumn" text="Lieu" minWidth="100"/>
+                    <TableColumn fx:id="butColumn" text="But" minWidth="100"/>
+                    <TableColumn fx:id="nomLColumn" text="Nom L" minWidth="100"/>
+                    <TableColumn fx:id="imageColumn" text="Image" minWidth="100"/>
+                </columns>
+                <!-- Style attributes directly for TableView can be added here -->
+            </TableView>
+            <!-- Set the margin for TableView here -->
+            <VBox.margin>
+                <Insets top="5" bottom="5" left="5" right="5"/>
+            </VBox.margin>
+        </VBox>
+    </children>
+</AnchorPane>

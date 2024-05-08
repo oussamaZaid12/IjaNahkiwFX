@@ -97,3 +97,60 @@
     -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.5), 15, 0.0, 0, 0);
     -fx-opacity: 1.5; /* Adjust the brightness as needed */
 }
+
+.vbox-centered {
+    -fx-alignment: center;
+}
+.question-card {
+    -fx-padding: 10;
+    -fx-border-style: solid inside;
+    -fx-border-width: 2;
+    -fx-border-insets: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #287b8d;
+    -fx-background-color: #f0f0f0;
+}
+
+.question-label {
+    -fx-font-family: 'Poppins';
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.answer-label {
+    -fx-font-family: 'Poppins';
+    -fx-font-size: 14px;
+}
+.answer-button {
+    -fx-font-family: 'Poppins';
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+    /* Other styles as needed */
+}
+
+.table-view {
+    -fx-table-cell-border-color: transparent;
+    -fx-selection-bar: #b3d7ff; /* Color for selected rows */
+    -fx-selection-bar-non-focused: #c0c0c0;
+}
+
+.table-column {
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1 0; /* Bottom border for column headers */
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: lightgray;
+    -fx-border-width: 0.5;
+    -fx-padding: 10px;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: #a2c4c9; /* Color when selected */
+    -fx-text-fill: white;
+}
+
+.table-cell {
+    -fx-padding: 10px;
+}

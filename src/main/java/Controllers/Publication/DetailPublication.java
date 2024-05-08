@@ -1,5 +1,6 @@
 package Controllers.Publication;
 
+import Controllers.User.Session;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -7,6 +8,8 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import entities.Commentaire;
+import entities.Role;
+import entities.User;
 import entities.publication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import services.ServiceCommentaire;
 import services.ServiceLike;
+import services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,10 +72,16 @@ public class DetailPublication {
 
     @FXML
     void handleAddComment(ActionEvent event) {
+        User currentUser = Session.getUser(); // Retrieve the current user from the session
+        if (currentUser == null) {
+            showAlert("Erreur", "Aucun utilisateur connecté. Veuillez vous connecter pour ajouter des commentaires.");
+            return; // Stop the method if no user is logged in
+        }
+
         try {
             String contenu = tfAddComment.getText();
             String filteredComment = filterProfanity(contenu); // Filter the comment for profanity
-            int idUser = Integer.parseInt(TfIdUserC.getText());
+            int idUser = currentUser.getId(); // Use the user ID from the session
             int publicationId = currentPublication.getId();
 
             // Ensure that the filtered comment is used when creating the new Commentaire object
@@ -86,6 +96,7 @@ public class DetailPublication {
             e.printStackTrace();
         }
     }
+
     // Implement a simple profanity filter
     private String filterProfanity(String text) {
         String[] profanities = {"fuck", "bitch"}; // Define your list of bad words
@@ -117,14 +128,27 @@ public class DetailPublication {
                 commentBox.setSpacing(10); // Space between elements in the hbox
 
                 // Check if the user is an admin or a regular user and add respective icons
-                Image userIcon = new Image(getClass().getResourceAsStream(commentaire.getId_user() == 1 ? "/images/doctoricon.png" : "/images/patienticon.png"));
+                // Assuming ServiceUser is the service used to fetch user information
+                UserService serviceUser = new UserService();
+                User userWhoCommented = serviceUser.getUserById(commentaire.getId_user());
+
+// Check if the user is an admin
+                String iconPath = userWhoCommented != null && userWhoCommented.getRole() == Role.ROLE_ADMIN
+                        ? "/images/doctoricon.png"
+                        : "/images/patienticon.png";
+
+// Load the appropriate icon
+                Image userIcon = new Image(getClass().getResourceAsStream(iconPath));
                 ImageView userIconView = new ImageView(userIcon);
                 userIconView.setFitHeight(20);
                 userIconView.setFitWidth(20);
+
+// Add the icon to the comment box
                 commentBox.getChildren().add(userIconView);
 
+
                 // Add comment label
-                Label commentLabel = new Label("Utilisateur " + commentaire.getId_user() + " : " + commentaire.getContenu_c());
+                Label commentLabel = new Label(userWhoCommented.getNom() + commentaire.getId_user() + " : " + commentaire.getContenu_c());
                 commentBox.getChildren().add(commentLabel);
 
                 // Check for asterisks and add a warning icon if found
@@ -226,25 +250,43 @@ public class DetailPublication {
 
     @FXML
     private void handleLikeAction(ActionEvent event) {
-        int userId = 88; // bach ntasty
+        User currentUser = Session.getUser();  // Get the currently logged-in user from the session
+        if (currentUser == null) {
+            showAlert("Error", "No user logged in. Please log in to like publications.");
+            return;  // Stop further execution if no user is logged in
+        }
+
+        int userId = currentUser.getId();  // Get the user ID from the session
+
         try {
             serviceLike.addOrUpdateLike(userId, currentPublication.getId(), true);
             updateLikeDislikeCounts();
         } catch (SQLException e) {
-            showAlert("Error", "An error occurred while updating the like status.");
+            showAlert("Error", "An error occurred while updating the like status: " + e.getMessage());
+            e.printStackTrace();  // Print stack trace for debugging
         }
     }
 
+
     @FXML
     private void handleDislikeAction(ActionEvent event) {
-        int userId = 88; // tesssst
+        User currentUser = Session.getUser();  // Retrieve the current user from the session
+        if (currentUser == null) {
+            showAlert("Error", "No user logged in. Please log in to dislike publications.");
+            return;  // Stop further execution if no user is logged in
+        }
+
+        int userId = currentUser.getId();  // Get the user ID from the session
+
         try {
-            serviceLike.addOrUpdateLike(userId, currentPublication.getId(), false);
+            serviceLike.addOrUpdateLike(userId, currentPublication.getId(), false);  // false indicates a dislike
             updateLikeDislikeCounts();
         } catch (SQLException e) {
-            showAlert("Error", "An error occurred while updating the dislike status.");
+            showAlert("Error", "An error occurred while updating the dislike status: " + e.getMessage());
+            e.printStackTrace();  // Print stack trace for debugging
         }
     }
+
 
     private void updateLikeDislikeCounts() {
         try {

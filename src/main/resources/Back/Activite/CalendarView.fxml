@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Button?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.CalendarController">
+    <center>
+        <StackPane fx:id="calendarPane" />
+    </center>
+    <bottom>
+        <Button text="Close" onAction="#closeWindow" />
+    </bottom>
+</BorderPane>

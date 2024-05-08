@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="detailsPubPane" prefHeight="740.0" prefWidth="1505.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Publication.DetailPublication">
+<AnchorPane fx:id="detailsPubPane" prefHeight="740.0" prefWidth="1520.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Publication.DetailPublication">
    <children>
-      <ScrollPane layoutX="133.0" layoutY="17.0" prefHeight="714.0" prefWidth="1387.0">
+      <ScrollPane layoutX="133.0" layoutY="17.0" prefHeight="727.0" prefWidth="1387.0">
          <content>
             <VBox prefHeight="898.0" prefWidth="1342.0">
                <children>
@@ -154,7 +154,6 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <TextField fx:id="TfIdUserC" prefHeight="30.0" prefWidth="91.0" />
                      </children>
                   </HBox>
                   <ImageView fitHeight="46.0" fitWidth="590.0" pickOnBounds="true" preserveRatio="true">

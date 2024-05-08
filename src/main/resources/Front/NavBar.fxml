@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.AnchorPane?>
 
 <BorderPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1500.0" stylesheets="@../css/styleDashbord.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.NavBar">
    <top>
@@ -86,7 +87,7 @@
                         <Image url="@../images/patienticon.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" onAction="#showDisplayConsultationspatient" prefHeight="38.0" prefWidth="90.0" text="Patient" textFill="#107191">
+                  <Button mnemonicParsing="false" onAction="#showDisplayTherapists" prefHeight="38.0" prefWidth="90.0" text="Patient" textFill="#107191">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -111,7 +112,7 @@
                         <Image url="@../images/activitieicon.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" text="Activities" textFill="#107191">
+                  <Button mnemonicParsing="false" onAction="#affichageActivite" prefHeight="38.0" prefWidth="90.0"  text="Activities" textFill="#107191">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -136,7 +137,7 @@
                         <Image url="@../images/Quizicon.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" text="Quizs" textFill="#107191">
+                  <Button mnemonicParsing="false" onAction="#DisplayQuiz" text="Quizs" textFill="#107191">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -170,4 +171,17 @@
          </padding>
       </HBox>
    </top>
+   <children>
+      <AnchorPane translateX="1400.0" translateY="700.0">
+         <Button fx:id="chatbotButton" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" onAction="#showChatbot" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css" >
+            <graphic>
+               <ImageView fitHeight="66.0" fitWidth="50.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/bull.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+      </AnchorPane>
+   </children>
 </BorderPane>

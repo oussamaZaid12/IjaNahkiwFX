@@ -4,17 +4,17 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainFX extends Application {
 
-    private static BorderPane mainLayout;
+    private static AnchorPane mainLayout;
 
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/NavBar.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Back/Activite/affichageActivite.fxml"));
             mainLayout = loader.load();
             Scene scene = new Scene(mainLayout);
             stage.setScene(scene);
@@ -26,7 +26,8 @@ public class MainFX extends Application {
     }
 
     public static void setCenterView(Parent node) {
-        mainLayout.setCenter(node);
+        mainLayout.getChildren().setAll(node);
+
     }
 
     public static void main(String[] args) {

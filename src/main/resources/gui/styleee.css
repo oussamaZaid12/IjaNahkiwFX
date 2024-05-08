@@ -1,0 +1,21 @@
+.root {
+    -fx-background-color: #f5f8fa; /* Couleur de fond */
+}
+
+.button {
+    -fx-background-color: #6f7b8c; /* Couleur du bouton */
+    -fx-text-fill: #fff; /* Couleur du texte du bouton */
+}
+
+.label {
+    -fx-background-color: #6f7b8c; /* Couleur de fond des labels */
+    -fx-text-fill: #fff; /* Couleur du texte des labels */
+}
+
+.split-pane {
+    -fx-background-color: #eceff1; /* Couleur de fond de la split pane */
+}
+
+.pie-chart {
+    -fx-background-color: #FFFFFF; /* Couleur de fond du pie chart */
+}

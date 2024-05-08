@@ -54,7 +54,7 @@ public class Qrcode {
 
     public void setFiche(FicheMedicale currentFiche) {
         if (currentFiche != null) {
-            fiche = String.valueOf(currentFiche.getDateCreation());
+            fiche = "date de creation:"+String.valueOf(currentFiche.getDateCreation())+"date de derniere maj:"+currentFiche.getDerniereMaj()+"id patient:"+currentFiche.getIdp()+"id therapeute:"+currentFiche.getIdt();
             generateQRCode();  // Now generate the QR Code
         }
     }

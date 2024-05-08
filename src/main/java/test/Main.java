@@ -1,11 +1,5 @@
 package test;
 
-import entities.publication;
-import services.ServicePublication;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
         // Create service instance

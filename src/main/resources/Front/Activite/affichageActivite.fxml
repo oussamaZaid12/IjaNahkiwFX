@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="684.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.affichageActivite">
+    <children>
+        <ImageView fitHeight="684.0" fitWidth="745.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../images/BKG ADD PUB.png"/>
+            </image>
+        </ImageView>
+        <VBox layoutX="15.0" layoutY="50.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 10; -fx-background-radius: 10;">
+            <children>
+                <Label text="Search Filters" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <TextField fx:id="searchNom" prefWidth="200" promptText="Search by Name" style="-fx-font-size: 14px; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 5;"/>
+                <TextField fx:id="searchGenre" prefWidth="200" promptText="Search by Genre" style="-fx-font-size: 14px; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 5;"/>
+                <Button text="Search" onAction="#handleSearch" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+                <Button text="Sort by Date" onAction="#handleSortByDate" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+                <HBox spacing="10" style="-fx-alignment: center;">
+                    <Button text="Consulter Programme" onAction="#handleViewProgramme" style="-fx-background-color: #ff5722; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+                    <Button text="Consulter Exercice" onAction="#handleViewExercice" style="-fx-background-color: #00bcd4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+                </HBox>
+            </children>
+        </VBox>
+        <TableView fx:id="tableView" layoutX="15" layoutY="320" prefHeight="340.0" prefWidth="715.0">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" />
+                <TableColumn fx:id="nameColumn" text="Name" />
+                <TableColumn fx:id="dateColumn" text="Date" />
+                <TableColumn fx:id="genreColumn" text="Genre" />
+                <TableColumn fx:id="actionColumn" text="Actions" />
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
