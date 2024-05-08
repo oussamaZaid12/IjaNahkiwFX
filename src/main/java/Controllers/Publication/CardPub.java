@@ -188,7 +188,7 @@ public class CardPub {
                 DetailPublication controller = loader.getController();
                 controller.setPublication(this.currentPublication);
 
-                // Clear and then add the detail view within `affichagefrontContainer`
+                // Clear and then add the detail view within affichagefrontContainer
                 affichagefrontContainer.getChildren().clear();
                 affichagefrontContainer.getChildren().add(detailView);
 

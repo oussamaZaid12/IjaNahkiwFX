@@ -66,7 +66,9 @@ public class Profile {
             age.setText(String.valueOf(userAge));
             // Chargement et affichage de l'image du profil
             if (user.getImage() != null && !user.getImage().isEmpty()) {
-                String imagePath = "C:\\Users\\oussa\\Desktop\\etape7\\src\\main\\resources\\images\\" + user.getImage();
+
+                String imagePath = "C:\\Users\\Tifa\\Desktop\\007\\src\\main\\resources\\images\\" + user.getImage();
+
                 File file = new File(imagePath);
                 if (file.exists()) {
                     try {

@@ -28,8 +28,6 @@ public class DisplayAllActiviteController {
     private void loadData() {
         // Clear any previous data before adding new cards
         vBoxContainer.getChildren().clear();
-
-        // Load data
         displayActivites();
         displayProgrammes();
         displayExercices();

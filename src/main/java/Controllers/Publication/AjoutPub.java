@@ -154,7 +154,7 @@ public class AjoutPub {
     private void choisirImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir une image pour la publication");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.jpeg", "*.bmp", "*.gif"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", ".jpg", ".png", ".jpeg", ".bmp", "*.gif"));
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {

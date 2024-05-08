@@ -8,12 +8,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
+
+import java.io.InputStream;
+
 
 public class Carduser {
 
     @FXML
     private Label email;
+
+    @FXML
+    private ImageView imageuser;
 
     @FXML
     private Label nom;
@@ -51,5 +59,16 @@ public class Carduser {
         nom.setText(user.getNom()); // Set the nom value
         prenom.setText(user.getPrenom()); // Set the prenom value
         email.setText(user.getEmail()); // Set the email value
+        String imagePath = "/images/" + user.getImage();
+        InputStream imageStream = getClass().getResourceAsStream(imagePath);
+
+        // Check if the input stream is null and assign a default image if necessary
+        if (imageStream != null) {
+            Image image = new Image(imageStream);
+            imageuser.setImage(image);
+        } else {
+            // Use a default image for the publication if the specified image is not found
+            imageuser.setImage(new Image(getClass().getResourceAsStream("/images/bkg2.png")));
+        }
     }
 }

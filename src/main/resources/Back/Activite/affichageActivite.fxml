@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="754.0" prefWidth="415.0" stylesheets="@../../css/actCSS.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.affichageActivite">
+
     <TableView fx:id="tableView" prefHeight="754.0" prefWidth="411.0">
         <columns>
             <TableColumn fx:id="idColumn" text="ID" />

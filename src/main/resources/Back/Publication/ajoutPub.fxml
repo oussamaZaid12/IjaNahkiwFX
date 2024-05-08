@@ -28,6 +28,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="btnChoisirImage" onAction="#choisirImage" styleClass="card-button" text="Choisir Image" />
+
                   <Button fx:id="startCameraBtn" onAction="#startCamera" styleClass="card-button" text="Start Camera">
                      <opaqueInsets>
                         <Insets />

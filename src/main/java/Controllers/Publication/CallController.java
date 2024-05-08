@@ -49,9 +49,11 @@ public class CallController {
 
                 System.out.println("Client connecté !");
                 DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+
                 // Initialiser la réception du son
                 audioReceiver = new AudioReceiver(audioSocket);
                 audioReceiver.start();
+
                 // Initialiser l'envoi du son
                 audioSender = new AudioSender(audioSocket);
                 audioSender.start();
@@ -96,8 +98,10 @@ public class CallController {
     private void handleStartClient() {
         running = true; // Autoriser la capture et l'envoi
         new Thread(() -> {
+
             try (Socket videoSocket = new Socket("172.16.3.255", 6000);
                  Socket audioSocket = new Socket("172.16.3.255", 6001)) {
+
 
                 DataInputStream in = new DataInputStream(videoSocket.getInputStream());
                 DataOutputStream out = new DataOutputStream(videoSocket.getOutputStream());
@@ -110,6 +114,7 @@ public class CallController {
 // Initialiser l'envoi du son
                 audioSender = new AudioSender(audioSocket);
                 audioSender.start();
+
                 // Capture vidéo locale du client via OpenCV
                 clientCapture = new VideoCapture(0);
                 Mat frame = new Mat();

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -20,9 +21,31 @@
             <content>
                 <VBox prefHeight="715.0" prefWidth="707.0">
                     <children>
-                  <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajoutf" text="Ajouter Fiche" />
-                  <Button mnemonicParsing="false" onAction="#showDisplayConsultations" text="Consultations" />
-                  <Button mnemonicParsing="false" onAction="#refreshFichesView" text="Fiches" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="728.0" spacing="10">
+                            <padding>
+                                <Insets top="10" />
+                            </padding>
+                            <children>
+                                <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajoutf" styleClass="card-button" text="Ajouter Fiche">
+                                    <stylesheets>
+                                        <URL value="@../../css/style.css" />
+                                        <URL value="@../../css/styleDashbord.css" />
+                                    </stylesheets>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#showDisplayConsultations" styleClass="card-button" text="Consultations">
+                                    <stylesheets>
+                                        <URL value="@../../css/style.css" />
+                                        <URL value="@../../css/styleDashbord.css" />
+                                    </stylesheets>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#refreshFichesView" styleClass="card-button" text="Fiches">
+                                    <stylesheets>
+                                        <URL value="@../../css/style.css" />
+                                        <URL value="@../../css/styleDashbord.css" />
+                                    </stylesheets>
+                                </Button>
+                            </children>
+                        </HBox>
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="728.0" text="Liste Des Fiches" textFill="#4c8ea6">
                             <font>
                                 <Font size="28.0" />
@@ -31,6 +54,7 @@
                         <FlowPane fx:id="fichescontainer" prefHeight="277.0" prefWidth="719.0" />
                     </children>
                 </VBox>
+
             </content>
         </ScrollPane>
         <VBox layoutX="963.0" layoutY="25.0" prefHeight="55.0" prefWidth="468.0">
