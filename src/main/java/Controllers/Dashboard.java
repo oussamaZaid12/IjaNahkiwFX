@@ -180,4 +180,14 @@
                 // Handle the exception, for example, by showing an error message
             }
         }
+
+        public void stat(ActionEvent actionEvent) {
+            try {
+                Node addPub = FXMLLoader.load(getClass().getResource("/gui/DashboardAdmin.fxml"));
+                mainContainer.setCenter(addPub);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
     }

@@ -42,16 +42,16 @@
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label prefHeight="52.0" prefWidth="131.0" text="oussama zaied" textFill="#107191">
+                  <Label prefHeight="21.0" prefWidth="62.0" text="Admin" textFill="#107191" translateX="45.0">
                      <font>
                         <Font name="Gabriola" size="25.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#profile" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css">
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#profile" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css" translateX="40.0">
                      <graphic>
                         <ImageView fitHeight="45.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/405743600_7312059642151899_8736970146334239647_n.jpg" />
+                              <Image url="@../images/admin.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -313,7 +313,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button mnemonicParsing="false" onAction="#listeUsers" prefHeight="37.0" prefWidth="178.0" styleClass="label-like-button" text="Liste Utilisateurs" textFill="#dbb5a8">
+                        <Button mnemonicParsing="false" onAction="#stat" prefHeight="37.0" prefWidth="178.0" styleClass="label-like-button" text="Statistique" textFill="#dbb5a8">
                            <font>
                               <Font name="Constantia" size="20.0" />
                            </font>

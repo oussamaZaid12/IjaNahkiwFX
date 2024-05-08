@@ -59,7 +59,7 @@ public class Carduser {
         nom.setText(user.getNom()); // Set the nom value
         prenom.setText(user.getPrenom()); // Set the prenom value
         email.setText(user.getEmail()); // Set the email value
-        String imagePath = "/images/" + user.getImage();
+        String imagePath = "/images/"+ user.getImage();
         InputStream imageStream = getClass().getResourceAsStream(imagePath);
 
         // Check if the input stream is null and assign a default image if necessary
@@ -68,7 +68,7 @@ public class Carduser {
             imageuser.setImage(image);
         } else {
             // Use a default image for the publication if the specified image is not found
-            imageuser.setImage(new Image(getClass().getResourceAsStream("/images/bkg2.png")));
+            imageuser.setImage(new Image(getClass().getResourceAsStream("/images/therapeut.png")));
         }
     }
 }

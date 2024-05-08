@@ -44,11 +44,7 @@ public class AjoutPub {
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
-    private AffichagePub affichagePubController;
 
-    public void setAffichagePubController(AffichagePub affichagePubController) {
-        this.affichagePubController = affichagePubController;
-    }
     @FXML
     private void initialize() {
         capture = new VideoCapture();
@@ -134,9 +130,6 @@ public class AjoutPub {
             ServicePublication servicePublication = new ServicePublication();
             servicePublication.ajouter(pub);
 
-            if (affichagePubController != null) {
-                affichagePubController.refreshPublicationsView();
-            }
             showAlert(Alert.AlertType.INFORMATION, "Succès", "La publication a été ajoutée avec succès.");
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur de fichier", "Un problème est survenu lors de la copie de l'image.");
@@ -154,7 +147,7 @@ public class AjoutPub {
     private void choisirImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir une image pour la publication");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", ".jpg", ".png", ".jpeg", ".bmp", "*.gif"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.jpeg", "*.bmp", "*.gif"));
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
