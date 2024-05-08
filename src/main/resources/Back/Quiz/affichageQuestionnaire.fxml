@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainContainerQUES" prefHeight="723.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Quiz.AffichageQuestionnaireController">
+    <ImageView fitHeight="734.0" fitWidth="1380.0" layoutX="102.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../../images/display.jpeg" />
+        </image>
+    </ImageView>
+    <VBox layoutX="143.0" layoutY="68.0" prefHeight="607.0" prefWidth="722.0">
+      <children>
+            <HBox alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="728.0">
+            <Label prefHeight="46.0" prefWidth="355.0" text="Liste des Questionnaire " textAlignment="RIGHT" textFill="#38a4cf">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Label>
+                <TextField fx:id="searchField" prefHeight="30.0" prefWidth="154.0" promptText="Search by title.." styleClass="round-layout" stylesheets="@../../css/style.css" />
+            </HBox>
+          <TableView fx:id="questionnairesTable" prefHeight="430.0" prefWidth="665.0" stylesheets="@../../css/style.css">
+              <columns>
+                  <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID">
+                      <cellValueFactory>
+                     <PropertyValueFactory property="id" />
+                  </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="titleColumn" prefWidth="150.0" text="Titre">
+                      <cellValueFactory>
+                     <PropertyValueFactory property="titleQuestionnaire" />
+                  </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="descriptionColumn" prefWidth="200.0" text="Description">
+                      <cellValueFactory>
+                     <PropertyValueFactory property="description" />
+                  </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date">
+                      <cellValueFactory>
+                     <PropertyValueFactory property="date" />
+                  </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="userIdColumn" prefWidth="100.0" text="User ID">
+                      <cellValueFactory>
+                     <PropertyValueFactory property="idUserId" />
+                  </cellValueFactory>
+                  </TableColumn>
+              </columns>
+          </TableView>
+          <HBox prefHeight="37.0" prefWidth="722.0" spacing="30.0" translateY="20.0">
+              <Button onAction="#handleAddQuest" prefHeight="34.0" prefWidth="138.0" styleClass="card-button" text="Ajouter Question" textFill="WHITE" />
+              <Button onAction="#handleEdit" prefHeight="34.0" prefWidth="194.0" styleClass="card-button" stylesheets="@../../css/styleDashbord.css" text="Modifier Ce Questionnaire" textFill="WHITE" />
+              <Button onAction="#handleDelete" styleClass="card-button" stylesheets="@../../css/style.css" text="Supprimer Questionnaire" textFill="WHITE" />
+            <Button mnemonicParsing="false" onAction="#handleListQuestion" styleClass="card-button" text="Afficher les Questions" textFill="WHITE" />
+            <stylesheets>
+               <URL value="@../../css/styleDashbord.css" />
+               <URL value="@../../css/style.css" />
+            </stylesheets>
+          </HBox>
+      </children>
+   </VBox>
+   <VBox layoutX="963.0" layoutY="25.0" prefHeight="55.0" prefWidth="468.0" />
+</AnchorPane>

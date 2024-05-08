@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import services.ServiceCommentaire;
 import services.ServicePublication;
@@ -179,9 +180,11 @@ public class CardPub {
                 Parent detailView = loader.load();
                 DetailPublication controller = loader.getController();
                 controller.setPublication(this.currentPublication);
-                Stage stage=new Stage();
-                stage.setScene(new Scene(detailView));
-                stage.show();
+                cardPane.getChildren().setAll(detailView);
+
+                //Stage stage=new Stage();
+                //stage.setScene(new Scene(detailView));
+                //stage.show();
                 //MainFX.setCenterView(detailView);
             } catch (IOException e) {
                 System.err.println("Failed to load detail view: " + e.getMessage());

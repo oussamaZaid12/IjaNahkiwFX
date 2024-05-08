@@ -51,8 +51,8 @@
                   <PasswordField fx:id="passwordTextfield" layoutX="166.0" layoutY="180.0" promptText="Password" />
                   <Button fx:id="loginButton" layoutX="109.0" layoutY="306.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="25.0" prefWidth="95.0" style="-fx-background-color: #2d3047;" text="Login" textFill="WHITE" />
                   <Label fx:id="invalidText" layoutX="105.0" layoutY="261.0" prefHeight="30.0" prefWidth="242.0" textFill="RED" />
-                  <Hyperlink fx:id="forgetP" layoutX="138.0" layoutY="353.0"  text="Mot de passe oublié ?" />
-                  <Button fx:id="loginButton1" layoutX="226.0" layoutY="306.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: #2d3047;" text="SignUp" textFill="WHITE" />
+                  <Hyperlink fx:id="forgetP" layoutX="138.0" layoutY="353.0" onAction="#forgetPassword" text="Mot de passe oublié ?" />
+                  <Button fx:id="loginButton1" layoutX="226.0" layoutY="306.0" mnemonicParsing="false" onAction="#goToSignup" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: #2d3047;" text="SignUp" textFill="WHITE" />
                </children>
             </AnchorPane>
          </center>

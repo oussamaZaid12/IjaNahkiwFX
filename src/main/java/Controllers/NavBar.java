@@ -5,7 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import services.ServiceConsultation;
 import services.ServiceNotification;
 
@@ -77,4 +80,32 @@ public class NavBar {
             // Handle the exception, for example, by showing an error message
         }
     }
+    @FXML
+    public void DisplayQuiz() {
+        try {
+            Node quiz = FXMLLoader.load(getClass().getResource("/Front/Quiz/CardQuestion.fxml"));
+            mainContainer.setCenter(quiz);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+    @FXML
+    private void showChatbot() {
+        try {
+            // Load the chatbot window or overlay
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Quiz/Chatbot.fxml")); // Adjust path as needed
+            Parent chatbotRoot = loader.load();
+
+            // Display the chatbot window as a modal or embedded
+            Stage chatbotStage = new Stage();
+            chatbotStage.setTitle("Chatbot");
+            chatbotStage.setScene(new Scene(chatbotRoot));
+            chatbotStage.initOwner(mainContainer.getScene().getWindow());
+            chatbotStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="360.0" prefWidth="479.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Chatbot.Chatbit">
+    <VBox alignment="TOP_LEFT" spacing="5">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Discutez avec nous pour obtenir plus de détails" textAlignment="CENTER" wrappingWidth="478.33599853515625">
+         <font>
+            <Font name="Poppins Regular" size="16.0" />
+         </font>
+      </Text>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="300.0" prefWidth="479.0">
+            <VBox fx:id="messageContainer" spacing="5">
+                <!-- Messages will be dynamically added here -->
+            </VBox>
+        </ScrollPane>
+        <HBox alignment="CENTER">
+            <TextField fx:id="messageField" onAction="#sendMessage" promptText="Type a message..." HBox.hgrow="ALWAYS" />
+            <Button onAction="#sendMessage" text="Envoyer" />
+        </HBox>
+    </VBox>
+</AnchorPane>

@@ -5,6 +5,7 @@ import entities.Role;
 import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -40,7 +41,8 @@ public class addUserByAdmin {
     }
 
     public void signupButtonOnAction(ActionEvent event) {
-        if (role == null) {
+        User currentUser = Session.getUser();
+        if (currentUser == null) {
             System.out.println("Role is not initialized. Make sure to call initData method before signupButtonOnAction.");
             return;
         }
@@ -72,9 +74,11 @@ public class addUserByAdmin {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
 
-        User u = new User(email.getText(), password, "avatar.png", Role.valueOf(roleComboBox.getValue()), true, fname.getText(), lname.getText(), Integer.parseInt(phone.getText()));
+        User u = new User(email.getText(), generatedString, "avatar.png", Role.valueOf(roleComboBox.getValue()), true, fname.getText(), lname.getText(), Integer.parseInt(phone.getText()));
         if (us.ajouterUser(u)) {
             sendPassword(email.getText(), password);
+            showAlert(Alert.AlertType.INFORMATION, "Success", "User Added", "User added successfully.");
+
 
             System.out.println("User added successfully");
         } else {
@@ -82,5 +86,12 @@ public class addUserByAdmin {
             invalidText.setVisible(true);
             return;
         }
+    }
+    private void showAlert(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
