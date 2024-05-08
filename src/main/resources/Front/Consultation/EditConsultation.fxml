@@ -17,16 +17,12 @@
                 <TextField fx:id="tfremarques" />
                 <Label text="Date de la consultation" />
                 <DatePicker fx:id="TfdatePicker" />
-                <Label text="ID Patient" />
-                <TextField fx:id="Tfidpatient" />
                 <Label text="ID Thérapeute" />
                 <TextField fx:id="Tftherapeute" />
                 <Label text="Heure de la consultation" />
                 <TextField fx:id="tfheure" />
                 <Label text="Minute de la consultation" />
                 <TextField fx:id="tfminute" />
-                <Label text="Fiche medicale de la consultation" />
-                <TextField fx:id="tffiche" />
                 <Button fx:id="TfValider" onAction="#ModifierConsultation" styleClass="card-button" text="Modifier" />
             </children>
         </VBox>

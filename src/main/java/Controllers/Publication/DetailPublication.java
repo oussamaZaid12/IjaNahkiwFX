@@ -8,6 +8,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import entities.Commentaire;
+import entities.Role;
 import entities.User;
 import entities.publication;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import services.ServiceCommentaire;
 import services.ServiceLike;
+import services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,14 +128,27 @@ public class DetailPublication {
                 commentBox.setSpacing(10); // Space between elements in the hbox
 
                 // Check if the user is an admin or a regular user and add respective icons
-                Image userIcon = new Image(getClass().getResourceAsStream(commentaire.getId_user() == 1 ? "/images/doctoricon.png" : "/images/patienticon.png"));
+                // Assuming ServiceUser is the service used to fetch user information
+                UserService serviceUser = new UserService();
+                User userWhoCommented = serviceUser.getUserById(commentaire.getId_user());
+
+// Check if the user is an admin
+                String iconPath = userWhoCommented != null && userWhoCommented.getRole() == Role.ROLE_ADMIN
+                        ? "/images/doctoricon.png"
+                        : "/images/patienticon.png";
+
+// Load the appropriate icon
+                Image userIcon = new Image(getClass().getResourceAsStream(iconPath));
                 ImageView userIconView = new ImageView(userIcon);
                 userIconView.setFitHeight(20);
                 userIconView.setFitWidth(20);
+
+// Add the icon to the comment box
                 commentBox.getChildren().add(userIconView);
 
+
                 // Add comment label
-                Label commentLabel = new Label("Utilisateur " + commentaire.getId_user() + " : " + commentaire.getContenu_c());
+                Label commentLabel = new Label(userWhoCommented.getNom() + commentaire.getId_user() + " : " + commentaire.getContenu_c());
                 commentBox.getChildren().add(commentLabel);
 
                 // Check for asterisks and add a warning icon if found
@@ -286,6 +301,31 @@ public class DetailPublication {
     }
 
 
+
+    @FXML
+    public void ReturnShowPublications() {
+        try {
+            // Get the current user
+            User currentUser = Session.getUser();
+
+            // Determine the path based on the user's role
+            String resourcePath;
+            if (currentUser != null && currentUser.getRole() == Role.ROLE_ADMIN) {
+                resourcePath = "/Back/Publication/affichagePub.fxml";
+            } else {
+                // If the role is not "ROLE_USER" or the user is not authenticated, load the default front view
+                resourcePath = "/Front/Publication/affichagePub.fxml";
+            }
+
+            // Load the corresponding FXML file
+            Node displayPubs = FXMLLoader.load(getClass().getResource(resourcePath));
+            detailsPubPane.getChildren().setAll(displayPubs);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Cannot load the view: " + e.getMessage());
+        }
+    }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -293,16 +333,7 @@ public class DetailPublication {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    @FXML
-    public void ReturnShowPublications() {
-        try {
-            Node displayPubs = FXMLLoader.load(getClass().getResource("/Front/Publication/affichagePub.fxml"));
-            detailsPubPane.getChildren().setAll(displayPubs);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception, for example, by showing an error message
-        }
-    }
+
 
 
 }

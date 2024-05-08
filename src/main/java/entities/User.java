@@ -9,7 +9,7 @@ public class User {
     private String password;
     private Role role;
     private String email;
-    private String image;
+    private String profile_picture;
     private Boolean isBanned;
 
     public Boolean getBanned() {
@@ -22,11 +22,11 @@ public class User {
 
     private static User instance;
 
-    public User(int id, String email, String password, String image, Role role, Boolean isBanned, String nom, String prenom, int age) {
+    public User(int id, String email, String password, String profile_picture, Role role, Boolean isBanned, String nom, String prenom, int age) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.image = image;
+        this.profile_picture = profile_picture;
         this.role = role;
         this.isBanned = isBanned;
         this.nom = nom;
@@ -34,10 +34,10 @@ public class User {
         this.age = age;
     }
 
-    public User(String email, String password, String image, Role role, Boolean isBanned, String nom, String prenom, int age) {
+    public User(String email, String password, String profile_picture, Role role, Boolean isBanned, String nom, String prenom, int age) {
         this.email = email;
         this.password = password;
-        this.image = image;
+        this.profile_picture = profile_picture;
         this.role = role;
         this.isBanned = isBanned;
         this.nom = nom;
@@ -82,11 +82,11 @@ public class User {
     }
 
     public String getImage() {
-        return image;
+        return profile_picture;
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.profile_picture = image;
     }
     public String getNom() {
         return nom;
@@ -133,7 +133,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", email='" + email + '\'' +
-                ", image='" + image + '\'' +
+                ", image='" + profile_picture + '\'' +
                 ", isBanned=" + isBanned +
                 '}';
     }

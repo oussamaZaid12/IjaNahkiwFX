@@ -3,15 +3,19 @@ package Controllers.Publication;
 import Controllers.User.Session;
 import entities.User;
 import entities.publication;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.videoio.VideoCapture;
+import org.opencv.imgcodecs.Imgcodecs;
 import services.ServicePublication;
 
 import java.io.File;
@@ -23,36 +27,87 @@ import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-
 public class AjoutPub {
 
-            // Constants
-            private static final String IMAGES_DIR = "src/main/resources/images/";
+    private static final String IMAGES_DIR = "src/main/resources/images/";
+    @FXML private DatePicker TfDate;
+    @FXML private TextField TfDescription;
+    @FXML private TextField TfTitre;
+    @FXML private ImageView imagePreview;
 
-            @FXML private DatePicker TfDate;
-            @FXML private TextField TfDescription;
-            @FXML private TextField TfIdUser;
-            @FXML private TextField TfTitre;
-            @FXML private Button TfValider;
-            @FXML private ImageView imagePreview; // Pour afficher l'aperçu de l'image
+    private File imageFile;
+    private VideoCapture capture;
+    private Mat frame;
+    private AnimationTimer timer;
+    private boolean isPreviewing = false;
 
-            private File imageFile; // Pour stocker le fichier image sélectionné
-       /*     private void switchToDisplayPublicationsScene() {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/AffichagePub.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) TfValider.getScene().getWindow();
-                    stage.setScene(scene);
-                } catch (IOException e) {
-                    e.printStackTrace();
+    static {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    }
+    private AffichagePub affichagePubController;
+
+    public void setAffichagePubController(AffichagePub affichagePubController) {
+        this.affichagePubController = affichagePubController;
+    }
+    @FXML
+    private void initialize() {
+        capture = new VideoCapture();
+        frame = new Mat();
+        try {
+            Files.createDirectories(Paths.get(IMAGES_DIR));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Initialize and define the animation timer to update frames
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (capture.isOpened()) {
+                    capture.read(frame);
+                    Image image = Utils.mat2Image(frame);
+                    imagePreview.setImage(image);
                 }
-            }*/
+            }
+        };
+    }
 
+    @FXML
+    private void startCamera(ActionEvent event) {
+        if (!capture.isOpened()) {
+            capture.open(0);
+        }
+
+        if (capture.isOpened() && !isPreviewing) {
+            isPreviewing = true;
+            timer.start();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'accéder à la caméra.");
+        }
+    }
+
+    @FXML
+    private void stopCamera(ActionEvent event) {
+        timer.stop();
+        isPreviewing = false;
+        capture.release();
+    }
+
+    @FXML
+    private void takePhoto(ActionEvent event) {
+        if (capture.isOpened()) {
+            String outputFileName = IMAGES_DIR + generateUniqueFileName("captured_image");
+            Imgcodecs.imwrite(outputFileName, frame);
+            imageFile = new File(outputFileName);
+            imagePreview.setImage(new Image("file:" + outputFileName));
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'accéder à la caméra.");
+        }
+        stopCamera(event);
+    }
 
     @FXML
     private void AjouterPublication(ActionEvent event) {
-        // Vérifiez que tous les champs nécessaires sont remplis
         if (TfTitre.getText().isEmpty() || TfDescription.getText().isEmpty() || TfDate.getValue() == null || imageFile == null) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs et l'image doivent être remplis.");
             return;
@@ -65,27 +120,23 @@ public class AjoutPub {
                 return;
             }
 
-            // Récupération des informations à partir des champs de texte
             String titre = TfTitre.getText();
             String description = TfDescription.getText();
-            int idUser = currentUser.getId();  // Utilisez l'ID de l'utilisateur connecté
+            int idUser = currentUser.getId();
             LocalDate dateLocal = TfDate.getValue();
             java.sql.Date date = java.sql.Date.valueOf(dateLocal);
 
-            // Création du répertoire d'images s'il n'existe pas
-            Files.createDirectories(Paths.get(IMAGES_DIR));
-
-            // Copie de l'image dans le répertoire d'images et récupération du nom de fichier
-            Path sourcePath = imageFile.toPath();
-            Path destinationPath = Paths.get(IMAGES_DIR + imageFile.getName());
-            Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            Path destinationPath = Paths.get(IMAGES_DIR, imageFile.getName());
+            Files.copy(imageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
             String imageName = destinationPath.getFileName().toString();
 
-            // Création de l'objet publication et ajout à la base de données
             publication pub = new publication(idUser, titre, description, imageName, date);
             ServicePublication servicePublication = new ServicePublication();
             servicePublication.ajouter(pub);
 
+            if (affichagePubController != null) {
+                affichagePubController.refreshPublicationsView();
+            }
             showAlert(Alert.AlertType.INFORMATION, "Succès", "La publication a été ajoutée avec succès.");
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur de fichier", "Un problème est survenu lors de la copie de l'image.");
@@ -93,32 +144,36 @@ public class AjoutPub {
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur SQL", "Un problème est survenu lors de l'ajout de la publication.");
             e.printStackTrace();
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur inattendue est survenue.");
-            e.printStackTrace();
         }
     }
 
-
+    private String generateUniqueFileName(String baseName) {
+        return baseName + "_" + System.currentTimeMillis() + ".png";
+    }
     @FXML
-            private void choisirImage(ActionEvent event) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Choisir une image pour la publication");
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.jpeg", "*.bmp", "*.gif"));
-                File file = fileChooser.showOpenDialog(null);
+    private void choisirImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image pour la publication");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.jpeg", "*.bmp", "*.gif"));
+        File file = fileChooser.showOpenDialog(null);
 
-                if (file != null) {
-                    imageFile = file;
-                    Image image = new Image(file.toURI().toString());
-                    imagePreview.setImage(image);
-                }
-            }
-
-            private void showAlert(Alert.AlertType alertType, String title, String content) {
-                Alert alert = new Alert(alertType);
-                alert.setTitle(title);
-                alert.setHeaderText(null);
-                alert.setContentText(content);
-                alert.showAndWait();
+        if (file != null) {
+            try {
+                Path destinationPath = Paths.get(IMAGES_DIR + file.getName());
+                Files.copy(file.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                imageFile = destinationPath.toFile();
+                imagePreview.setImage(new Image(file.toURI().toString()));
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur lors de la copie de l'image", "Une erreur est survenue lors de la copie du fichier.");
+                e.printStackTrace();
             }
         }
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+}

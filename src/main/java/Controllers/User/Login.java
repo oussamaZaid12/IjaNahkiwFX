@@ -12,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import services.UserService;
-import test.MainFX;
 
 import java.io.IOException;
 import java.util.logging.Level;

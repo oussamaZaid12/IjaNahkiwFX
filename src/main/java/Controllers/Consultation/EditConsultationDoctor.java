@@ -1,10 +1,14 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
 import entities.Consultation;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import services.ServiceConsultation;
+import utils.MailUtil;
+import utils.EmailService;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -88,22 +92,22 @@ public class EditConsultationDoctor {
     @FXML
     void ModifierConsultation(ActionEvent event) {
         try {
-            // Validate the date
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+            int idUser = currentUser.getId();
             LocalDate dateLocal = TfdatePicker.getValue();
             if (dateLocal == null) {
                 showAlert("Input Error", "Please enter a valid date.");
                 return;
             }
-            if (dateLocal.isBefore(LocalDate.now())) {
-                showAlert("Input Error", "The date of the consultation cannot be in the past.");
-                return;
-            }
 
-            int heure, minute, idPatient, idTherapeute, fiche;
+            int heure, minute, idTherapeute, fiche;
             try {
                 heure = Integer.parseInt(tfheure.getText());
                 minute = Integer.parseInt(tfminute.getText());
-                idPatient = Integer.parseInt(Tfidpatient.getText());
                 idTherapeute = Integer.parseInt(Tftherapeute.getText());
                 fiche = Integer.parseInt(tffiche.getText());
             } catch (NumberFormatException e) {
@@ -127,18 +131,28 @@ public class EditConsultationDoctor {
             LocalDateTime dateTime = LocalDateTime.of(dateLocal, LocalTime.of(heure, minute));
             currentConsultation.setPathologie(pathologie);
             currentConsultation.setRemarques(remarques);
-            currentConsultation.setIdp(idPatient);
+            currentConsultation.setIdp(idUser);
             currentConsultation.setIdt(idTherapeute);
             currentConsultation.setDateC(dateTime);
             currentConsultation.setFiche(fiche);
             currentConsultation.setConfirmation(confirmationCheckBox.isSelected()); // Set the confirmation status
 
             serviceConsultation.modifier(currentConsultation);
+            EmailService emailService = new EmailService(currentUser.getEmail());
+            emailService.start();
             showAlert("Success", "Consultation has been updated successfully.");
 
         } catch (SQLException e) {
             showAlert("Database Error", "An error occurred while updating the consultation: " + e.getMessage());
         }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void showAlert(String title, String message) {

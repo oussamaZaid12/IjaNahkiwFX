@@ -131,11 +131,10 @@ public class ServiceConsultation implements IService<Consultation> {
 
     public List<Consultation> getConsultationsByTherapistId(int therapistId) throws SQLException {
         List<Consultation> consultations = new ArrayList<>();
-        String query = "SELECT * FROM consultation WHERE idt = ?";
+        String query = "SELECT * FROM consultation WHERE idt_id = ?";
 
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, therapistId);
-
         try (ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Consultation consultation = new Consultation();
@@ -155,11 +154,10 @@ public class ServiceConsultation implements IService<Consultation> {
 
     public List<Consultation> getConsultationsByPatientId(int patientid) throws SQLException {
             List<Consultation> consultations = new ArrayList<>();
-            String query = "SELECT * FROM consultation WHERE idt = ?";
+            String query = "SELECT * FROM consultation WHERE idp_id = ?";
 
             PreparedStatement statement = con.prepareStatement(query);
             statement.setInt(1, patientid);
-
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Consultation consultation = new Consultation();
@@ -226,5 +224,18 @@ public class ServiceConsultation implements IService<Consultation> {
         }
         return upcomingConsultations;
     }
+    public void modifyFicheMedicaleId(int consultationId, int newFicheMedicaleId) throws SQLException {
+        String req = "UPDATE consultation SET fichemedicale_id=? WHERE id=?";
+        try (PreparedStatement pre = con.prepareStatement(req)) {
+            pre.setInt(1, newFicheMedicaleId);
+            pre.setInt(2, consultationId);
+            pre.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Database access error:");
+            e.printStackTrace();
+            throw e;  // Rethrow the exception after logging it
+        }
+    }
+
 }
 

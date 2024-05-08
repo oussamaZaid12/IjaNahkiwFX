@@ -14,7 +14,7 @@ import java.io.IOException;
 public class ServerApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/Front/client/server-view.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Front/server/server-view.fxml"));
         primaryStage.setTitle("Server!");
         primaryStage.setScene(new Scene(root, 480, 400));
         primaryStage.show();

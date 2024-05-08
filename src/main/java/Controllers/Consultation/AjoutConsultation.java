@@ -1,5 +1,6 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
 import entities.Consultation;
 import entities.User;
 import javafx.event.ActionEvent;
@@ -12,7 +13,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import services.ServiceConsultation;
-import Controllers.User.Session;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -48,17 +48,17 @@ public class AjoutConsultation {
 
     @FXML
     private TextField tfremarques;
-
+    private int idtherapist;
     @FXML
     void AjouterConsultation(ActionEvent event) {
 
         try {
-            User currentUser = Session.getUser();
-            if (currentUser == null) {
-                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
-                return;
-            }
-
+                User currentUser = Session.getUser();
+                if (currentUser == null) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                    return;
+                }
+            int idUser = currentUser.getId();
             LocalDate date = TfdatePicker.getValue();
             if (date == null) {
                 showAlert(Alert.AlertType.INFORMATION, "Input Error", "Please enter a valid date.");
@@ -73,8 +73,8 @@ public class AjoutConsultation {
             try {
                 hour = Integer.parseInt(tfheure.getText());
                 minute = Integer.parseInt(tfminute.getText());
-                idPatient = Integer.parseInt(Tfidpatient.getText());
-                idTherapeute = Integer.parseInt(Tftherapeute.getText());
+                //idPatient = Integer.parseInt(Tfidpatient.getText());
+               // idTherapeute = Integer.parseInt(Tftherapeute.getText());
             } catch (NumberFormatException e) {
                 showAlert(Alert.AlertType.INFORMATION, "Input Error", "Please ensure that hour, minute, patient ID, and therapist ID are numeric.");
                 return;
@@ -95,7 +95,7 @@ public class AjoutConsultation {
             LocalTime time = LocalTime.of(hour, minute);
             LocalDateTime dateTime = LocalDateTime.of(date, time);
 
-            Consultation consultation = new Consultation(idPatient, idTherapeute, dateTime, pathologie, remarques, false, 0);
+            Consultation consultation = new Consultation(idUser, idtherapist, dateTime, pathologie, remarques, false, 0);
             ServiceConsultation serviceConsultation = new ServiceConsultation();
             serviceConsultation.ajouter(consultation);
 
@@ -121,5 +121,9 @@ public class AjoutConsultation {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setidtherapist(int id) {
+        this.idtherapist=id;
     }
 }

@@ -1,15 +1,14 @@
 package Controllers.User;
 
-import entities.Role;
 import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,166 +16,172 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.UserService;
 
-import java.io.*;
-import java.util.Optional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Profile {
-    private User currentUser;
     @FXML
     private TextField nom;
     @FXML
     private TextField prenom;
     @FXML
     private TextField email;
+
     @FXML
     private TextField age;
     @FXML
+    private ImageView profileImageView;
+    @FXML
+    private Button editButton;
+    @FXML
     private Button updateButton;
     @FXML
-    private ImageView profileImageView;
+    private Button uploadButton;
     @FXML
     private Button logoutButton;
 
-    @FXML
-    private Button uploadButton;
+    private User currentUser;
+    private UserService userService = new UserService();
 
-    public void initData(User usere) {
-        if(usere.getRole().equals(Role.ADMIN)){
-            logoutButton.setVisible(false);
-        }
-        //  textFiedTest.setText("testtt");
-        UserService us = new UserService();
-
-        User user =us.getUserById(usere.getId());
-        this.currentUser = user;
-        nom.setText(user.getNom());
-        prenom.setText(user.getPrenom());
-        email.setText(user.getEmail());
-        System.out.println(user.getImage());
-
-        String imageUrl = "/static/images/" + user.getImage(); // Assuming user.getImage() returns the image filename
-        Image image = new Image(getClass().getResource(imageUrl).toExternalForm());
-        profileImageView.setImage(image);
-        System.out.println(user);
-        populateProfileInformation(user);
-
-    }
-    @FXML
-    private void uploadImage(ActionEvent event) throws IOException {
-        UserService us = new UserService();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose Image File");
-        // Set the initial directory to the user's home directory
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        // Restrict file types to images
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
-        );
-
-        // Show the file chooser dialog
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
-        if (selectedFile != null) {
-            // Display the selected image in the ImageView
-            Image image = new Image(selectedFile.toURI().toString());
-            profileImageView.setImage(image);
-            saveImageAndGetUrl(selectedFile.toPath().toUri().toURL().openStream(), selectedFile.getName());
-            us.updateImage(currentUser,selectedFile.getName());
-            currentUser.setImage(selectedFile.getName());
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Image updated successfully");
-
+    public void initialize(User currentUser) {
+        User u = Session.getUser();
+        if (u != null) {
+            populateProfileInformation(currentUser);
         }
     }
+
     private void populateProfileInformation(User user) {
+        if (user != null) {
+            // Affichage du nom et du prénom
+            nom.setText(user.getNom());
+            prenom.setText(user.getPrenom());
 
+// Affichage de l'email
+            email.setText(user.getEmail());
+
+// Affichage de l'âge
+            int userAge = user.getAge();
+            age.setText(String.valueOf(userAge));
+            // Chargement et affichage de l'image du profil
+            if (user.getImage() != null && !user.getImage().isEmpty()) {
+                String imagePath = "C:\\Users\\oussa\\Desktop\\etape7\\src\\main\\resources\\images\\" + user.getImage();
+                File file = new File(imagePath);
+                if (file.exists()) {
+                    try {
+                        Image image = new Image(file.toURI().toString());
+                        profileImageView.setImage(image);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("L'image n'existe pas à l'emplacement spécifié : " + imagePath);
+                }
+            }
+        }
     }
 
-    private void handleEditButtonAction() {
-        // Implement edit profile action
-    }
 
-    public void enabelEditing(){
+
+
+
+    @FXML
+    private void enabelEditing() {
         nom.setDisable(false);
         prenom.setDisable(false);
         email.setDisable(false);
         age.setDisable(false);
-        profileImageView.setDisable(false);
         updateButton.setVisible(true);
     }
-    public void UpdateData() {
-        // Check if currentUser is null
+
+    @FXML
+    private void UpdateData() {
+        // Récupérer l'utilisateur actuel à partir de la session
+        User currentUser = Session.getUser();
+
+        // Vérifier si l'utilisateur actuel est null
         if (currentUser == null) {
-            // Handle the case where currentUser is null
-            System.err.println("currentUser is null");
+            System.out.println("Erreur : currentUser est null.");
             return;
         }
 
-        // Create a new UserService instance
-        UserService us = new UserService();
+        try {
+            // Mettre à jour les informations de l'utilisateur avec les valeurs des champs
+            currentUser.setNom(nom.getText());
+            currentUser.setPrenom(prenom.getText());
+            currentUser.setEmail(email.getText());
+            currentUser.setAge(Integer.parseInt(age.getText()));
 
-        // Create a new User object to hold updated data
-        User u = new User();
+            // Mettre à jour le profil de l'utilisateur dans la base de données
+            userService.updateProfile(currentUser);
 
-        // Populate the User object with data
-        u.setId(currentUser.getId());  // Assuming currentUser has an id property
-        u.setEmail(email.getText());
-        u.setRole(currentUser.getRole());
-        u.setNom(nom.getText());
-        u.setPrenom(prenom.getText());
-
-        // Check if the image is not null in the currentUser before setting it in the updated user
-        if (currentUser.getImage() != null) {
-            u.setImage(currentUser.getImage());
-        } else {
-            // Handle the case where the image in the currentUser is null
-            System.err.println("currentUser's image is null");
-            // You may choose to set a default image or handle it in some other way
-        }
-
-        // Call the UserService to update the profile
-        us.updateProfile(u);
-
-        // Display a confirmation message
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Informations Updated");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Handle the OK button click if needed
+            // Afficher un message de succès
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Profil mis à jour", "Votre profil a été mis à jour avec succès.");
+        } catch (Exception e) {
+            // En cas d'erreur, afficher un message d'erreur
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de la mise à jour du profil", "Une erreur s'est produite lors de la mise à jour de votre profil : " + e.getMessage());
         }
     }
 
-    private String saveImageAndGetUrl(InputStream inputStream, String filename) throws IOException {
-        // Define the directory where images will be stored
-        String uploadDirectory = "src/main/resources/static/images"; // Change this to your desired directory path
-        File directory = new File(uploadDirectory);
-        if (!directory.exists()) {
-            directory.mkdirs(); // Create the directory if it doesn't exist
-        }
 
-        // Save the image file to the upload directory
-        String filePath = uploadDirectory + File.separator + filename;
-        try (OutputStream outputStream = new FileOutputStream(new File(filePath))) {
-            int read;
-            byte[] bytes = new byte[1024];
-            while ((read = inputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, read);
+
+    @FXML
+    private void uploadImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image de profil");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Fichiers d'image", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+        Stage stage = (Stage) uploadButton.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            // Obtenez le chemin absolu de l'image sélectionnée
+            String imagePath = selectedFile.getAbsolutePath();
+
+            // Mettez à jour l'image de profil dans l'interface utilisateur
+            try {
+                Image image = new Image(new FileInputStream(selectedFile));
+                profileImageView.setImage(image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            // Mettez à jour le chemin de l'image dans l'objet User
+            if (currentUser != null) {
+                currentUser.setImage(imagePath);
+                // Mettez à jour l'utilisateur dans la base de données si nécessaire
+                userService.updateProfile(currentUser);
+                // Afficher un message de succès
+                showAlert(Alert.AlertType.INFORMATION, "Succès", "Image de profil mise à jour", "Votre image de profil a été mise à jour avec succès.");
             }
         }
-
-        // Return the URL of the saved image
-        return  filename; // Adjust the URL format as needed
     }
-    public void logout(){
-        Stage stage = (Stage) updateButton.getScene().getWindow();
+
+
+    @FXML
+    private void logout(ActionEvent event) {
+        Node node = (Node) event.getSource(); // Récupérer le nœud source de l'événement
+        Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
-        Stage newStage = new Stage();
+
         try {
+            Stage newStage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("/gui/login.fxml"));
             Scene scene = new Scene(root);
             newStage.setScene(scene);
             newStage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+    }
+
+
+    private void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 }

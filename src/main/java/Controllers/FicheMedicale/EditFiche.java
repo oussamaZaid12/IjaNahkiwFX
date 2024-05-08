@@ -1,6 +1,8 @@
 package Controllers.FicheMedicale;
 
+import Controllers.User.Session;
 import entities.FicheMedicale;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -36,8 +38,14 @@ public class EditFiche {
         this.currentFiche = currentFiche;
         tfidp.setText(String.valueOf(currentFiche.getIdp()));
         tfidt.setText(String.valueOf(currentFiche.getIdt()));
-        LocalDate localDateCreation =currentFiche.getDateCreation().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate localDateMiseAjout = currentFiche.getDateCreation().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // Extract year, month, and day components from java.sql.Date
+        Date dateCreation = (Date) currentFiche.getDateCreation();
+        LocalDate localDateCreation = LocalDate.of(dateCreation.getYear() + 1900, dateCreation.getMonth() + 1, dateCreation.getDate());
+
+        Date dateMiseAjout = (Date) currentFiche.getDerniereMaj();
+        LocalDate localDateMiseAjout = LocalDate.of(dateMiseAjout.getYear() + 1900, dateMiseAjout.getMonth() + 1, dateMiseAjout.getDate());
+
         // Set the values of the DatePicker components
         tfdatedecreation.setValue(localDateCreation);
         tfdatemiseajour.setValue(localDateMiseAjout);
@@ -46,10 +54,16 @@ public class EditFiche {
     @FXML
     public void ModifierFiche(ActionEvent actionEvent) {
         try {
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+            int idUser = currentUser.getId();
             // Parse IDs from text fields
             int id = Integer.parseInt(tfid.getText());
             int idp = Integer.parseInt(tfidp.getText());
-            int idt = Integer.parseInt(tfidt.getText());
+            //  int idt = Integer.parseInt(tfidt.getText());
 
             // Retrieve and validate dates
             LocalDate dateCreation = tfdatedecreation.getValue();
@@ -73,7 +87,7 @@ public class EditFiche {
             // Set updated values to currentFiche
             currentFiche.setId(id);
             currentFiche.setIdp(idp);
-            currentFiche.setIdt(idt);
+            currentFiche.setIdt(idUser);
             currentFiche.setDateCreation(Date.valueOf(dateCreation));
             currentFiche.setDerniereMaj(Date.valueOf(dateMiseAjout));
 
@@ -91,6 +105,13 @@ public class EditFiche {
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

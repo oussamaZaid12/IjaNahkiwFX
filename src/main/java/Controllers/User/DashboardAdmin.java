@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import services.UserService;
 
@@ -16,11 +17,25 @@ import java.util.Map;
 
 
 public class DashboardAdmin {
-@FXML
-private Button add;
+    @FXML
+    private Button add;
 
     @FXML
     private PieChart pieChart;
+    @FXML
+    private Label averageAgeLabel;
+
+
+    @FXML
+    private Label therapistLabel;
+
+    @FXML
+    private Label patientLabel;
+
+
+
+
+
     public void initialize() {
         UserService userService = new UserService();
         // Call getUserDataByDate() from UserService
@@ -33,7 +48,18 @@ private Button add;
             pieChart.getData().add(slice);
         }
         // Set the series data to the line chart
+        Map<String, Integer> countMap = userService.getTherapistAndPatientCount();
+
+        // Update therapist and patient labels
+        therapistLabel.setText("Nombre des thérapeutes : " + countMap.getOrDefault("[\"ROLE_THERAPEUTE\"]", 0));
+        patientLabel.setText("Nombre des patients : " + countMap.getOrDefault("[\"ROLE_PATIENT\"]", 0));
+
+        double averageAge = userService.getAveragePatientAge();
+
+        // Update label with average age
+        averageAgeLabel.setText("Moyenne d'âge des patients : " + averageAge);
     }
+
 
     public void logout(){
         Stage stage = (Stage) pieChart.getScene().getWindow();

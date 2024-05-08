@@ -1,6 +1,8 @@
 package Controllers.FicheMedicale;
 
+import Controllers.User.Session;
 import entities.FicheMedicale;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,7 +41,12 @@ public class AjoutFiche {
     @FXML
     void AjouterFiche(ActionEvent event) {
         try {
-            // Retrieve and validate dates from input fields
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+                return;
+            }
+            int idUser = currentUser.getId();
             LocalDate localDateCreation = tfdatecreation.getValue();
             if (localDateCreation == null) {
                 showAlert("Input Error", "Please enter a valid creation date.");
@@ -61,10 +68,10 @@ public class AjoutFiche {
             }
 
             int idPatient = Integer.parseInt(tfidp.getText());
-            int idTherapeute = Integer.parseInt(tfidt.getText());
+           // int idTherapeute = Integer.parseInt(tfidt.getText());
 
             // Create a new FicheMedicale object
-            FicheMedicale ficheMedicale = new FicheMedicale(dateCreation, dateDerniereMaj, idPatient, idTherapeute);
+            FicheMedicale ficheMedicale = new FicheMedicale(dateCreation, dateDerniereMaj, idPatient, idUser);
 
             // Call a service method to add the fiche medicale to the database
             ServiceFicheMedicale serviceFicheMedicale = new ServiceFicheMedicale();
@@ -97,6 +104,13 @@ public class AjoutFiche {
             e.printStackTrace();
             // Handle the exception, for example, by showing an error message
         }
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }

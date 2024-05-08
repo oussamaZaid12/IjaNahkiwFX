@@ -17,10 +17,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import services.ServiceCommentaire;
 import services.ServicePublication;
-import test.MainFX;
+import services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +32,11 @@ public class CardPub {
     @FXML
     private Button btnDelete;
     @FXML
-    private AnchorPane cardPane;
+    private Button btnModifier;
+    @FXML
+    private ImageView photoprofil;
+    @FXML
+    private AnchorPane affichagefrontContainer;
     @FXML
     private ImageView imagePub;
     @FXML
@@ -52,8 +57,12 @@ public class CardPub {
     public void setAffichagePubController(AffichagePub controller) {
         this.affichagePubController = controller;
     }
+    public void setAffichagefrontContainer(AnchorPane affichagefrontContainer) {
+        this.affichagefrontContainer = affichagefrontContainer;
+    }
     @FXML
     public void initialize() {
+
         warningIcon.setVisible(true); // Temporarily force visibility
     }
 
@@ -64,35 +73,59 @@ public class CardPub {
         descriptionPub.setText(publication.getDescriptionP());
         datePub.setText(publication.getDateP().toString());
 
-        User currentUser = Session.getUser();
-        if (currentUser != null) {
-            // Affiche l'ID de l'utilisateur connecté
-            idUserPub.setText(String.valueOf(currentUser.getId()));
+        // Retrieve user information based on the user ID in the publication
+        UserService serviceUser = new UserService();
+        User author = serviceUser.getUserById(publication.getIdUserId());
+
+        if (author != null) {
+            // Display the author's name and surname
+            idUserPub.setText(author.getNom() + " " + author.getPrenom());
+
+            // Load the author's profile picture
+            String profileImagePath = "/images/" + author.getImage();
+            InputStream profileImageStream = getClass().getResourceAsStream(profileImagePath);
+
+            // Check if the input stream is null and assign a default image if necessary
+            if (profileImageStream != null) {
+                Image profileImage = new Image(profileImageStream);
+                photoprofil.setImage(profileImage);
+            } else {
+                // Use a default profile image when the specified image is not found
+                photoprofil.setImage(new Image(getClass().getResourceAsStream("/images/doctoricon.png")));
+            }
         } else {
-            // Gestion si aucun utilisateur n'est connecté
-            idUserPub.setText("Non connecté");
+            // Handle the case where the user cannot be found
+            idUserPub.setText("Auteur inconnu");
+            photoprofil.setImage(new Image(getClass().getResourceAsStream("/images/doctoricon.png")));
         }
 
+        // Load publication image
         String imagePath = "/images/" + publication.getImageP();
         InputStream imageStream = getClass().getResourceAsStream(imagePath);
+
+        // Check if the input stream is null and assign a default image if necessary
         if (imageStream != null) {
             Image image = new Image(imageStream);
             imagePub.setImage(image);
         } else {
-            // Optionnel : définir une image par défaut ou gérer l'erreur
-            imagePub.setImage(new Image(getClass().getResourceAsStream("/images/default.png")));
+            // Use a default image for the publication if the specified image is not found
+            imagePub.setImage(new Image(getClass().getResourceAsStream("/images/bkg2.png")));
         }
 
         updateButtonVisibility();
         updateWarningIconVisibility();
     }
+
+
+
+
     private void updateButtonVisibility() {
         User currentUser = Session.getUser();
         // Show delete button only if the current user is the poster or an admin
         boolean canEditDelete = currentUser != null &&
-                (currentUser.getId() == currentPublication.getIdUserId() ||
-                        currentUser.getRole() == Role.ADMIN);
+                (currentUser.getRole() == Role.ROLE_ADMIN);
         btnDelete.setVisible(canEditDelete);
+        btnModifier.setVisible(canEditDelete);
     }
 
     @FXML
@@ -145,15 +178,20 @@ public class CardPub {
             FXMLLoader loader = new FXMLLoader();
             try {
                 User currentUser = Session.getUser();
-                String resourcePath = currentUser != null && currentUser.getRole() == Role.ADMIN ? "/Back/Publication/DetailPublication.fxml" : "/Front/Publication/DetailPublication.fxml";
+                String resourcePath = currentUser != null && currentUser.getRole() == Role.ROLE_ADMIN
+                        ? "/Back/Publication/DetailPublication.fxml"
+                        : "/Front/Publication/DetailPublication.fxml";
                 loader.setLocation(getClass().getResource(resourcePath));
                 Parent detailView = loader.load();
+
+                // Retrieve the controller to set the publication data
                 DetailPublication controller = loader.getController();
                 controller.setPublication(this.currentPublication);
-                Stage stage=new Stage();
-                stage.setScene(new Scene(detailView));
-                stage.show();
-                //MainFX.setCenterView(detailView);
+
+                // Clear and then add the detail view within `affichagefrontContainer`
+                affichagefrontContainer.getChildren().clear();
+                affichagefrontContainer.getChildren().add(detailView);
+
             } catch (IOException e) {
                 System.err.println("Failed to load detail view: " + e.getMessage());
                 showAlert("Error", "Cannot load the detail view: " + e.getMessage());
@@ -166,11 +204,13 @@ public class CardPub {
 
 
 
+
+
     private void updateWarningIconVisibility() {
         try {
-        boolean hasProfanity = checkForProfanity(currentPublication);
-        System.out.println("Updating warning icon visibility. Profanity found: " + hasProfanity);
-        warningIcon.setVisible(hasProfanity);}
+            boolean hasProfanity = checkForProfanity(currentPublication);
+            System.out.println("Updating warning icon visibility. Profanity found: " + hasProfanity);
+            warningIcon.setVisible(hasProfanity);}
         catch (SQLException e) {
             e.printStackTrace();
             warningIcon.setVisible(false);

@@ -1,5 +1,4 @@
 package Controllers.User;
-
 import entities.User;
 
 public class Session {
@@ -13,4 +12,3 @@ public class Session {
         Session.user = user;
     }
 }
-

@@ -21,6 +21,15 @@ public class DisplayAllActiviteController {
 
     @FXML
     public void initialize() {
+        loadData();
+    }
+
+    // Encapsulated method for loading all data
+    private void loadData() {
+        // Clear any previous data before adding new cards
+        vBoxContainer.getChildren().clear();
+
+        // Load data
         displayActivites();
         displayProgrammes();
         displayExercices();
