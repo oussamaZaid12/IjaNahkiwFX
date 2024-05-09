@@ -99,8 +99,8 @@ public class CallController {
         running = true; // Autoriser la capture et l'envoi
         new Thread(() -> {
 
-            try (Socket videoSocket = new Socket("172.16.3.255", 6000);
-                 Socket audioSocket = new Socket("172.16.3.255", 6001)) {
+            try (Socket videoSocket = new Socket("192.168.192.112", 6000);
+                 Socket audioSocket = new Socket("192.168.192.112", 6001)) {
 
 
                 DataInputStream in = new DataInputStream(videoSocket.getInputStream());

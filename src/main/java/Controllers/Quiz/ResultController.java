@@ -124,7 +124,7 @@ public class ResultController {
     private void goToDoctorConsultationPage() throws IOException {
         try {
             // Logic to navigate to the doctor consultation page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/affichageConsultationpatient.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/listtherapists.fxml"));
             Parent root = loader.load();
             AffichageConsultationpatient controller = loader.getController();
 
@@ -140,7 +140,7 @@ public class ResultController {
         private void goToActivitiesPage() throws IOException {
             try {
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Activite/ActiviteDisplay.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Activite/MainInterface.fxml"));
                 Parent root = loader.load();
 
                 // Create a new Stage and Scene

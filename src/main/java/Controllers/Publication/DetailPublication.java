@@ -123,29 +123,29 @@ public class DetailPublication {
         try {
             List<Commentaire> commentaires = serviceCommentaire.getCommentairesByPublication(currentPublication.getId());
             commentsContainer.getChildren().clear();
+
+            // Assuming currentUser is the currently logged-in user
+            User currentUser = Session.getUser();
+
             for (Commentaire commentaire : commentaires) {
                 HBox commentBox = new HBox();
                 commentBox.setSpacing(10); // Space between elements in the hbox
 
-                // Check if the user is an admin or a regular user and add respective icons
-                // Assuming ServiceUser is the service used to fetch user information
+                // Retrieve the user who made the comment
                 UserService serviceUser = new UserService();
                 User userWhoCommented = serviceUser.getUserById(commentaire.getId_user());
 
-// Check if the user is an admin
+                // Check if the user is an admin or a regular user and add respective icons
                 String iconPath = userWhoCommented != null && userWhoCommented.getRole() == Role.ROLE_ADMIN
                         ? "/images/doctoricon.png"
                         : "/images/patienticon.png";
 
-// Load the appropriate icon
+                // Load the appropriate icon
                 Image userIcon = new Image(getClass().getResourceAsStream(iconPath));
                 ImageView userIconView = new ImageView(userIcon);
                 userIconView.setFitHeight(20);
                 userIconView.setFitWidth(20);
-
-// Add the icon to the comment box
                 commentBox.getChildren().add(userIconView);
-
 
                 // Add comment label
                 Label commentLabel = new Label(userWhoCommented.getNom() + commentaire.getId_user() + " : " + commentaire.getContenu_c());
@@ -159,15 +159,17 @@ public class DetailPublication {
                     commentBox.getChildren().add(warningIcon);
                 }
 
-                // Add delete button with icon
-                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/166475.png")));
-                deleteIcon.setFitHeight(20);
-                deleteIcon.setFitWidth(20);
-                Button deleteButton = new Button();
-                deleteButton.setGraphic(deleteIcon);
-                deleteButton.setOnAction(event -> handleDeleteComment(commentaire));
-                deleteButton.setStyle("-fx-background-color: transparent; -fx-border: none;");
-                commentBox.getChildren().add(deleteButton);
+                // Add delete button only if the current user is an admin or the one who wrote the comment
+                if (currentUser != null && (currentUser.getRole() == Role.ROLE_ADMIN || currentUser.getId() == commentaire.getId_user())) {
+                    ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/166475.png")));
+                    deleteIcon.setFitHeight(20);
+                    deleteIcon.setFitWidth(20);
+                    Button deleteButton = new Button();
+                    deleteButton.setGraphic(deleteIcon);
+                    deleteButton.setOnAction(event -> handleDeleteComment(commentaire));
+                    deleteButton.setStyle("-fx-background-color: transparent; -fx-border: none;");
+                    commentBox.getChildren().add(deleteButton);
+                }
 
                 commentsContainer.getChildren().add(commentBox);
             }
