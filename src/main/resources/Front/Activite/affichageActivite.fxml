@@ -23,11 +23,11 @@
                 <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Search Filters" />
                 <TextField fx:id="searchNom" prefWidth="200" promptText="Search by Name" style="-fx-font-size: 14px; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 5;" />
                 <TextField fx:id="searchGenre" prefWidth="200" promptText="Search by Description" style="-fx-font-size: 14px; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 5;" />
-                <Button onAction="#handleSearch" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search" />
-                <Button onAction="#handleSortByDate" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Sort by Date" />
+                <Button onAction="#handleSearch" style="-fx-background-color: rgb(31,166,192); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search" />
+                <Button onAction="#handleSortByDate" style="-fx-background-color: #0e505d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Sort by Date" />
                 <HBox spacing="10" style="-fx-alignment: center;">
-                    <Button onAction="#handleViewProgramme" style="-fx-background-color: #ff5722; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Programme" />
-                    <Button onAction="#handleViewExercice" style="-fx-background-color: #00bcd4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Exercice" />
+                    <Button onAction="#handleViewProgramme" style="-fx-background-color: #e0753c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Programme" />
+                    <Button onAction="#handleViewExercice" style="-fx-background-color: #e79b7d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Exercice" />
                 </HBox>
             </children>
         </VBox>

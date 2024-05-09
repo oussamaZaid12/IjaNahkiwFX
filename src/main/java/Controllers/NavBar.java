@@ -101,6 +101,16 @@ public class NavBar {
         }
     }
     @FXML
+    public void showCallClient() {
+        try {
+            Node callClient = FXMLLoader.load(getClass().getResource("/Front/call.fxml"));
+            mainContainer.setCenter(callClient);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception, for example, by showing an error message
+        }
+    }
+    @FXML
     private void showChatbot() {
         try {
             // Load the chatbot window or overlay

@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -29,16 +28,15 @@
                </font>
             </Label>
             <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="42.0" prefWidth="7.0" />
-            <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="35.0" prefWidth="290.0">
-               <children>
-                  <TextField prefHeight="35.0" prefWidth="284.0" promptText="search" styleClass="round-layout" />
-                  <ImageView fitHeight="24.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+            <Button mnemonicParsing="false" onAction="#showCallServeur" styleClass="label-like-button">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="234.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/search icon.png" />
+                        <Image url="@../images/joinCallIcon.png" />
                      </image>
                   </ImageView>
-               </children>
-            </HBox>
+               </graphic>
+            </Button>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>

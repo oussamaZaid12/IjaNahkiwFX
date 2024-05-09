@@ -29,7 +29,7 @@
 }
 
 .card-button {
-    -fx-background-color: #007bff;
+    -fx-background-color: #e7865e;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 10px 20px;
@@ -38,11 +38,11 @@
 }
 
 .card-button:hover {
-    -fx-background-color: #0056b3;
+    -fx-background-color: #e79b7d;
 }
 
 .card-button:pressed {
-    -fx-background-color: #003d80;
+    -fx-background-color: #44b4cc;
 }
 .label-like-button {
     -fx-background-color: transparent; /* Makes the button transparent */

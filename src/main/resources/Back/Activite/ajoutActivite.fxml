@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<?import javafx.geometry.Insets?>
 <AnchorPane prefHeight="723.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.AjoutActivite">
    <children>
       <ImageView fitHeight="755.0" fitWidth="1293.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/add.jpeg" />
+            <Image url="@../../images/add.png" />
          </image>
       </ImageView>
-      <VBox layoutX="215.0" layoutY="124.0" prefHeight="278.0" prefWidth="420.0" spacing="8.0">
+      <VBox layoutX="314.0" layoutY="191.0" prefHeight="326.0" prefWidth="479.0" spacing="8.0">
          <children>
-            <Label text="Titre de l'activité" />
+            <Label text="Titre de l'activité" textFill="WHITE" />
             <TextField fx:id="TfNom" promptText="Nom de l'activité" />
-            <Label text="Description" />
+            <Label text="Description" textFill="WHITE" />
             <TextField fx:id="TfGenre" promptText="Genre de l'activité" />
-            <Label text="Date " />
+            <Label text="Date " textFill="WHITE" />
             <DatePicker fx:id="tfdate" />
-            <Button fx:id="TfValider" onAction="#AjouterActivite" text="Ajouter" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold;">
+            <Button fx:id="TfValider" onAction="#AjouterActivite" style="-fx-background-color: #f0a978; -fx-text-fill: white; -fx-font-weight: bold;" text="Ajouter" textFill="#f0a978">
                <padding>
-                  <Insets top="5" right="10" bottom="5" left="10"/>
+                  <Insets bottom="5" left="10" right="10" top="5" />
                </padding>
             </Button>
          </children>

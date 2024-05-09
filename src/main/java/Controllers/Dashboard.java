@@ -42,9 +42,19 @@
         }
 
         @FXML
+        public void showCallServeur() {
+            try {
+                Node call = FXMLLoader.load(getClass().getResource("/Front/call.fxml"));
+                mainContainer.setCenter(call);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception, for example, by showing an error message
+            }
+        }
+        @FXML
         public void showHome() {
             try {
-                Node home = FXMLLoader.load(getClass().getResource("/Front/call.fxml"));
+                Node home = FXMLLoader.load(getClass().getResource("/Back/HomeView.fxml"));
                 mainContainer.setCenter(home);
             } catch (IOException e) {
                 e.printStackTrace();

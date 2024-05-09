@@ -15,12 +15,12 @@
 
 <AnchorPane prefHeight="723.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Question.ControllerQuestion">
     <children>
-        <ImageView fitHeight="734.0" fitWidth="1380.0" layoutX="102.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="727.0" fitWidth="1258.0" layoutX="131.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../images/add.jpeg" />
+                <Image url="@../../images/display.png" />
             </image>
         </ImageView>
-        <VBox layoutX="215.0" layoutY="124.0" prefHeight="453.0" prefWidth="415.0" spacing="8.0" styleClass="image-view" stylesheets="@../../css/style.css">
+        <VBox layoutX="338.0" layoutY="121.0" prefHeight="453.0" prefWidth="415.0" spacing="8.0" styleClass="image-view" stylesheets="@../../css/style.css">
             <Text fill="#34accf" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Une Question" textAlignment="CENTER" wrappingWidth="418.9367218017578">
                 <font>
                     <Font size="32.0" />

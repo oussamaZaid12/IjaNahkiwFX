@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="578.0" prefWidth="791.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Publication.editPub">
    <children>
@@ -20,16 +21,28 @@
          <image>
             <Image url="@../../images/images.jpg" />
          </image></ImageView>
-      <VBox layoutX="215.0" layoutY="124.0" prefHeight="278.0" prefWidth="420.0" spacing="8.0" styleClass="image-view" stylesheets="@../../css/style.css">
+      <VBox layoutX="259.0" layoutY="122.0" prefHeight="278.0" prefWidth="420.0" spacing="8.0" styleClass="image-view" stylesheets="@../../css/style.css">
          <children>
-            <Label text="Titre de la publication" />
+            <Label text="Titre de la publication" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
             <TextField fx:id="TfTitreEdit" />
-            <Label text="Description de la publication" />
+            <Label text="Description de la publication" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
             <TextField fx:id="TfDescriptionEdit" />
-            <Label text="Image de publication" />
+            <Label text="Image de publication" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
             <Button fx:id="btnImageEdit" onAction="#EditImage" styleClass="card-button" text="Choisir Image" />
             <ImageView fx:id="imagePreview" fitHeight="50.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" />
-            <Label text="Date de publication" />
+            <Label text="Date de publication" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
             <DatePicker fx:id="TfDateEdit" />
             <Button fx:id="TfEdit" onAction="#ModifierPublication" styleClass="card-button" text="Modifier" />
          </children>

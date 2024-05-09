@@ -17,10 +17,10 @@
 <AnchorPane fx:id="mainContainerQUES" prefHeight="723.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Quiz.AffichageQuestionnaireController">
     <ImageView fitHeight="734.0" fitWidth="1380.0" layoutX="102.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
         <image>
-            <Image url="@../../images/display.jpeg" />
+            <Image url="@../../images/display.png" />
         </image>
     </ImageView>
-    <VBox layoutX="143.0" layoutY="68.0" prefHeight="607.0" prefWidth="722.0">
+    <VBox layoutX="181.0" layoutY="67.0" prefHeight="607.0" prefWidth="722.0">
       <children>
             <HBox alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="728.0">
             <Label prefHeight="46.0" prefWidth="355.0" text="Liste des Questionnaire " textAlignment="RIGHT" textFill="#38a4cf">

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -7,31 +8,31 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="723.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.affichageActivite">
     <children>
         <ImageView fitHeight="755.0" fitWidth="1293.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../images/bkg simple.png"/>
+                <Image url="@../../images/bkg simple.png" />
             </image>
         </ImageView>
-        <VBox layoutX="15.0" layoutY="50.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <VBox layoutX="50.0" layoutY="212.0" prefHeight="340.0" prefWidth="424.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 10; -fx-background-radius: 10;">
             <children>
-                <Label text="Search Filters" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-                <TextField fx:id="searchNom" prefWidth="200" promptText="Search by Name" style="-fx-font-size: 14px; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 5;"/>
-                <TextField fx:id="searchGenre" prefWidth="200" promptText="Search by Genre" style="-fx-font-size: 14px; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 5;"/>
-                <Button text="Search" onAction="#handleSearch" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;"/>
-                <Button text="Sort by Date" onAction="#handleSortByDate" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Search Filters" />
+                <TextField fx:id="searchNom" prefWidth="200" promptText="Search by Name" style="-fx-font-size: 14px; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 5;" />
+                <TextField fx:id="searchGenre" prefWidth="200" promptText="Search by Genre" style="-fx-font-size: 14px; -fx-border-color: #CCCCCC; -fx-border-radius: 5; -fx-padding: 5;" />
+                <Button onAction="#handleSearch" style="-fx-background-color: #d4a08d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search" textFill="#edbaa6" />
+                <Button onAction="#handleSortByDate" style="-fx-background-color: #d4a08d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Sort by Date" />
                 <HBox spacing="10" style="-fx-alignment: center;">
-                    <Button text="Export to Excel" onAction="#exportToExcel" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-                    <Button text="Consulter Programme" onAction="#handleViewProgramme" style="-fx-background-color: #ff5722; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;"/>
-                    <Button text="Consulter Exercice" onAction="#handleViewExercice" style="-fx-background-color: #00bcd4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+                    <Button onAction="#exportToExcel" style="-fx-background-color: #228ca9; -fx-text-fill: white;" text="Export to Excel" textFill="#228ca9" />
+                    <Button onAction="#handleViewProgramme" style="-fx-background-color: #eaad6c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Programme" textFill="#eaad6c" />
+                    <Button onAction="#handleViewExercice" style="-fx-background-color: #20b9ba; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Exercice" textFill="#20b9ba" />
                 </HBox>
             </children>
         </VBox>
-        <TableView fx:id="tableView" layoutX="15" layoutY="320" prefHeight="340.0" prefWidth="715.0">
+        <TableView fx:id="tableView" layoutX="521.0" layoutY="209.0" prefHeight="340.0" prefWidth="715.0" styleClass="table-column" stylesheets="@../../css/style.css">
             <columns>
                 <TableColumn fx:id="idColumn" text="ID" />
                 <TableColumn fx:id="nameColumn" text="Name" />

@@ -12,20 +12,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="736.0" prefWidth="1535.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.affichageActiviteP">
+<AnchorPane prefHeight="752.0" prefWidth="1435.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Activite.affichageActiviteP">
     <children>
-        <ImageView fitHeight="787.0" fitWidth="1535.0" layoutX="-1.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="711.0" fitWidth="1567.0" layoutX="-21.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../images/bkg simple.png" />
+                <Image url="@../../images/actbkg.png" />
             </image>
         </ImageView>
-        <VBox layoutX="193.0" layoutY="181.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <VBox layoutX="535.0" layoutY="235.0" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 10; -fx-background-radius: 10;">
             <children>
             <HBox prefHeight="0.0" prefWidth="398.0" spacing="40.0">
                <children>
                       <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Search Filters" />
-                      <Button onAction="#handleSearch" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search" />
-                      <Button onAction="#handleSortByDate" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Sort by Date" />
+                      <Button onAction="#handleSearch" style="-fx-background-color: #44b4cc; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search" />
+                      <Button onAction="#handleSortByDate" style="-fx-background-color: #24889d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 10 5 10; -fx-border-radius: 5; -fx-background-radius: 5;" text="Sort by Date" />
                </children>
             </HBox>
             <HBox prefHeight="0.0" prefWidth="398.0">
@@ -35,9 +35,9 @@
                </children>
             </HBox>
                 <HBox spacing="10" style="-fx-alignment: center;">
-                    <Button onAction="#handleViewProgramme" style="-fx-background-color: #ff5722; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Programme" />
-                    <Button onAction="#handleViewExercice" style="-fx-background-color: #00bcd4; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Exercice" />
-                    <Button onAction="#handleViewCalendrier" style="-fx-background-color: #ffa500; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Calendrier" />
+                    <Button onAction="#handleViewProgramme" style="-fx-background-color: #e79b7d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Programme" />
+                    <Button onAction="#handleViewExercice" style="-fx-background-color: #529da9; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Consulter Exercice" />
+                    <Button onAction="#handleViewCalendrier" style="-fx-background-color: #eabf9b; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 15 10 15; -fx-border-radius: 5; -fx-background-radius: 5;" text="Calendrier" />
                 </HBox>
             </children>
          <stylesheets>
@@ -45,7 +45,7 @@
             <URL value="@../../css/styleDashbord.css" />
          </stylesheets>
         </VBox>
-        <TableView fx:id="tableView" layoutX="193.0" layoutY="340.0" prefHeight="340.0" prefWidth="715.0">
+        <TableView fx:id="tableView" layoutX="436.0" layoutY="413.0" prefHeight="297.0" prefWidth="603.0">
             <columns>
                 <TableColumn fx:id="idColumn" text="ID" />
                 <TableColumn fx:id="nameColumn" text="Name" />
