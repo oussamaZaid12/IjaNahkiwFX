@@ -1,13 +1,17 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
 import entities.CalendarActivity;
 import entities.Consultation;
+import entities.Role;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
@@ -166,10 +170,16 @@ public class CalendarController implements Initializable {
     private Map<Integer, List<CalendarActivity>> getCalendarActivitiesMonth(ZonedDateTime dateFocus) {
         int year = dateFocus.getYear();
         int month = dateFocus.getMonthValue();
+        User currentUser = Session.getUser();
+        if (currentUser == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+        }
         ServiceConsultation serviceConsultation = new ServiceConsultation();
         List<Consultation> consultations = null;
         try {
-            consultations = serviceConsultation.getConsultationsForMonth(year, month);
+            if(currentUser.getRole()== Role.ROLE_PATIENT)
+            consultations = serviceConsultation.getConsultationsForMonthPatient(year, month,currentUser);
+            if(currentUser.getRole()== Role.ROLE_THERAPEUTE) consultations = serviceConsultation.getConsultationsForMonth(year, month,currentUser);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -204,5 +214,12 @@ public class CalendarController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

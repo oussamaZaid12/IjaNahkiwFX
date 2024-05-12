@@ -17,8 +17,6 @@
                 <TextField fx:id="tfremarques" />
                 <Label text="Date de la consultation" />
                 <DatePicker fx:id="TfdatePicker" />
-                <Label text="ID Thérapeute" />
-                <TextField fx:id="Tftherapeute" />
                 <Label text="Heure de la consultation" />
                 <TextField fx:id="tfheure" />
                 <Label text="Minute de la consultation" />

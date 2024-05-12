@@ -26,12 +26,6 @@
                                 <Insets top="10" />
                             </padding>
                             <children>
-                                <Button fx:id="ajout" mnemonicParsing="false" onAction="#ajoutf" styleClass="card-button" text="Ajouter Fiche">
-                                    <stylesheets>
-                                        <URL value="@../../css/style.css" />
-                                        <URL value="@../../css/styleDashbord.css" />
-                                    </stylesheets>
-                                </Button>
                                 <Button mnemonicParsing="false" onAction="#showDisplayConsultations" styleClass="card-button" text="Consultations">
                                     <stylesheets>
                                         <URL value="@../../css/style.css" />

@@ -1,7 +1,9 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
 import entities.Consultation;
 import entities.Notification;
+import entities.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,7 +31,11 @@ public class UpcomingConsultationChecker {
 
     public void checkUpcomingConsultations() {
         try {
-            List<Consultation> upcomingConsultations = serviceConsultation.getUpcomingConsultations();
+            User currentUser = Session.getUser();
+            if (currentUser == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+            }
+            List<Consultation> upcomingConsultations = serviceConsultation.getUpcomingConsultations(currentUser);
             if (!upcomingConsultations.isEmpty()) {
                 System.out.println("found upcoming consultations");
                 for (Consultation consultation : upcomingConsultations) {
@@ -88,5 +94,12 @@ public class UpcomingConsultationChecker {
 
     public List<Notification> getNotifications() {
         return notifications;
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

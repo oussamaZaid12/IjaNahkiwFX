@@ -2,6 +2,7 @@ package services;
 
 import entities.Consultation;
 import entities.FicheMedicale;
+import entities.User;
 import utils.MyDB;
 
 import java.sql.*;
@@ -80,14 +81,15 @@ public class ServiceConsultation implements IService<Consultation> {
         }
         return consultations;
     }
-    public List<Consultation> getConsultationsForMonth(int year, int month) throws SQLException {
+    public List<Consultation> getConsultationsForMonth(int year, int month, User user) throws SQLException {
         List<Consultation> consultations = new ArrayList<>();
 
-        String query = "SELECT * FROM consultation WHERE YEAR(date_c) = ? AND MONTH(date_c) = ?";
+        String query = "SELECT * FROM consultation WHERE YEAR(date_c) = ? AND MONTH(date_c) = ? AND idt_id = ?";
 
-             PreparedStatement statement = con.prepareStatement(query);
+        try (PreparedStatement statement = con.prepareStatement(query)) {
             statement.setInt(1, year);
             statement.setInt(2, month);
+            statement.setInt(3, user.getId());
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -104,15 +106,50 @@ public class ServiceConsultation implements IService<Consultation> {
                     consultations.add(consultation);
                 }
             }
+        }
 
         return consultations;
     }
 
 
-    public int getConfirmedConsultationCount() throws SQLException {
-        String query = "SELECT COUNT(*) FROM consultation WHERE confirmation = ?";
+    public List<Consultation> getConsultationsForMonthPatient(int year, int month, User user) throws SQLException {
+        List<Consultation> consultations = new ArrayList<>();
+
+        String query = "SELECT * FROM consultation WHERE YEAR(date_c) = ? AND MONTH(date_c) = ? AND idp_id = ?";
+
+        try (PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setInt(1, year);
+            statement.setInt(2, month);
+            statement.setInt(3, user.getId());
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Consultation consultation = new Consultation();
+                    consultation.setId(resultSet.getInt("id"));
+                    consultation.setIdp(resultSet.getInt("idp_id"));
+                    consultation.setIdt(resultSet.getInt("idt_id"));
+                    consultation.setDateC(resultSet.getObject("date_c", LocalDateTime.class));
+                    consultation.setPathologie(resultSet.getString("pathologie"));
+                    consultation.setRemarques(resultSet.getString("remarques"));
+                    consultation.setConfirmation(resultSet.getBoolean("confirmation"));
+                    consultation.setFiche(resultSet.getInt("fichemedicale_id"));
+
+                    consultations.add(consultation);
+                }
+            }
+        }
+
+        return consultations;
+    }
+
+
+
+    public int getConfirmedConsultationCount(User user) throws SQLException {
+        String query = "SELECT COUNT(*) FROM consultation WHERE confirmation = ? AND idt_id = ?";
         try (PreparedStatement statement = con.prepareStatement(query)) {
             statement.setBoolean(1, true);
+            statement.setInt(2, user.getId());
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt(1);
@@ -122,10 +159,11 @@ public class ServiceConsultation implements IService<Consultation> {
         return 0; // Return 0 if no confirmed consultations found
     }
 
-    public int getNonConfirmedConsultationCount() throws SQLException {
-        String query = "SELECT COUNT(*) FROM consultation WHERE confirmation = ?";
+    public int getNonConfirmedConsultationCount(User user) throws SQLException {
+        String query = "SELECT COUNT(*) FROM consultation WHERE confirmation = ? AND idt_id = ?";
         try (PreparedStatement statement = con.prepareStatement(query)) {
             statement.setBoolean(1, false);
+            statement.setInt(2, user.getId());
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt(1);
@@ -203,15 +241,17 @@ public class ServiceConsultation implements IService<Consultation> {
         }
         return consultations;
     }
-    public List<Consultation> getUpcomingConsultations() throws SQLException {
+    public List<Consultation> getUpcomingConsultations(User user) throws SQLException {
         List<Consultation> upcomingConsultations = new ArrayList<>();
-        String query = "SELECT * FROM consultation WHERE date_c >= ? AND date_c < ?";
+        String query = "SELECT * FROM consultation WHERE date_c >= ? AND date_c < ?  AND idp_id = ?";
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime tomorrow = now.plusDays(1);
 
         try (PreparedStatement statement = con.prepareStatement(query)) {
             statement.setObject(1, now);
             statement.setObject(2, tomorrow);
+            statement.setInt(3, user.getId());
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Consultation consultation = new Consultation();

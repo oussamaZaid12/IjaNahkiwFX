@@ -51,10 +51,6 @@ public class EditConsultation {
 
         tfpathologie.setText(consultation.getPathologie());
         tfremarques.setText(consultation.getRemarques());
-        //Tfidpatient.setText(String.valueOf(consultation.getIdp()));
-        Tftherapeute.setText(String.valueOf(consultation.getIdt()));
-     //   tffiche.setText(String.valueOf(consultation.getFiche()));
-
         // Extract hour and minute from LocalDateTime
         LocalDateTime dateTime = consultation.getDateC();
         int hour = dateTime.getHour();

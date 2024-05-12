@@ -117,8 +117,6 @@ public class Cardconsultation {
                 System.out.println("pas de fiche trouvée");
                 serviceFiche.createFicheByTherapistAndPatientId(idp, idt);
                 System.out.println("Fiche créée dans la base: ");}
-
-
             ServiceConsultation serviceConsultation = new ServiceConsultation();
             serviceConsultation.modifyFicheMedicaleId(currentConsultation.getId(), fiche.getId());
             System.out.println("Consultation modifiée dans la base");

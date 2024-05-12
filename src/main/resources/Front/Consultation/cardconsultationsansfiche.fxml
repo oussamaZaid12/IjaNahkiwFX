@@ -17,13 +17,12 @@
             <children>
                 <Label fx:id="PathologieCons" styleClass="card-description" text="Pathologie" />
                 <Label fx:id="dateCons" styleClass="card-description" text="Date" />
-                <Label fx:id="idPatient" styleClass="card-description" text="ID Patient" />
-                <Label fx:id="idTherapeute" styleClass="card-description" text="ID Thérapeute" />
+                <Label fx:id="idPatient" styleClass="card-description" text="Patient" />
                 <Label fx:id="remarques" styleClass="card-description" text="Remarques" />
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
 
-                        <Button mnemonicParsing="false" onAction="#AttribuerFiche" styleClass="card-button" stylesheets="@../../css/style.css" text="Attribuer une fiche" style="-fx-background-color: #E0C0AD;" />
+                        <Button mnemonicParsing="false" onAction="#AttribuerFiche" style="-fx-background-color: #E0C0AD;" styleClass="card-button" stylesheets="@../../css/style.css" text="Attribuer une fiche" />
                         <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDeleteAction" styleClass="label-like-button">
                             <HBox.margin>
                                 <Insets left="230.0" />
@@ -60,4 +59,3 @@
     </stylesheets>
 
 </AnchorPane>
-

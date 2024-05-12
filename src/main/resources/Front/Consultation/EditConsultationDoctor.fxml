@@ -18,16 +18,10 @@
                 <TextField fx:id="tfremarques" />
                 <Label disable="true" text="Date de la consultation" />
                 <DatePicker fx:id="TfdatePicker" />
-                <Label disable="true" text="ID Patient" />
-                <TextField fx:id="Tfidpatient" />
-                <Label disable="true" text="ID Thérapeute" />
-                <TextField fx:id="Tftherapeute" />
                 <Label disable="true" text="Heure de la consultation" />
                 <TextField fx:id="tfheure" />
                 <Label disable="true" text="Minute de la consultation" />
                 <TextField fx:id="tfminute" />
-                <Label disable="true" text="Fiche medicale de la consultation" />
-                <TextField fx:id="tffiche" />
                 <CheckBox fx:id="confirmationCheckBox" text="Confirmation" />
                 <Button fx:id="TfValider" onAction="#ModifierConsultation" styleClass="card-button" text="Modifier" />
             </children>

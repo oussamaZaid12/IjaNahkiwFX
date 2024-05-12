@@ -1,5 +1,7 @@
 package Controllers.Consultation;
 
+import Controllers.User.Session;
+import entities.User;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -37,16 +40,21 @@ public class Stat implements Initializable {
     // Method to initialize the pie chart
     private void initializePieChart() {
         // Fetch data for confirmed and non-confirmed consultations from your data source
+        User currentUser = Session.getUser();
+        if (currentUser == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur de session", "Aucun utilisateur connecté.");
+            return;
+        }
         ServiceConsultation consultationService = new ServiceConsultation();
         int confirmedCount = 0;
         try {
-            confirmedCount = consultationService.getConfirmedConsultationCount();
+            confirmedCount = consultationService.getConfirmedConsultationCount(currentUser);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         int nonConfirmedCount = 0;
         try {
-            nonConfirmedCount = consultationService.getNonConfirmedConsultationCount();
+            nonConfirmedCount = consultationService.getNonConfirmedConsultationCount(currentUser);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -93,5 +101,12 @@ public class Stat implements Initializable {
     // Method to handle showing the pie chart
     public void showPieChart() {
         initializePieChart();
+    }
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

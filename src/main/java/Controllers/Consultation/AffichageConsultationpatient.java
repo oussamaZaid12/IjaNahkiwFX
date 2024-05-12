@@ -1,5 +1,6 @@
 package Controllers.Consultation;
 
+import Controllers.Notification.NotificationWindowController;
 import Controllers.User.Session;
 import entities.Consultation;
 import entities.User;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import services.ServiceConsultation;
+import services.ServiceNotification;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +34,11 @@ public class AffichageConsultationpatient {
     @FXML
     private TextField searchField;
     private final ServiceConsultation serviceConsultation = new ServiceConsultation();
+    private ServiceNotification serviceNotification = new ServiceNotification();
+
+    public void setServiceNotification(ServiceNotification serviceNotification) {
+        this.serviceNotification = serviceNotification;
+    }
 
 
     @FXML
@@ -43,6 +50,24 @@ public class AffichageConsultationpatient {
         });
     }
 
+    @FXML
+    private void showNotificationWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/NotificationWindow.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Notifications");
+
+            NotificationWindowController notificationWindowController = loader.getController();
+            notificationWindowController.setServiceNotification(serviceNotification);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
     private void loadConsultations(String searchTerm) {
         try {
             User currentUser = Session.getUser();

@@ -61,15 +61,6 @@ public class EditConsultationDoctor {
         tfremarques.setText(consultation.getRemarques());
         tfremarques.setEditable(false);
 
-        Tfidpatient.setText(String.valueOf(consultation.getIdp()));
-        Tfidpatient.setEditable(false);
-
-        Tftherapeute.setText(String.valueOf(consultation.getIdt()));
-        Tftherapeute.setEditable(false);
-
-        tffiche.setText(String.valueOf(consultation.getFiche()));
-        tffiche.setEditable(false);
-
         confirmationCheckBox.setSelected(consultation.isConfirmation());
 
         // Extract hour and minute from LocalDateTime

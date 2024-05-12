@@ -36,17 +36,10 @@ public class EditFiche {
 
     public void setFiche(FicheMedicale currentFiche) {
         this.currentFiche = currentFiche;
-        tfidp.setText(String.valueOf(currentFiche.getIdp()));
-        tfidt.setText(String.valueOf(currentFiche.getIdt()));
-
-        // Extract year, month, and day components from java.sql.Date
         Date dateCreation = (Date) currentFiche.getDateCreation();
         LocalDate localDateCreation = LocalDate.of(dateCreation.getYear() + 1900, dateCreation.getMonth() + 1, dateCreation.getDate());
-
         Date dateMiseAjout = (Date) currentFiche.getDerniereMaj();
         LocalDate localDateMiseAjout = LocalDate.of(dateMiseAjout.getYear() + 1900, dateMiseAjout.getMonth() + 1, dateMiseAjout.getDate());
-
-        // Set the values of the DatePicker components
         tfdatedecreation.setValue(localDateCreation);
         tfdatemiseajour.setValue(localDateMiseAjout);
     }
@@ -61,8 +54,8 @@ public class EditFiche {
             }
             int idUser = currentUser.getId();
             // Parse IDs from text fields
-            int id = Integer.parseInt(tfid.getText());
-            int idp = Integer.parseInt(tfidp.getText());
+          //  int id = Integer.parseInt(tfid.getText());
+          //  int idp = Integer.parseInt(tfidp.getText());
             //  int idt = Integer.parseInt(tfidt.getText());
 
             // Retrieve and validate dates
@@ -85,8 +78,8 @@ public class EditFiche {
             }
 
             // Set updated values to currentFiche
-            currentFiche.setId(id);
-            currentFiche.setIdp(idp);
+          //  currentFiche.setId(id);
+        //    currentFiche.setIdp(idp);
             currentFiche.setIdt(idUser);
             currentFiche.setDateCreation(Date.valueOf(dateCreation));
             currentFiche.setDerniereMaj(Date.valueOf(dateMiseAjout));

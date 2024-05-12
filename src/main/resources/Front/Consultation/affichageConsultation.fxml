@@ -31,7 +31,6 @@
                                 <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" styleClass="card-button" text="Afficher Calendrier" />
                                 <Button mnemonicParsing="false" onAction="#refreshConsultationsView" styleClass="card-button" text="Consultations" />
                                 <Button mnemonicParsing="false" onAction="#showDisplayFiches" styleClass="card-button" text="Fiches" />
-                                <Button fx:id="notificationsButton" mnemonicParsing="false" onAction="#showNotificationWindow" styleClass="card-button" text="Notifications" />
                                 <Button fx:id="stat" mnemonicParsing="false" onAction="#showstat" styleClass="card-button" text="Statistiques" />
                             </children>
                         </HBox>

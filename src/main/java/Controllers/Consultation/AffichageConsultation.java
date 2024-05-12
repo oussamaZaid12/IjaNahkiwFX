@@ -41,24 +41,7 @@ public class AffichageConsultation {
         this.serviceNotification = serviceNotification;
     }
 
-    @FXML
-    private void showNotificationWindow() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Consultation/NotificationWindow.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Notifications");
 
-            NotificationWindowController notificationWindowController = loader.getController();
-            notificationWindowController.setServiceNotification(serviceNotification);
-
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
 
     @FXML
     private void initialize() {

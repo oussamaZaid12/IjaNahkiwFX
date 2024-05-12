@@ -15,9 +15,9 @@
         <VBox layoutX="5.0" prefHeight="219.0" prefWidth="592.0" spacing="5" styleClass="card-container">
             <children>
                 <ImageView fx:id="imageuser" fitHeight="199.0" fitWidth="222.0" preserveRatio="true" />
-                <Label fx:id="nom" styleClass="card-description" text="nom" />
-                <Label fx:id="prenom" styleClass="card-description" text="prenom" />
-                <Label fx:id="email" styleClass="card-description" text="email" />
+                <Label fx:id="Nom:" styleClass="card-description" text="nom" />
+                <Label fx:id="Prenom:" styleClass="card-description" text="prenom" />
+                <Label fx:id="Email:" styleClass="card-description" text="email" />
                 <Button fx:id="reserverConsultation" mnemonicParsing="false" onAction="#handleReserverConsultation" prefHeight="38.0" prefWidth="145.0" text="Reserver" textFill="#107191">
                     <font>
                         <Font name="Candara" size="20.0" />

@@ -24,6 +24,7 @@
                 <VBox prefHeight="715.0" prefWidth="707.0">
                     <children>
                   <Button fx:id="calend" mnemonicParsing="false" onAction="#ShowCalendar" styleClass="card-button" text="Afficher Calendrier" />
+                  <Button fx:id="notificationsButton" mnemonicParsing="false" onAction="#showNotificationWindow" styleClass="card-button" text="Notifications" />
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="78.0" prefWidth="728.0" text="Liste Des Consultations" textFill="#4c8ea6">
                             <font>
                                 <Font size="28.0" />

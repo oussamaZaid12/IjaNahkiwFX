@@ -526,7 +526,7 @@ public boolean verifyCode(String code) {
     public List<User> getTherapistUsers() {
         List<User> list = new ArrayList<>();
         try {
-            String req = "SELECT * FROM `user` WHERE roles = '[\"ROLE_THERAPEUTE\"]'";
+            String req = "SELECT * FROM `user` WHERE roles = '[\"ROLE_THERAPEUTE\"]' AND id!=0";
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(req);
 
