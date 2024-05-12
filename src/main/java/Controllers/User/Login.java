@@ -105,7 +105,7 @@ public class Login {
         String storedPassword = u.getPassword();
 
         // Check if the entered password matches the stored password hash
-        boolean passwordMatch = BCrypt.checkpw(passwordTextfield.getText(), storedPassword);
+        boolean passwordMatch = checkPassword(passwordTextfield.getText(), storedPassword);
         logger.info("Password entered by user: " + passwordTextfield.getText());
         logger.info("Password stored in database: " + storedPassword);
         logger.info("Password match: " + passwordMatch);
@@ -154,5 +154,7 @@ public class Login {
             prefs.put("password", password);
         }
     }
-
+    private boolean checkPassword(String plainPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainPassword, hashedPassword.replaceFirst("^\\$2y\\$", "\\$2a\\$"));
+    }
 }
