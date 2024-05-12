@@ -99,8 +99,8 @@ public class EditConsultationDoctor {
             try {
                 heure = Integer.parseInt(tfheure.getText());
                 minute = Integer.parseInt(tfminute.getText());
-                idTherapeute = Integer.parseInt(Tftherapeute.getText());
-                fiche = Integer.parseInt(tffiche.getText());
+           //     idTherapeute = Integer.parseInt(Tftherapeute.getText());
+             //   fiche = Integer.parseInt(tffiche.getText());
             } catch (NumberFormatException e) {
                 showAlert("Input Error", "Please ensure that all inputs are numeric.");
                 return;
@@ -122,10 +122,10 @@ public class EditConsultationDoctor {
             LocalDateTime dateTime = LocalDateTime.of(dateLocal, LocalTime.of(heure, minute));
             currentConsultation.setPathologie(pathologie);
             currentConsultation.setRemarques(remarques);
-            currentConsultation.setIdp(idUser);
-            currentConsultation.setIdt(idTherapeute);
+        //    currentConsultation.setIdp(idUser);
+         //   currentConsultation.setIdt(idTherapeute);
             currentConsultation.setDateC(dateTime);
-            currentConsultation.setFiche(fiche);
+            //currentConsultation.setFiche(fiche);
             currentConsultation.setConfirmation(confirmationCheckBox.isSelected()); // Set the confirmation status
 
             serviceConsultation.modifier(currentConsultation);
