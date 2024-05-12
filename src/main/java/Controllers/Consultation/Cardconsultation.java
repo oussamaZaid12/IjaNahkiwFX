@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import services.ServiceConsultation;
 import services.ServiceFicheMedicale;
+import services.UserService;
 import test.MainFX;
 
 import java.io.IOException;
@@ -53,8 +54,10 @@ public class Cardconsultation {
         this.currentConsultation = consultation;
         PathologieCons.setText("Pathologie:" + consultation.getPathologie());
         dateCons.setText("Date de consultation:" +consultation.getDateC().toString());
-        idPatient.setText("ID Patient:" +String.valueOf(consultation.getIdp()));
-        idTherapeute.setText("ID Therapeute:" +String.valueOf(consultation.getIdt()));
+        UserService serv = new UserService();
+        String email = serv.getUserById(consultation.getIdp()).getEmail();
+        idPatient.setText("ID Patient:" +email);
+        //idTherapeute.setText("ID Therapeute:" +String.valueOf(consultation.getIdt()));
         remarques.setText("Remarques:" +consultation.getRemarques());
     }
 
@@ -65,7 +68,6 @@ public class Cardconsultation {
             Parent root = loader.load();
             EditConsultationDoctor controller = loader.getController();
             controller.setConsultation(this.currentConsultation);
-            //  MainFX.setCenterView(root);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();

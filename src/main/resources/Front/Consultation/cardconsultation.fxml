@@ -15,10 +15,9 @@
     <children>
         <VBox layoutX="5.0" prefHeight="219.0" prefWidth="592.0" spacing="5" styleClass="card-container">
             <children>
-                <Label fx:id="PathologieCons"  styleClass="card-description" text="Pathologie" />
+                <Label fx:id="PathologieCons" styleClass="card-description" text="Pathologie" />
                 <Label fx:id="dateCons" styleClass="card-description" text="Date" />
-                <Label fx:id="idPatient" styleClass="card-description" text="ID Patient" />
-                <Label fx:id="idTherapeute" styleClass="card-description" text="ID Thérapeute" />
+                <Label fx:id="idPatient" styleClass="card-description" text="Patient" />
                 <Label fx:id="remarques" styleClass="card-description" text="Remarques" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>

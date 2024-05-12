@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import services.ServiceConsultation;
+import services.UserService;
 import test.MainFX;
 
 import java.io.IOException;
@@ -63,8 +64,9 @@ public class CardconsultationPatient {
         this.currentConsultation = consultation;
         PathologieCons.setText("Pathologie:" + consultation.getPathologie());
         dateCons.setText("Date de consultation:" +consultation.getDateC().toString());
-        idPatient.setText("ID Patient:" +String.valueOf(consultation.getIdp()));
-        idTherapeute.setText("ID Therapeute:" +String.valueOf(consultation.getIdt()));
+        UserService serv = new UserService();
+        String email = serv.getUserById(consultation.getIdt()).getEmail();
+        idTherapeute.setText("ID Therapeute:" +email);
         remarques.setText("Remarques:" +consultation.getRemarques());
     }
 

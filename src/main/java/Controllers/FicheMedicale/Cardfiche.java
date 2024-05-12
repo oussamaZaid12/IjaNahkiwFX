@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import services.ServiceConsultation;
 import services.ServiceFicheMedicale;
+import services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,9 +60,12 @@ public class Cardfiche {
         this.currentFiche = fiche;
         tfdatecreation.setText("date de creation:" +currentFiche.getDateCreation().toString());
         tfdatemiseajour.setText("date de derniere maj:" +currentFiche.getDerniereMaj().toString());
-        tfid.setText(String.valueOf("id fiche:" +currentFiche.getId()));
-        tfidp.setText(String.valueOf("id patient:" +currentFiche.getIdp()));
-        tfidt.setText(String.valueOf("id therapeute:" +currentFiche.getIdt()));
+
+        //tfid.setText(String.valueOf("id fiche:" +currentFiche.getId()));
+        UserService serv = new UserService();
+        String email = serv.getUserById(fiche.getIdt()).getEmail();
+        tfidp.setText(String.valueOf("patient:" +email));
+       // tfidt.setText(String.valueOf("id therapeute:" +currentFiche.getIdt()));
 
         // Display consultations associated with the current FicheMedicale
         displayConsultations();
