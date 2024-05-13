@@ -39,8 +39,8 @@ public class EditConsultation {
     @FXML
     private TextField tfremarques;
 
- //   @FXML
-   // private TextField tffiche;
+    //   @FXML
+    // private TextField tffiche;
     @FXML
     private CheckBox confirmationCheckBox;
     private Consultation currentConsultation;
@@ -87,8 +87,8 @@ public class EditConsultation {
             try {
                 heure = Integer.parseInt(tfheure.getText());
                 minute = Integer.parseInt(tfminute.getText());
-               // idPatient = Integer.parseInt(Tfidpatient.getText());
-                idTherapeute = Integer.parseInt(Tftherapeute.getText());
+                // idPatient = Integer.parseInt(Tfidpatient.getText());
+                //    idTherapeute = Integer.parseInt(Tftherapeute.getText());
             } catch (NumberFormatException e) {
                 showAlert("Input Error", "Please ensure that all inputs are numeric.");
                 return;
@@ -110,8 +110,8 @@ public class EditConsultation {
             LocalDateTime dateTime = LocalDateTime.of(dateLocal, LocalTime.of(heure, minute));
             currentConsultation.setPathologie(pathologie);
             currentConsultation.setRemarques(remarques);
-            currentConsultation.setIdp(idUser);
-            currentConsultation.setIdt(idTherapeute);
+            //  currentConsultation.setIdp(idUser);
+            //    currentConsultation.setIdt(idTherapeute);
             currentConsultation.setDateC(dateTime);
             serviceConsultation.modifier(currentConsultation);
             showAlert("Success", "Consultation has been updated successfully.");

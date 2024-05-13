@@ -26,7 +26,7 @@
                </font>
             </Label>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <Button mnemonicParsing="false" onAction="#showCallClient" prefHeight="46.0" prefWidth="95.0" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css" text="Button">
+            <Button mnemonicParsing="false" onAction="#showCallT" prefHeight="46.0" prefWidth="95.0" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css" text="Button">
                <graphic>
                   <ImageView fitHeight="99.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -61,18 +61,17 @@
                </opaqueInsets>
             </HBox>
             <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="42.0" prefWidth="7.0" />
-            <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="42.0" prefWidth="7.0" />
-            <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="182.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="207.0">
                <children>
                   <ImageView fitHeight="41.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/doctoricon.png" />
+                     </image>
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
-                     <image>
-                        <Image url="@../images/patienticon.png" />
-                     </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" onAction="#showDisplayTherapists" prefHeight="38.0" prefWidth="90.0" text="Patient" textFill="#107191">
+                  <Button mnemonicParsing="false" onAction="#showDisplayConsultations" prefHeight="38.0" prefWidth="101.0" text="Doctors" textFill="#107191">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -86,6 +85,7 @@
                   <Insets />
                </opaqueInsets>
             </HBox>
+            <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="42.0" prefWidth="7.0" />
             <Separator maxHeight="-Infinity" orientation="VERTICAL" prefHeight="42.0" prefWidth="7.0" />
             <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="207.0">
                <children>

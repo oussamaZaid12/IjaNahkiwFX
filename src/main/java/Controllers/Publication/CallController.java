@@ -1,9 +1,16 @@
 package Controllers.Publication;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -99,8 +106,8 @@ public class CallController {
         running = true; // Autoriser la capture et l'envoi
         new Thread(() -> {
 
-            try (Socket videoSocket = new Socket("192.168.192.112", 6000);
-                 Socket audioSocket = new Socket("192.168.192.112", 6001)) {
+            try (Socket videoSocket = new Socket("192.168.192.238", 6000);
+                 Socket audioSocket = new Socket("192.168.192.238", 6001)) {
 
 
                 DataInputStream in = new DataInputStream(videoSocket.getInputStream());
@@ -206,6 +213,45 @@ public class CallController {
                 Image img = new Image(new ByteArrayInputStream(buffer));
                 Platform.runLater(() -> remoteVideo.setImage(img));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void showchatclient(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/client/client-view.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage for the chat window
+            Stage chatStage = new Stage();
+            chatStage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow()); // Set main window as owner
+            chatStage.setScene(new Scene(root));
+            chatStage.setTitle("Server Chat");
+
+            // Set modality to NONE
+            chatStage.initModality(Modality.NONE);
+
+            chatStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showchatserver(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/server/server-view.fxml"));
+            Parent root = loader.load();
+
+            // Create a new stage for the chat window
+            Stage chatStage = new Stage();
+            chatStage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow()); // Set main window as owner
+            chatStage.setScene(new Scene(root));
+            chatStage.setTitle("Server Chat");
+
+            // Set modality to NONE
+            chatStage.initModality(Modality.NONE);
+
+            chatStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -15,15 +15,15 @@
       </ImageView>
         <ImageView fx:id="localVideo" fitHeight="366.0" fitWidth="427.0" layoutX="99.0" layoutY="139.0" />
         <ImageView fx:id="remoteVideo" fitHeight="366.0" fitWidth="406.0" layoutX="786.0" layoutY="142.0" />
-        <Button layoutX="218.0" layoutY="613.0" onAction="#handleStartServer" prefHeight="43.0" prefWidth="43.0" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css" />
-        <Button layoutX="998.0" layoutY="612.0" onAction="#handleStartClient" prefWidth="144.0" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css">
+        <Button layoutX="218.0" layoutY="613.0" onAction="#handleStartServer" prefHeight="43.0" prefWidth="43.0" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css">
          <graphic>
-            <ImageView fitHeight="65.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/startcallIcon.png" />
                </image>
             </ImageView>
          </graphic></Button>
+        <Button layoutX="998.0" layoutY="612.0" onAction="#handleStartClient" prefWidth="144.0" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css" />
         <Button layoutX="637.0" layoutY="619.0" onAction="#handleStop" prefHeight="58.0" prefWidth="72.0" styleClass="label-like-button" stylesheets="@../css/styleDashbord.css" text="Stop">
          <graphic>
             <ImageView fitHeight="65.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">

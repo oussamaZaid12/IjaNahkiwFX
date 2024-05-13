@@ -127,7 +127,7 @@ public class Login {
             if (u.getRole() == Role.ROLE_ADMIN) {
                 navigateTo("/Back/Dashboard.fxml");
             } else if (u.getRole() == Role.ROLE_THERAPEUTE) {
-                navigateTo("/Front/NavBar.fxml");
+                navigateTo("/Front/NavBarT.fxml");
             } else {
                 navigateTo("/Front/NavBar.fxml");
             }
