@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="736.0" prefWidth="1596.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Publication.CallController">
     <children>
-      <ImageView fitHeight="732.0" fitWidth="1304.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="734.0" fitWidth="1619.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/callBKG.png" />
          </image>
@@ -44,7 +44,7 @@
             <Image url="@../images/535135.png" />
          </image>
       </ImageView>
-        <Button fx:id="tfserver" layoutX="1416.0" layoutY="99.0" mnemonicParsing="false" onAction="#showchatserver" prefHeight="50.0" prefWidth="117.0" styleClass="card-button" text="Server" />
+        <Button fx:id="tfserver" layoutX="1356.0" layoutY="145.0" mnemonicParsing="false" onAction="#showchatserver" prefHeight="50.0" prefWidth="148.0" styleClass="card-button" stylesheets="@../css/cardPub.css" text="start conversation" />
 
     </children>
    <opaqueInsets>
