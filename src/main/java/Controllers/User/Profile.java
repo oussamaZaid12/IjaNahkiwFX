@@ -67,7 +67,7 @@ public class Profile {
             // Chargement et affichage de l'image du profil
             if (user.getImage() != null && !user.getImage().isEmpty()) {
 
-                String imagePath = "C:\\Users\\Tifa\\Desktop\\pull2publication\\src\\main\\resources\\images\\" + user.getImage();
+                String imagePath = "C:\\Users\\oussa\\Desktop\\PI--java\\src\\main\\resources\\images\\" + user.getImage();
 
                 File file = new File(imagePath);
                 if (file.exists()) {

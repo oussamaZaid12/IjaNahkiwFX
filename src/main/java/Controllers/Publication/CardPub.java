@@ -25,6 +25,7 @@ import services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputFilter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -52,6 +53,8 @@ public class CardPub {
     private publication currentPublication;
     private AffichagePub affichagePubController;
     private ServiceCommentaire serviceCommentaire = new ServiceCommentaire();
+    private static final String IMAGES_DIR = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\";
+
 
 
     public void setAffichagePubController(AffichagePub controller) {
@@ -82,36 +85,20 @@ public class CardPub {
             idUserPub.setText(author.getNom() + " " + author.getPrenom());
 
             // Load the author's profile picture
-            String profileImagePath = "/images/" + author.getImage();
-            InputStream profileImageStream = getClass().getResourceAsStream(profileImagePath);
-
-            // Check if the input stream is null and assign a default image if necessary
-            if (profileImageStream != null) {
-                Image profileImage = new Image(profileImageStream);
-                photoprofil.setImage(profileImage);
-            } else {
-                // Use a default profile image when the specified image is not found
-                photoprofil.setImage(new Image(getClass().getResourceAsStream("/images/doctoricon.png")));
-            }
+            String profileImagePath = "file:/" + IMAGES_DIR + author.getImage();
+            Image profileImage = new Image(profileImagePath);
+            photoprofil.setImage(profileImage);
         } else {
             // Handle the case where the user cannot be found
             idUserPub.setText("Auteur inconnu");
-            photoprofil.setImage(new Image(getClass().getResourceAsStream("/images/doctoricon.png")));
+            // Use a default profile image when the specified image is not found
+            photoprofil.setImage(new Image("file:/" + IMAGES_DIR + "default_user.png"));
         }
 
         // Load publication image
-        String imagePath = "/images/" + publication.getImageP();
-        InputStream imageStream = getClass().getResourceAsStream(imagePath);
-
-        // Check if the input stream is null and assign a default image if necessary
-        if (imageStream != null) {
-            Image image = new Image(imageStream);
-            imagePub.setImage(image);
-        } else {
-            // Use a default image for the publication if the specified image is not found
-            imagePub.setImage(new Image(getClass().getResourceAsStream("/images/bkg2.png")));
-        }
-
+        String publicationImagePath = "file:/" + IMAGES_DIR + publication.getImageP();
+        Image publicationImage = new Image(publicationImagePath);
+        imagePub.setImage(publicationImage);
         updateButtonVisibility();
         updateWarningIconVisibility();
     }

@@ -57,6 +57,8 @@ public class DetailPublication {
 
     private ServiceCommentaire serviceCommentaire = new ServiceCommentaire();
     private ServiceLike serviceLike = new ServiceLike();
+    private static final String IMAGES_DIR = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\";
+
 
 
     public void setPublication(publication pub) {
@@ -64,11 +66,16 @@ public class DetailPublication {
         titrePubDetails.setText(pub.getTitreP());
         descriptionPubDetails.setText(pub.getDescriptionP());
         datePubDetails.setText(pub.getDateP().toString());
-        Image image = new Image(getClass().getResourceAsStream("/images/" + pub.getImageP()));
+
+        // Correct way to load images from a filesystem in JavaFX
+        String imagePath = "file:/" + IMAGES_DIR + pub.getImageP().replace("\\", "/");
+        Image image = new Image(imagePath);
         imagePubDetails.setImage(image);
+
         displayComments();
         updateView();
     }
+
 
     @FXML
     void handleAddComment(ActionEvent event) {

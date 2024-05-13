@@ -1,229 +1,30 @@
-package Controllers.Publication;
+public void setPublication(publication publication) {
+    this.currentPublication = publication;
+    titrePub.setText(publication.getTitreP());
+    descriptionPub.setText(publication.getDescriptionP());
+    datePub.setText(publication.getDateP().toString());
 
-import Controllers.User.Session;
-import entities.Commentaire;
-import entities.User;
-import entities.publication;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import services.ServiceCommentaire;
-import services.ServiceLike;
-import Controllers.User.Session;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
+    // Retrieve user information based on the user ID in the publication
+    UserService serviceUser = new UserService();
+    User author = serviceUser.getUserById(publication.getIdUserId());
 
+    if (author != null) {
+        // Display the author's name and surname
+        idUserPub.setText(author.getNom() + " " + author.getPrenom());
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.List;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
-
-public class DetailPublication {
-
-    @FXML private TextField tfAddComment;
-    @FXML private Label datePubDetails, descriptionPubDetails, likeCountLabel, dislikeCountLabel;
-    @FXML private ImageView imagePubDetails;
-    @FXML private VBox commentsContainer;
-    @FXML private AnchorPane detailsPubPane;
-    @FXML
-    private Label titrePubDetails;
-
-    private publication currentPublication;
-
-    private ServiceCommentaire serviceCommentaire = new ServiceCommentaire();
-    private ServiceLike serviceLike = new ServiceLike();
-
-    public void setPublication(publication pub) {
-        currentPublication = pub;
-        titrePubDetails.setText(pub.getTitreP());
-        descriptionPubDetails.setText(pub.getDescriptionP());
-        datePubDetails.setText(pub.getDateP().toString());
-        Image image = new Image(getClass().getResourceAsStream("/images/" + pub.getImageP()));
-        imagePubDetails.setImage(image);
-        displayComments();
-        updateView();
-    }
-    @FXML
-    private void handleDownloadPDF(ActionEvent event) {
-        String path = System.getProperty("user.home") + "\\Desktop\\output.pdf";
-
-        try {
-            PdfWriter writer = new PdfWriter(path);
-            PdfDocument pdf = new PdfDocument(writer);
-            Document document = new Document(pdf);
-
-            // Adding a logo to the PDF
-            InputStream logoStream = getClass().getResourceAsStream("/images/logo ff.png"); // Adjust the path to where your logo is stored
-            if (logoStream != null) {
-                byte[] logoData = logoStream.readAllBytes();
-                ImageData logo = ImageDataFactory.create(logoData);
-                com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(logo);
-
-                pdfImage.setWidth(50); // Set the width as per your requirement
-                pdfImage.setHeight(50); // Set the height as per your requirement
-                document.add(pdfImage);
-            }
-
-            document.add(new Paragraph("Title: " + titrePubDetails.getText()));
-
-
-            InputStream imageStream = getClass().getResourceAsStream("/images/" + currentPublication.getImageP());
-            if (imageStream != null) {
-                byte[] imageData = imageStream.readAllBytes();
-                ImageData data = ImageDataFactory.create(imageData);
-                // Use fully qualified name for iText Image
-                com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(data);
-                document.add(pdfImage); // Add the image to the document
-            }
-            document.add(new Paragraph("Description: " + descriptionPubDetails.getText()));
-            document.add(new Paragraph("Date: " + datePubDetails.getText()));
-            document.close();
-            showAlert("Success", "PDF created successfully at " + path);
-        } catch (Exception e) {
-            showAlert("Error", "Failed to create PDF. " + e.getMessage());
-        }
-
+        // Load the author's profile picture
+        String profileImagePath = "file:/" + IMAGES_DIR + author.getImage();
+        Image profileImage = new Image(profileImagePath);
+        photoprofil.setImage(profileImage);
+    } else {
+        // Handle the case where the user cannot be found
+        idUserPub.setText("Auteur inconnu");
+        // Use a default profile image when the specified image is not found
+        photoprofil.setImage(new Image("file:/" + IMAGES_DIR + "default_user.png"));
     }
 
-    @FXML
-    void handleAddComment(ActionEvent event) {
-        User currentUser = Session.getUser();
-        if (currentUser == null) {
-            showAlert("Erreur", "Aucun utilisateur connecté. Veuillez vous connecter pour ajouter des commentaires.");
-            return;
-        }
-
-        try {
-            String contenu = tfAddComment.getText();
-            String filteredComment = filterProfanity(contenu);
-            Commentaire nouveauCommentaire = new Commentaire(currentPublication.getId(), filteredComment, currentUser.getId());
-            serviceCommentaire.ajouter(nouveauCommentaire);
-            displayComments();
-            tfAddComment.clear();
-            showAlert("Succès", "Commentaire ajouté avec succès !");
-        } catch (SQLException e) {
-            showAlert("Erreur", "Une erreur est survenue lors de l'ajout du commentaire: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private String filterProfanity(String text) {
-        String[] profanities = {"example", "badword"};  // Define your list of bad words
-        for (String word : profanities) {
-            text = text.replaceAll("(?i)" + word, "*".repeat(word.length()));
-        }
-        return text;
-    }
-
-    private void displayComments() {
-        try {
-            List<Commentaire> commentaires = serviceCommentaire.getCommentairesByPublication(currentPublication.getId());
-            commentsContainer.getChildren().clear();
-            for (Commentaire commentaire : commentaires) {
-                Node commentNode = createCommentNode(commentaire);
-                commentsContainer.getChildren().add(commentNode);
-            }
-        } catch (SQLException e) {
-            showAlert("Erreur", "Une erreur est survenue lors de l'affichage des commentaires: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private Node createCommentNode(Commentaire commentaire) {
-        HBox commentBox = new HBox(10); // Space between elements
-        Label commentLabel = new Label("User " + commentaire.getId_user() + ": " + commentaire.getContenu_c());
-        commentBox.getChildren().add(commentLabel);
-        return commentBox;
-    }
-
-    @FXML
-    private void handleLikeAction(ActionEvent event) {
-        modifyLikeStatus(true);
-    }
-
-    @FXML
-    private void handleDislikeAction(ActionEvent event) {
-        modifyLikeStatus(false);
-    }
-
-    private void modifyLikeStatus(boolean isLike) {
-        User currentUser = Session.getUser();
-        if (currentUser == null) {
-            showAlert("Error", "No user logged in.");
-            return;
-        }
-        try {
-            serviceLike.addOrUpdateLike(currentUser.getId(), currentPublication.getId(), isLike);
-            updateLikeDislikeCounts();
-        } catch (SQLException e) {
-            showAlert("Error", "An error occurred while updating the like status: " + e.getMessage());
-        }
-    }
-
-    private void updateLikeDislikeCounts() {
-        try {
-            int likes = serviceLike.countLikes(currentPublication.getId());
-            int dislikes = serviceLike.countDislikes(currentPublication.getId());
-            likeCountLabel.setText(String.valueOf(likes));
-            dislikeCountLabel.setText(String.valueOf(dislikes));
-        } catch (SQLException e) {
-            showAlert("Error", "Failed to update like/dislike counts: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    @FXML
-    public void ReturnShowPublications() {
-        try {
-            Node displayPubs = FXMLLoader.load(getClass().getResource("/Front/Publication/affichagePub.fxml"));
-            detailsPubPane.getChildren().setAll(displayPubs);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void updateView() {
-        // Assuming you want to refresh UI components that depend on the current publication
-        if (currentPublication != null) {
-            titrePubDetails.setText(currentPublication.getTitreP());
-            descriptionPubDetails.setText(currentPublication.getDescriptionP());
-            datePubDetails.setText(currentPublication.getDateP().toString());
-
-            try {
-                Image image = new Image(getClass().getResourceAsStream("/images/" + currentPublication.getImageP()));
-                imagePubDetails.setImage(image);
-            } catch (Exception e) {
-                showAlert("Error", "Failed to load publication image: " + e.getMessage());
-                imagePubDetails.setImage(new Image(getClass().getResourceAsStream("/images/default.png")));
-            }
-        }
-    }
-
+    // Load publication image
+    String publicationImagePath = "file:/" + IMAGES_DIR + publication.getImageP();
+    Image publicationImage = new Image(publicationImagePath);
+    imagePub.setImage(publicationImage);
 }
-
---module-path "C:\Program Files\Java\javafx-sdk-22\lib" --add-modules javafx.controls,javafx.fxml,javafx.media

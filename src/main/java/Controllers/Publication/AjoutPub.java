@@ -29,7 +29,7 @@ import java.time.LocalDate;
 
 public class AjoutPub {
 
-    private static final String IMAGES_DIR = "src/main/resources/images/";
+    private static final String IMAGES_DIR = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\";
     @FXML private DatePicker TfDate;
     @FXML private TextField TfDescription;
     @FXML private TextField TfTitre;
