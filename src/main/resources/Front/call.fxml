@@ -45,7 +45,6 @@
          </image>
       </ImageView>
         <Button fx:id="tfclient" layoutX="1410.0" layoutY="266.0" mnemonicParsing="false" onAction="#showchatclient" prefHeight="62.0" prefWidth="109.0" styleClass="card-button" text="Client" />
-        <Button fx:id="tfserver" layoutX="1416.0" layoutY="99.0" mnemonicParsing="false" onAction="#showchatserver" prefHeight="50.0" prefWidth="117.0" styleClass="card-button" text="Server" />
 
     </children>
    <opaqueInsets>
