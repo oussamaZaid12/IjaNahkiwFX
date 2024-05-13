@@ -15,7 +15,7 @@
     <children>
         <VBox layoutX="2.0" layoutY="2.0" prefHeight="234.0" prefWidth="646.0" spacing="5" styleClass="card-container">
             <children>
-                <Label fx:id="tfidp"  styleClass="card-description" text="Id patient" />
+                <Label fx:id="tfidp" styleClass="card-description" text="patient" />
                 <Label fx:id="tfdatecreation" styleClass="card-description" text="Date de creation" />
                 <Label fx:id="tfdatemiseajour" styleClass="card-description" text="Date de derniere mise à jour" />
                 <HBox prefHeight="100.0" prefWidth="200.0">

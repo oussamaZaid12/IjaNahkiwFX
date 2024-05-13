@@ -56,7 +56,7 @@ public class Cardconsultation {
         dateCons.setText("Date de consultation:" +consultation.getDateC().toString());
         UserService serv = new UserService();
         String email = serv.getUserById(consultation.getIdp()).getEmail();
-        idPatient.setText("ID Patient:" +email);
+        idPatient.setText("Email du Patient:" +email);
         //idTherapeute.setText("ID Therapeute:" +String.valueOf(consultation.getIdt()));
         remarques.setText("Remarques:" +consultation.getRemarques());
     }
