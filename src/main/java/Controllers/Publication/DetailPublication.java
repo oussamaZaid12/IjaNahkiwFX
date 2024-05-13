@@ -28,6 +28,7 @@ import services.ServiceCommentaire;
 import services.ServiceLike;
 import services.UserService;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -106,7 +107,7 @@ public class DetailPublication {
 
     // Implement a simple profanity filter
     private String filterProfanity(String text) {
-        String[] profanities = {"fuck", "bitch"}; // Define your list of bad words
+        String[] profanities = {"fuck", "bitch","zebi","fuckk","ass"}; // Define your list of bad words
         for (String word : profanities) {
             text = text.replaceAll("(?i)" + word, "*".repeat(word.length())); // Replace with asterisks
         }
@@ -200,28 +201,31 @@ public class DetailPublication {
             Document document = new Document(pdf);
 
             // Adding a logo to the PDF
-            InputStream logoStream = getClass().getResourceAsStream("/images/logo ff.png"); // Adjust the path to where your logo is stored
-            if (logoStream != null) {
-                byte[] logoData = logoStream.readAllBytes();
-                ImageData logo = ImageDataFactory.create(logoData);
+            try {
+                String logoPath = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\logo ff.png"; // Adjust the path to where your logo is stored
+                File logoFile = new File(logoPath);
+                ImageData logo = ImageDataFactory.create(logoFile.toURI().toString());
                 com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(logo);
 
                 pdfImage.setWidth(50); // Set the width as per your requirement
                 pdfImage.setHeight(50); // Set the height as per your requirement
                 document.add(pdfImage);
+            } catch (Exception e) {
+                System.out.println("Error loading logo image: " + e.getMessage());
             }
 
             document.add(new Paragraph("Title: " + titrePubDetails.getText()));
 
-
-            InputStream imageStream = getClass().getResourceAsStream("/images/" + currentPublication.getImageP());
-            if (imageStream != null) {
-                byte[] imageData = imageStream.readAllBytes();
-                ImageData data = ImageDataFactory.create(imageData);
-                // Use fully qualified name for iText Image
+            try {
+                String imagePath = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\" + currentPublication.getImageP();
+                File imageFile = new File(imagePath);
+                ImageData data = ImageDataFactory.create(imageFile.toURI().toString());
                 com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(data);
                 document.add(pdfImage); // Add the image to the document
+            } catch (Exception e) {
+                System.out.println("Error loading publication image: " + e.getMessage());
             }
+
             document.add(new Paragraph("Description: " + descriptionPubDetails.getText()));
             document.add(new Paragraph("Date: " + datePubDetails.getText()));
             document.close();
@@ -229,8 +233,10 @@ public class DetailPublication {
         } catch (Exception e) {
             showAlert("Error", "Failed to create PDF. " + e.getMessage());
         }
-
     }
+
+
+
 
 
     private void updateView() {
@@ -241,10 +247,12 @@ public class DetailPublication {
 
         // Load the image for the publication
         try {
-            Image image = new Image(getClass().getResourceAsStream("/images/" + currentPublication.getImageP()));
+            String imagePath = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\" + currentPublication.getImageP();
+            File file = new File(imagePath);
+            Image image = new Image(file.toURI().toString());
             imagePubDetails.setImage(image);
         } catch (Exception e) {
-            System.out.println("Error loading image: " + e.getMessage());
+            System.out.println("Error loading image from filesystem: " + e.getMessage());
             // Set a default image or handle the error
             imagePubDetails.setImage(new Image(getClass().getResourceAsStream("/images/default.png")));
         }
@@ -255,6 +263,7 @@ public class DetailPublication {
         // Update like and dislike counts on the UI
         updateLikeDislikeCounts();
     }
+
 
 
     @FXML
