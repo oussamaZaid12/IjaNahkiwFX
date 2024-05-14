@@ -15,6 +15,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import services.ServiceCommentaire;
 import services.ServiceLike;
 import services.UserService;
@@ -58,7 +61,7 @@ public class DetailPublication {
 
     private ServiceCommentaire serviceCommentaire = new ServiceCommentaire();
     private ServiceLike serviceLike = new ServiceLike();
-    private static final String IMAGES_DIR = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\";
+    private static final String IMAGES_DIR = "C:\\Users\\Tifa\\Desktop\\symfonypull13.02\\public\\upload-images\\";
 
 
 
@@ -202,7 +205,7 @@ public class DetailPublication {
 
             // Adding a logo to the PDF
             try {
-                String logoPath = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\logo ff.png"; // Adjust the path to where your logo is stored
+                String logoPath = "C:\\Users\\Tifa\\Desktop\\symfonypull13.02\\public\\upload-images\\logo ff.png"; // Adjust the path to where your logo is stored
                 File logoFile = new File(logoPath);
                 ImageData logo = ImageDataFactory.create(logoFile.toURI().toString());
                 com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(logo);
@@ -217,7 +220,7 @@ public class DetailPublication {
             document.add(new Paragraph("Title: " + titrePubDetails.getText()));
 
             try {
-                String imagePath = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\" + currentPublication.getImageP();
+                String imagePath = "C:\\Users\\Tifa\\Desktop\\symfonypull13.02\\public\\upload-images\\" + currentPublication.getImageP();
                 File imageFile = new File(imagePath);
                 ImageData data = ImageDataFactory.create(imageFile.toURI().toString());
                 com.itextpdf.layout.element.Image pdfImage = new com.itextpdf.layout.element.Image(data);
@@ -247,7 +250,7 @@ public class DetailPublication {
 
         // Load the image for the publication
         try {
-            String imagePath = "C:\\Users\\oussa\\PI--S\\public\\upload-images\\" + currentPublication.getImageP();
+            String imagePath = "C:\\Users\\Tifa\\Desktop\\symfonypull13.02\\public\\upload-images\\" + currentPublication.getImageP();
             File file = new File(imagePath);
             Image image = new Image(file.toURI().toString());
             imagePubDetails.setImage(image);
@@ -352,6 +355,21 @@ public class DetailPublication {
         alert.showAndWait();
     }
 
+    public void showChatbot(ActionEvent actionEvent) {
+        try {
+            // Load the chatbot window or overlay
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Front/Quiz/Chatbot.fxml")); // Adjust path as needed
+            Parent chatbotRoot = loader.load();
 
+            // Display the chatbot window as a modal or embedded
+            Stage chatbotStage = new Stage();
+            chatbotStage.setTitle("Chatbot");
+            chatbotStage.setScene(new Scene(chatbotRoot));
+            chatbotStage.initOwner(detailsPubPane.getScene().getWindow());
+            chatbotStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

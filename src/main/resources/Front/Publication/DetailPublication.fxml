@@ -46,7 +46,7 @@
                                 <Insets left="70.0" />
                             </VBox.margin>
                         </Label>
-                        <Label fx:id="descriptionPubDetails" prefHeight="60.0" prefWidth="1359.0" styleClass="card-description" text="Description">
+                        <Label fx:id="descriptionPubDetails" prefHeight="60.0" prefWidth="1359.0" styleClass="card-description" text="Description" wrapText="true" >
                             <VBox.margin>
                                 <Insets left="30.0" />
                             </VBox.margin>
@@ -176,4 +176,14 @@
             </content>
         </ScrollPane>
     </children>
+    <AnchorPane translateX="1400.0" translateY="650.0">
+        <Button fx:id="chatbotButton" onAction="#showChatbot" styleClass="label-like-button" stylesheets="@../../css/styleDashbord.css" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <graphic>
+                <ImageView fitHeight="66.0" fitWidth="50.0" layoutX="10.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../images/bull.png" />
+                    </image>
+                </ImageView>
+            </graphic></Button>
+    </AnchorPane>
 </AnchorPane>

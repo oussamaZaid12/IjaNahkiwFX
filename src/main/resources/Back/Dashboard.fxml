@@ -311,7 +311,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button mnemonicParsing="false" onAction="#stat" prefHeight="37.0" prefWidth="178.0" styleClass="label-like-button" text="Statistique" textFill="#dbb5a8">
+                        <Button mnemonicParsing="false" onAction="#stat" prefHeight="37.0" prefWidth="121.0" styleClass="label-like-button" text="Statistique" textFill="#dbb5a8">
                            <font>
                               <Font name="Constantia" size="20.0" />
                            </font>

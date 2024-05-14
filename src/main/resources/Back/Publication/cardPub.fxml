@@ -65,7 +65,7 @@
                   </Button>
                </children>
             </HBox>
-            <Label fx:id="descriptionPub" prefHeight="20.0" prefWidth="354.0" styleClass="card-description" text="Description brève de la publication" />
+            <Label fx:id="descriptionPub" prefHeight="20.0" prefWidth="354.0" styleClass="card-description" text="Description brève de la publication" wrapText="true" />
             <Label fx:id="datePub" styleClass="card-description" text="Date" textFill="#3cb4cc" />
             <HBox prefHeight="100.0" prefWidth="200.0" />
                 <!-- Ajoutez d'autres détails que vous souhaitez montrer -->
