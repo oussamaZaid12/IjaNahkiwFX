@@ -45,8 +45,6 @@
                                 <Insets top="10" />
                             </padding>
                             <children>
-                                <Button fx:id="tfclient" mnemonicParsing="false" onAction="#showchatclient" styleClass="card-button" text="Client" />
-                                <Button fx:id="tfserver" mnemonicParsing="false" onAction="#showchatserver" styleClass="card-button" text="Server" />
                             </children>
                         </HBox>
 

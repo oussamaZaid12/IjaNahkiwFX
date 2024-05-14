@@ -56,7 +56,7 @@ public class EmailService extends Service<Void> {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("noreplay@coolConnect.com"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-            message.setSubject("Consultation Modified");
+            message.setSubject("Consultation Confirmed");
             message.setText("The consultation has been modified.");
 
             // Send the message
