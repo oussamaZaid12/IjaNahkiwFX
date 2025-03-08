@@ -1,0 +1,17 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
+    "MIN_CHUNK_SIZE": "100",
+    "TOKEN_OVERLAP": "200",
+    "NUM_TOKENS":  "2048",
+    "NETWORK_ISOLATION": "false",
+    "AZURE_KEY_VAULT_NAME": "",
+    "AZURE_FORMREC_SERVICE": "",
+    "AZURE_OPENAI_SERVICE_NAME": "",
+    "AZURE_OPENAI_EMBEDDING_DEPLOYMENT": "text-embedding-ada-002", 
+    "AZURE_OPENAI_API_VERSION": "2024-02-15-preview"
+  }
+}
